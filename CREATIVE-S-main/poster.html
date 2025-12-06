@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magazine & Poster Maker - Creative Studio</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Fabric.js for Canvas Editing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.6.0/fabric.min.js"></script>
+    
+    <!-- HTML2Canvas and jsPDF for Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <!-- Sortable.js for Layer Management -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/poster.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="fas fa-arrow-left me-2"></i>
+                <i class="fas fa-images me-2"></i>
+                Poster & Magazine Maker
+            </a>
+            <div class="navbar-nav ms-auto d-flex flex-row">
+                <button class="btn btn-outline-light me-2" id="themeToggle">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                <button class="btn btn-success me-2" onclick="exportDesign('png')">
+                    <i class="fas fa-download me-1"></i> PNG
+                </button>
+                <button class="btn btn-danger" onclick="exportDesign('pdf')">
+                    <i class="fas fa-file-pdf me-1"></i> PDF
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <!-- Left Sidebar - Templates & Tools -->
+            <div class="col-lg-3 col-md-4 sidebar">
+                <div class="sidebar-content">
+                    <!-- Size Selection -->
+                    <div class="sidebar-section">
+                        <h5 class="section-title">
+                            <i class="fas fa-expand-arrows-alt me-2"></i>
+                            Canvas Size
+                        </h5>
+                        <div class="size-controls">
+                            <select class="form-select mb-2" id="canvasSize" onchange="changeCanvasSize()">
+                                <option value="instagram">Instagram Post (1080×1080)</option>
+                                <option value="a4">A4 Portrait (794×1123)</option>
+                                <option value="a4-landscape">A4 Landscape (1123×794)</option>
+                                <option value="a3">A3 Portrait (1123×1587)</option>
+                                <option value="facebook">Facebook Cover (820×312)</option>
+                                <option value="twitter">Twitter Header (1500×500)</option>
+                                <option value="custom">Custom Size</option>
+                            </select>
+                            <div id="customSizeInputs" style="display: none;">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="number" class="form-control form-control-sm" id="customWidth" placeholder="Width" min="100" max="3000">
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" class="form-control form-control-sm" id="customHeight" placeholder="Height" min="100" max="3000">
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-primary w-100 mt-2" onclick="applyCustomSize()">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Templates -->
+                    <div class="sidebar-section">
+                        <h5 class="section-title">
+                            <i class="fas fa-th-large me-2"></i>
+                            Templates
+                        </h5>
+                        <div class="template-grid">
+                            <div class="poster-template-card active" data-template="blank">
+                                <div class="poster-template-preview blank-preview"></div>
+                                <span>Blank</span>
+                            </div>
+                            <div class="poster-template-card" data-template="fashion">
+                                <div class="poster-template-preview fashion-preview"></div>
+                                <span>Fashion</span>
+                            </div>
+                            <div class="poster-template-card" data-template="tech">
+                                <div class="poster-template-preview tech-preview"></div>
+                                <span>Tech</span>
+                            </div>
+                            <div class="poster-template-card" data-template="event">
+                                <div class="poster-template-preview event-preview"></div>
+                                <span>Event</span>
+                            </div>
+                            <div class="poster-template-card" data-template="food">
+                                <div class="poster-template-preview food-preview"></div>
+                                <span>Food</span>
+                            </div>
+                            <div class="poster-template-card" data-template="music">
+                                <div class="poster-template-preview music-preview"></div>
+                                <span>Music</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tools -->
+                    <div class="sidebar-section">
+                        <h5 class="section-title">
+                            <i class="fas fa-tools me-2"></i>
+                            Add Elements
+                        </h5>
+                        <div class="tool-buttons">
+                            <button class="btn btn-outline-primary btn-sm w-100 mb-2" onclick="addTextBox()">
+                                <i class="fas fa-font me-1"></i> Add Text
+                            </button>
+                            <button class="btn btn-outline-success btn-sm w-100 mb-2" onclick="addImageBox()">
+                                <i class="fas fa-image me-1"></i> Add Image
+                            </button>
+                            <button class="btn btn-outline-warning btn-sm w-100 mb-2" onclick="addShape('rectangle')">
+                                <i class="fas fa-square me-1"></i> Add Rectangle
+                            </button>
+                            <button class="btn btn-outline-info btn-sm w-100 mb-2" onclick="addShape('circle')">
+                                <i class="fas fa-circle me-1"></i> Add Circle
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Background Controls -->
+                    <div class="sidebar-section">
+                        <h5 class="section-title">
+                            <i class="fas fa-fill me-2"></i>
+                            Background
+                        </h5>
+                        <div class="background-controls">
+                            <div class="mb-2">
+                                <label class="form-label">Background Color</label>
+                                <input type="color" class="form-control form-control-color w-100" id="backgroundColor" value="#ffffff" onchange="changeBackgroundColor()">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Background Image</label>
+                                <input type="file" class="form-control form-control-sm" id="backgroundImage" accept="image/*" onchange="changeBackgroundImage()">
+                                <button class="btn btn-sm btn-outline-secondary w-100 mt-1" onclick="removeBackgroundImage()">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Canvas Area -->
+            <div class="col-lg-6 col-md-8 canvas-area">
+                <div class="canvas-container">
+                    <div class="canvas-toolbar">
+                        <div class="toolbar-group">
+                            <button class="btn btn-outline-secondary btn-sm" onclick="undoAction()" title="Undo">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="redoAction()" title="Redo">
+                                <i class="fas fa-redo"></i>
+                            </button>
+                        </div>
+                        <div class="toolbar-group">
+                            <button class="btn btn-outline-primary btn-sm" onclick="duplicateObject()" title="Duplicate">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="btn btn-outline-danger btn-sm" onclick="deleteObject()" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <div class="toolbar-group">
+                            <button class="btn btn-outline-success btn-sm" onclick="saveDesign()">
+                                <i class="fas fa-save me-1"></i> Save
+                            </button>
+                            <button class="btn btn-outline-warning btn-sm" onclick="loadDesign()">
+                                <i class="fas fa-folder-open me-1"></i> Load
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="canvas-wrapper">
+                        <canvas id="posterCanvas" width="1080" height="1080"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar - Properties & Layers -->
+            <div class="col-lg-3 properties-sidebar">
+                <div class="sidebar-content">
+                    <!-- Object Properties -->
+                    <div class="sidebar-section">
+                        <h5 class="section-title">
+                            <i class="fas fa-cog me-2"></i>
+                            Properties
+                        </h5>
+                        <div id="propertiesPanel">
+                            <p class="text-muted">Select an object to edit properties</p>
+                        </div>
+                    </div>
+
+                    <!-- Layers Panel -->
+                    <div class="sidebar-section">
+                        <h5 class="section-title">
+                            <i class="fas fa-layer-group me-2"></i>
+                            Layers
+                        </h5>
+                        <div class="layers-panel">
+                            <div class="layer-controls mb-2">
+                                <button class="btn btn-sm btn-outline-primary" onclick="moveLayerUp()">
+                                    <i class="fas fa-arrow-up"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary" onclick="moveLayerDown()">
+                                    <i class="fas fa-arrow-down"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="toggleLayerVisibility()">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="lockLayer()">
+                                    <i class="fas fa-lock"></i>
+                                </button>
+                            </div>
+                            <div id="layersList" class="layers-list">
+                                <!-- Layers will be dynamically populated -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="sidebar-section">
+                        <h5 class="section-title">
+                            <i class="fas fa-magic me-2"></i>
+                            Quick Actions
+                        </h5>
+                        <div class="quick-actions">
+                            <button class="btn btn-outline-primary btn-sm w-100 mb-1" onclick="alignObjects('left')">
+                                Align Left
+                            </button>
+                            <button class="btn btn-outline-primary btn-sm w-100 mb-1" onclick="alignObjects('center')">
+                                Align Center
+                            </button>
+                            <button class="btn btn-outline-primary btn-sm w-100 mb-1" onclick="alignObjects('right')">
+                                Align Right
+                            </button>
+                            <button class="btn btn-outline-success btn-sm w-100 mb-1" onclick="distributeObjects()">
+                                Distribute
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Input Modal for Images -->
+    <input type="file" id="hiddenImageInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/poster.js"></script>
+</body>
+</html>

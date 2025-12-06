@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Studio - All-in-One Design Platform</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="fas fa-palette me-2"></i>
+                Creative Studio
+            </a>
+            <div class="navbar-nav ms-auto">
+                <button class="btn btn-outline-light rounded-pill me-2" id="themeToggle" title="Toggle theme between light and dark mode">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="animated-background"></div>
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h1 class="hero-title mb-4">
+                        Your Complete
+                        <span class="gradient-text">Creative Studio</span>
+                    </h1>
+                    <p class="hero-subtitle mb-5">
+                        Design certificates, create stunning posters, and manage your tasks — 
+                        all in one powerful, browser-based platform.
+                    </p>
+                </div>
+            </div>
+        </div>
+               
+    </section>
+
+    <!-- Main Modules -->
+    <section class="modules-section py-5">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Certificate Generator -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="module-card certificate-card" data-module="certificate" data-glow="gold">
+                        <div class="card-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Certificate Generator</h3>
+                            <p>Create professional certificates with custom templates, fonts, and branding elements.</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> 8 Built-in Templates</li>
+                                <li><i class="fas fa-check"></i> Custom Backgrounds & Logos</li>
+                                <li><i class="fas fa-check"></i> Signature Areas</li>
+                                <li><i class="fas fa-check"></i> PDF Export</li>
+                            </ul>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary btn-lg w-100 start-btn" onclick="openModule('certificate')">
+                                <i class="fas fa-rocket me-2"></i>
+                                Start Creating
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Tools -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="module-card ai-tools-card" data-module="ai-tools" data-glow="teal">
+                        <div class="card-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>AI Tools</h3>
+                            <p>Open Emotion Rewriter and MindGraph AI from this dashboard.</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Emotion Rewriter</li>
+                                <li><i class="fas fa-check"></i> MindGraph AI</li>
+                                <li><i class="fas fa-check"></i> Single unified server</li>
+                            </ul>
+                        </div>
+                        <div class="card-footer d-flex gap-2">
+                            <a class="btn btn-primary flex-fill" href="ai-study-summarizer/frontend/index.html" role="button" target="_blank" rel="noopener">
+                                <i class="fas fa-feather-alt me-2"></i> Open AI Study Summarizer
+                            </a>
+                            <a class="btn btn-secondary flex-fill" href="mindmap-ai/frontend/index.html" role="button" target="_blank" rel="noopener">
+                                <i class="fas fa-project-diagram me-2"></i> Open MindGraph AI
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Magazine/Poster Maker -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="module-card poster-card" data-module="poster" data-glow="pink">
+                        <div class="card-icon">
+                            <i class="fas fa-images"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Magazine & Poster Maker</h3>
+                            <p>Design eye-catching magazines, posters, and social media content with drag-and-drop ease.</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Drag & Drop Canvas</li>
+                                <li><i class="fas fa-check"></i> Multiple Size Formats</li>
+                                <li><i class="fas fa-check"></i> Rich Text Editing</li>
+                                <li><i class="fas fa-check"></i> Layer Management</li>
+                            </ul>
+                        </div>
+                                <div class="card-footer d-flex gap-2">
+                                    <button class="btn btn-primary btn-lg flex-fill start-btn" onclick="openModule('magazine', event)">
+                                        <i class="fas fa-paint-brush me-2"></i>
+                                        Magazine Maker
+                                    </button>
+                                    
+                                </div>
+                    </div>
+                </div>
+
+                <!-- To-Do List -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="module-card todo-card" data-module="todo">
+                        <div class="card-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Task Manager</h3>
+                            <p>Stay organized with a powerful to-do list that helps you track priorities and deadlines.</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Priority Tags</li>
+                                <li><i class="fas fa-check"></i> Due Date Reminders</li>
+                                <li><i class="fas fa-check"></i> Drag to Reorder</li>
+                                <li><i class="fas fa-check"></i> Progress Tracking</li>
+                            </ul>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary btn-lg w-100 start-btn" onclick="openModule('todo')">
+                                <i class="fas fa-list-check me-2"></i>
+                                Start Organizing
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Exam Seating Arrangement -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="module-card exam-card" data-module="exam-seating" data-glow="purple">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Poster Maker</h3>
+                            <p>Design eye-catching posters with drag-and-drop canvas, rich text editing, and layer management.</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Drag & Drop Canvas</li>
+                                <li><i class="fas fa-check"></i> Multiple Size Formats</li>
+                                <li><i class="fas fa-check"></i> Rich Text Editing</li>
+                                <li><i class="fas fa-check"></i> Layer Management</li>
+                            </ul>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary btn-lg w-100 start-btn" onclick="openModule('poster')">
+                                <i class="fas fa-image me-2"></i>
+                                Open Poster Maker
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                    <!-- Activity Report Generator -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="module-card activity-card" data-module="activity" data-glow="blue">
+                            <div class="card-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="card-content">
+                                <h3>Activity Report Generator</h3>
+                                <p>Create structured activity reports,
+                                     summaries, and printable PDFs for events and projects.</p>
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> Template-driven reports</li>
+                                    <li><i class="fas fa-check"></i> CSV import/export</li>
+                                    <li><i class="fas fa-check"></i> PDF & Excel export</li>
+                                    <li><i class="fas fa-check"></i> Custom branding</li>
+                                </ul>
+                            </div>
+                            <div class="card-footer">
+                                <a class="btn btn-primary btn-lg w-100 start-btn" href="activity-report-generator/" role="button">
+                                    <i class="fas fa-file-invoice me-2"></i>
+                                    Open Activity Tool
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                
+                        <!-- Event Planner -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="module-card event-planner-card" data-module="event-planner" data-glow="royal">
+                                <div class="card-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h3>Event Planner & Budget</h3>
+                                    <p>Plan events end-to-end: schedules, budgets, vendors, checklists, and printable reports.</p>
+                                    <ul class="feature-list">
+                                        <li><i class="fas fa-check"></i> Auto Schedule & Timeline</li>
+                                        <li><i class="fas fa-check"></i> Budget Builder & Charts</li>
+                                        <li><i class="fas fa-check"></i> Vendor Finder & Tasks</li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer">
+                                    <a class="btn btn-primary btn-lg w-100 start-btn" href="event-planner/" role="button" target="_blank" rel="noopener">
+                                        <i class="fas fa-rocket me-2"></i>
+                                        Open Event Planner
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                
+                </div>
+            </div>
+        </section>
+
+    <!-- Features Section -->
+    <section class="features-section py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-lg-8">
+                    <h2 class="section-title">Why Choose Creative Studio?</h2>
+                    <p class="section-subtitle">Everything you need for creative work, right in your browser</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h4>No Installation</h4>
+                        <p>Works entirely in your browser. No downloads, no setup required.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4>Privacy First</h4>
+                        <p>All your data stays local. No server uploads, complete privacy protection.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h4>Responsive Design</h4>
+                        <p>Works perfectly on desktop, tablet, and mobile devices.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <h4>Export Ready</h4>
+                        <p>Download your creations as high-quality PNG or PDF files.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; Team Tamasha Creative Studio.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="social-links">
+                        <a href="#" class="social-link" title="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link" title="View our GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link" title="Check our Dribbble"><i class="fab fa-dribbble"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>

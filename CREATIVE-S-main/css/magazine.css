@@ -1,0 +1,115 @@
+/* Small magazine-specific adjustments to harmonize with site theme */
+body { background: linear-gradient(180deg,#f8fafc, #eef2ff); }
+.card-hero { border-radius: 1rem; box-shadow: 0 8px 30px rgba(49,49,93,0.08);} 
+.mag-preview { background: white; padding: 2rem; border-radius: .75rem; min-height: 420px; }
+.cover-title { font-family: 'Playfair Display', Georgia, serif; font-size: 2.25rem; letter-spacing: .6px; color: #0b2545; }
+.template-badge { font-size: .8rem; }
+.article-image { max-width: 100%; height: auto; border-radius: 6px; }
+.pull-quote { font-size: 1.1rem; font-weight: 700; }
+
+/* Make nav consistent on this page */
+.navbar-brand { color: #fff !important; }
+.nav-link { color: rgba(255,255,255,0.9) !important; }
+
+/* Small responsive tweaks */
+@media (max-width: 768px) {
+	.cover-title { font-size: 1.6rem; }
+	.mag-preview { padding: 1rem; }
+}
+
+/* Add top spacing to account for fixed navbar (so content doesn't sit under it) */
+.container.py-4 { padding-top: 110px !important; }
+
+/* Template selector styles */
+.template-grid { margin-bottom: 0.5rem; }
+.template-card { min-width: 140px; border-radius: 8px; cursor: pointer; }
+.template-card.active { border: 2px solid #334155; box-shadow: 0 6px 18px rgba(15,23,42,0.06); }
+.template-card strong { font-size: 0.95rem; }
+.template-card small { font-size: 0.75rem; }
+
+/* Preview layout variants */
+.mag-preview.full-bleed { color: #fff; }
+#magazinePreview.reverse-cover .row > .col-md-8 { order: 2; }
+#magazinePreview.reverse-cover .row > .col-md-4 { order: 1; }
+
+.template-thumb { border-radius: 6px; border: 1px solid #e9e9e9; margin-left: 8px; }
+
+/* Keep the preview area looking more like the certificate canvas */
+.canvas-container { background: linear-gradient(180deg,#ffffff, #fbfbfd); min-height: 560px; }
+
+/* Tighter sidebar spacing */
+.sidebar-content { height: 100vh; overflow-y: auto; }
+
+/* active template card */
+.template-card.active { background: linear-gradient(135deg,#eef2ff, #f8fafc); border: 1px solid rgba(13, 42, 82, 0.08); }
+
+/* ----------------------------------
+	 Glow and motion utilities for magazine
+	 ---------------------------------- */
+.template-card {
+	border-radius: 8px;
+	overflow: hidden;
+	box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+	transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.template-card:hover {
+	transform: translateY(-6px) scale(1.02);
+	box-shadow: 0 12px 34px rgba(0,0,0,0.12);
+}
+
+.template-card .title {
+	font-weight: 700;
+	display: block;
+	padding: 8px 12px;
+}
+
+/* soft neon glow for template titles */
+.template-card .title.glow {
+	text-shadow: 0 0 8px rgba(255,87,165,0.9), 0 0 20px rgba(255,87,165,0.35);
+	animation: titleNeon 3s ease-in-out infinite;
+}
+
+@keyframes titleNeon {
+	0% { text-shadow: 0 0 4px rgba(255,87,165,0.5); transform: translateY(0); }
+	50% { text-shadow: 0 0 14px rgba(255,87,165,1), 0 0 28px rgba(255,87,165,0.35); transform: translateY(-2px); }
+	100% { text-shadow: 0 0 4px rgba(255,87,165,0.5); transform: translateY(0); }
+}
+
+/* pulsing movement used for accent elements */
+.pulse-move {
+	animation: pulseMove 4s ease-in-out infinite;
+}
+
+@keyframes pulseMove {
+	0% { transform: translateY(0); opacity: 1; }
+	50% { transform: translateY(-6px); opacity: 0.95; }
+	100% { transform: translateY(0); opacity: 1; }
+}
+
+/* soft glow for text fields, labels and preview headlines */
+.soft-glow {
+	box-shadow: 0 4px 18px rgba(99,102,241,0.12), 0 0 12px rgba(99,102,241,0.06) inset;
+}
+
+/* When inputs or editable title areas are focused, apply neon outline */
+.mag-control input:focus, .mag-control textarea:focus, .mag-preview .cover-title[contenteditable]:focus {
+	outline: none;
+	box-shadow: 0 0 14px rgba(99,102,241,0.28), 0 0 30px rgba(99,102,241,0.12);
+	border-color: rgba(99,102,241,0.55);
+}
+
+/* glowing cover title inside preview */
+.mag-preview .cover-title {
+	font-family: 'Playfair Display', serif;
+	font-size: 42px;
+	line-height: 1.05;
+	margin: 0 0 12px 0;
+	transition: text-shadow .24s ease, transform .24s ease;
+}
+
+.mag-preview .cover-title.glow {
+	text-shadow: 0 0 18px rgba(255,204,102,0.95), 0 0 36px rgba(255,204,102,0.28);
+	transform: translateY(-2px);
+}
+
