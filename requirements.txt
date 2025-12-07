@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+openai
+python-dotenv
+torch
+transformers
+sentencepiece
+accelerate
+sentence-transformers
+tiktoken
+PyPDF2
+pytesseract
+Pillow
+pdfplumber

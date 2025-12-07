@@ -1,0 +1,117 @@
+/* MoodSense+ Themes */
+
+/* Happy Theme */
+.happy-theme {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+}
+
+.happy-theme .analyze-container,
+.happy-theme .chat-container,
+.happy-theme .activity-card,
+.happy-theme .history-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+/* Sad Theme */
+.sad-theme {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
+}
+
+.sad-theme .analyze-container,
+.sad-theme .chat-container,
+.sad-theme .activity-card,
+.sad-theme .history-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+/* Angry Theme */
+.angry-theme {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
+}
+
+.angry-theme .analyze-container,
+.angry-theme .chat-container,
+.angry-theme .activity-card,
+.angry-theme .history-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* Anxious Theme */
+.anxious-theme {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+}
+
+.anxious-theme .analyze-container,
+.anxious-theme .chat-container,
+.anxious-theme .activity-card,
+.anxious-theme .history-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+/* Calm Theme */
+.calm-theme {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.calm-theme .analyze-container,
+.calm-theme .chat-container,
+.calm-theme .activity-card,
+.calm-theme .history-container {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* Depressed Theme */
+.depressed-theme {
+    background: linear-gradient(135deg, #434343 0%, #000000 100%);
+    color: #e0e0e0;
+}
+
+.depressed-theme .analyze-container,
+.depressed-theme .chat-container,
+.depressed-theme .activity-card,
+.depressed-theme .history-container {
+    background: rgba(0, 0, 0, 0.8);
+    color: #e0e0e0;
+}
+
+.depressed-theme .suggestions > div {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+}
+
+/* Crisis Theme */
+.crisis-theme {
+    background: linear-gradient(135deg, #6b0f1a 0%, #b91372 100%);
+    color: #ffffff;
+}
+
+.crisis-theme .analyze-container,
+.crisis-theme .chat-container,
+.crisis-theme .activity-card,
+.crisis-theme .history-container {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #dc3545;
+    color: #333;
+}
+
+.crisis-theme header,
+.crisis-theme nav {
+    background: rgba(107, 15, 26, 0.9);
+}
+
+.crisis-theme .tab-button.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.crisis-theme .tab-button {
+    color: white;
+}

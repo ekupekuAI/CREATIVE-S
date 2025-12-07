@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoodSense+ AI Emotional Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="themes.css">
+    <link rel="stylesheet" href="../css/ui-effects.css">
+</head>
+<body>
+    <header>
+        <div class="logo">🌈</div>
+        <h1>MoodSense+ AI Emotional Companion</h1>
+        <div class="selectors">
+            <select id="language-select">
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="te">Telugu</option>
+            </select>
+            <select id="persona-select">
+                <option value="auto">Auto</option>
+                <option value="parent">Parent</option>
+                <option value="mentor">Mentor</option>
+                <option value="doctor">Doctor/Therapist</option>
+                <option value="friend">Friend</option>
+            </select>
+        </div>
+    </header>
+
+    <nav>
+        <button class="tab-button active" data-tab="analyze">Analyze</button>
+        <button class="tab-button" data-tab="chat">Chat</button>
+        <button class="tab-button" data-tab="activities">Activities</button>
+        <button class="tab-button" data-tab="history">History</button>
+    </nav>
+
+    <main>
+        <div id="analyze-tab" class="tab-content active">
+            <div class="analyze-container">
+                <textarea id="mood-input" placeholder="Share your thoughts and feelings..."></textarea>
+                <button id="analyze-btn">Analyze Mood</button>
+                <div id="mood-output" class="mood-output hidden">
+                    <div class="mood-header">
+                        <div class="mood-emoji">😊</div>
+                        <div class="mood-details">
+                            <h3 id="primary-emotion">Happy</h3>
+                            <p id="intensity">Intensity: Moderate</p>
+                            <p id="sentiment">Sentiment: Positive</p>
+                        </div>
+                    </div>
+                    <div class="mood-breakdown">
+                        <canvas id="emotion-chart"></canvas>
+                    </div>
+                    <div class="suggestions">
+                        <div class="affirmations">
+                            <h4>Affirmations</h4>
+                            <ul id="affirmation-list"></ul>
+                        </div>
+                        <div class="music-suggestions">
+                            <h4>Music Suggestions</h4>
+                            <div id="music-list"></div>
+                        </div>
+                        <div class="activities-suggestions">
+                            <h4>Suggested Activities</h4>
+                            <ul id="activity-list"></ul>
+                        </div>
+                        <div class="coping-steps">
+                            <h4>Coping Steps</h4>
+                            <ol id="coping-list"></ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="chat-tab" class="tab-content">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <button id="mood-refresh-btn" class="mood-refresh-btn">🔄 Refresh Mood Context</button>
+                </div>
+                <div id="chat-messages" class="chat-messages"></div>
+                <div class="chat-input-container">
+                    <input type="text" id="chat-input" placeholder="Type your message...">
+                    <button id="send-btn">Send</button>
+                </div>
+                <div class="quick-replies">
+                    <button class="quick-reply">How are you feeling?</button>
+                    <button class="quick-reply">I need advice</button>
+                    <button class="quick-reply">Tell me a joke</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="activities-tab" class="tab-content">
+            <div class="activities-container">
+                <div class="activity-card" data-activity="breathing">
+                    <h3>Breathing Exercise</h3>
+                    <p>4-7-8 breathing technique</p>
+                    <button class="activity-btn">Start</button>
+                </div>
+                <div class="activity-card" data-activity="bubbles">
+                    <h3>Pop the Bubbles</h3>
+                    <p>Release anger by popping bubbles</p>
+                    <button class="activity-btn">Start</button>
+                </div>
+                <div class="activity-card" data-activity="grounding">
+                    <h3>5-4-3-2-1 Grounding</h3>
+                    <p>Ground yourself in the present</p>
+                    <button class="activity-btn">Start</button>
+                </div>
+                <div class="activity-card" data-activity="journaling">
+                    <h3>Mini Journaling</h3>
+                    <p>Write down your thoughts</p>
+                    <button class="activity-btn">Start</button>
+                </div>
+                <div class="activity-card" data-activity="checklist">
+                    <h3>Self-Check List</h3>
+                    <p>Daily wellness checklist</p>
+                    <button class="activity-btn">Start</button>
+                </div>
+                <div class="activity-card" data-activity="timer">
+                    <h3>Focus Timer</h3>
+                    <p>1-minute mindfulness timer</p>
+                    <button class="activity-btn">Start</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="history-tab" class="tab-content">
+            <div class="history-container">
+                <div class="analytics">
+                    <div class="chart-container">
+                        <h3>Weekly Mood Graph</h3>
+                        <canvas id="mood-graph"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Emotion Frequency</h3>
+                        <canvas id="emotion-pie"></canvas>
+                    </div>
+                </div>
+                <div class="stats">
+                    <div class="stat-card">
+                        <h4>Mood Streak</h4>
+                        <p id="mood-streak">5 days</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Activities Completed</h4>
+                        <p id="activities-completed">12</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Songs Explored</h4>
+                        <p id="songs-explored">8</p>
+                    </div>
+                </div>
+                <div class="achievements">
+                    <h3>Achievements</h3>
+                    <div id="achievement-list"></div>
+                </div>
+                <div class="history-list">
+                    <h3>Recent Entries</h3>
+                    <ul id="history-entries"></ul>
+                </div>
+                <div class="journal-list">
+                    <h3>Journal Entries</h3>
+                    <ul id="journal-entries"></ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <div id="breathing-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Breathing Exercise</h2>
+            <div class="breathing-circle"></div>
+            <p id="breathing-instruction">Inhale for 4 seconds</p>
+        </div>
+    </div>
+
+    <div id="bubbles-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Pop the Bubbles</h2>
+            <div class="bubbles-container"></div>
+        </div>
+    </div>
+
+    <div id="grounding-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>5-4-3-2-1 Grounding</h2>
+            <div id="grounding-steps"></div>
+        </div>
+    </div>
+
+    <div id="journaling-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Mini Journaling</h2>
+            <p id="journal-prompt">What's on your mind right now?</p>
+            <textarea id="journal-entry"></textarea>
+            <button id="save-journal">Save Entry</button>
+        </div>
+    </div>
+
+    <div id="checklist-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Self-Check List</h2>
+            <ul id="checklist-items"></ul>
+        </div>
+    </div>
+
+    <div id="timer-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Focus Timer</h2>
+            <div class="timer-display">01:00</div>
+            <button id="start-timer">Start</button>
+        </div>
+    </div>
+
+    <div id="crisis-modal" class="modal">
+        <div class="modal-content crisis-content">
+            <h2>You are not alone</h2>
+            <p>We're here to support you. Take a deep breath.</p>
+            <div class="emergency-links">
+                <a href="tel:988">Call 988 (US Suicide Prevention)</a>
+                <a href="https://www.crisistextline.org/">Text HOME to 741741</a>
+            </div>
+            <button id="breathing-emergency">Start Breathing Exercise</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="ui.js"></script>
+    <script src="chats.js"></script>
+    <script src="activities.js"></script>
+    <script src="backend_api.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

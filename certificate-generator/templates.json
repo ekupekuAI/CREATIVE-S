@@ -1,0 +1,118 @@
+{
+  "templates": [
+    {
+      "id": "academic-classic",
+      "name": "Academic Classic",
+      "category": "academic",
+      "canvas": { "width": 2480, "height": 1754, "bg": "#fff" },
+      "baseWidth": 2480,
+      "baseHeight": 1754,
+      "border": { "style": "double" },
+      "fonts": { "title": "Garamond", "body": "Georgia" },
+      "elements": [
+        { "type": "text", "role": "title", "text": "Certificate of Achievement", "x": 1240, "y": 220, "w": 1600, "h": 120, "align": "center", "style": { "fontSize": 72, "fontWeight": 700, "color": "#222", "lineHeight": 1.2 } },
+        { "type": "text", "role": "subtitle", "text": "This certifies that", "x": 1240, "y": 380, "w": 1600, "h": 70, "align": "center", "style": { "fontSize": 36, "fontWeight": 400, "color": "#555" } },
+        { "type": "text", "role": "recipient", "text": "Recipient Name", "x": 1240, "y": 520, "w": 1600, "h": 90, "align": "center", "style": { "fontSize": 54, "fontWeight": 600, "color": "#222" } },
+        { "type": "text", "role": "description", "text": "For outstanding performance and dedication.", "x": 1240, "y": 660, "w": 1800, "h": 100, "align": "center", "style": { "fontSize": 28, "color": "#444", "lineHeight": 1.5 } },
+        { "type": "text", "role": "date", "text": "Date: 07 Dec 2025", "x": 400, "y": 1420, "w": 600, "h": 60, "align": "left", "style": { "fontSize": 24, "color": "#333" } },
+        { "type": "image", "role": "signature", "src": "", "x": 1960, "y": 1350, "w": 420, "h": 140 },
+        { "type": "text", "role": "signLabel", "text": "Authorized Signature", "x": 1960, "y": 1500, "w": 420, "h": 60, "align": "center", "style": { "fontSize": 18, "color": "#666" } },
+        { "type": "image", "role": "seal", "src": "", "x": 200, "y": 220, "w": 220, "h": 220 }
+      ]
+    },
+    {
+      "id": "corporate-gold",
+      "name": "Corporate Gold",
+      "category": "corporate",
+      "canvas": { "width": 2480, "height": 1754, "bg": "#fcfaf2", "gradient": "linear-gradient(180deg,#fff8e1,#fff3cd)" },
+      "baseWidth": 2480,
+      "baseHeight": 1754,
+      "border": { "style": "gold" },
+      "fonts": { "title": "Montserrat", "body": "Inter" },
+      "elements": [
+        { "type": "image", "role": "logo", "src": "", "x": 220, "y": 180, "w": 280, "h": 180 },
+        { "type": "text", "role": "title", "text": "Certificate of Excellence", "x": 1240, "y": 300, "w": 1900, "h": 120, "align": "center", "style": { "fontSize": 68, "fontWeight": 700, "color": "#3a2f0b" } },
+        { "type": "text", "role": "recipient", "text": "Recipient Name", "x": 1240, "y": 560, "w": 1900, "h": 90, "align": "center", "style": { "fontSize": 56, "fontWeight": 600, "color": "#222" } },
+        { "type": "text", "role": "subtitle", "text": "In recognition of outstanding achievement", "x": 1240, "y": 720, "w": 1900, "h": 80, "align": "center", "style": { "fontSize": 30, "color": "#5c4f2a" } },
+        { "type": "text", "role": "date", "text": "07 Dec 2025", "x": 420, "y": 1420, "w": 600, "h": 60, "align": "left", "style": { "fontSize": 24, "color": "#333" } },
+        { "type": "image", "role": "signature", "src": "", "x": 1880, "y": 1350, "w": 520, "h": 160 },
+        { "type": "text", "role": "signLabel", "text": "CEO Signature", "x": 1880, "y": 1510, "w": 520, "h": 60, "align": "center", "style": { "fontSize": 18, "color": "#6c757d" } }
+      ]
+    },
+    {
+      "id": "modern-minimal",
+      "name": "Modern Minimal",
+      "category": "modern",
+      "canvas": { "width": 2200, "height": 1550, "bg": "#ffffff" },
+      "baseWidth": 2200,
+      "baseHeight": 1550,
+      "border": { "style": "single" },
+      "fonts": { "title": "Montserrat", "body": "Inter" },
+      "elements": [
+        { "type": "text", "role": "title", "text": "Certificate", "x": 220, "y": 220, "w": 800, "h": 100, "align": "left", "style": { "fontSize": 72, "fontWeight": 700, "color": "#111" } },
+        { "type": "text", "role": "subtitle", "text": "Awarded to", "x": 220, "y": 420, "w": 600, "h": 60, "align": "left", "style": { "fontSize": 32, "color": "#666" } },
+        { "type": "text", "role": "recipient", "text": "Recipient Name", "x": 220, "y": 520, "w": 1200, "h": 90, "align": "left", "style": { "fontSize": 54, "fontWeight": 600, "color": "#222" } },
+        { "type": "text", "role": "description", "text": "For exemplary achievement and excellence.", "x": 220, "y": 660, "w": 1500, "h": 100, "align": "left", "style": { "fontSize": 26, "color": "#444" } },
+        { "type": "image", "role": "seal", "src": "", "x": 1800, "y": 240, "w": 220, "h": 220 },
+        { "type": "text", "role": "date", "text": "Dec 7, 2025", "x": 220, "y": 1380, "w": 600, "h": 60, "align": "left", "style": { "fontSize": 22, "color": "#333" } },
+        { "type": "image", "role": "signature", "src": "", "x": 1520, "y": 1300, "w": 460, "h": 140 }
+      ]
+    },
+    {
+      "id": "pastel-ribbon",
+      "name": "Pastel Ribbon",
+      "category": "participation",
+      "canvas": { "width": 2480, "height": 1754, "bg": "#fdf7ff", "gradient": "linear-gradient(135deg,#fdf7ff,#f2f6ff)" },
+      "baseWidth": 2480,
+      "baseHeight": 1754,
+      "border": { "style": "single" },
+      "elements": [
+        { "type": "text", "role": "title", "text": "Certificate of Participation", "x": 1240, "y": 260, "w": 1900, "h": 120, "align": "center", "style": { "fontSize": 64, "fontWeight": 700, "color": "#3b0764" } },
+        { "type": "text", "role": "subtitle", "text": "Proudly presented to", "x": 1240, "y": 420, "w": 1500, "h": 70, "align": "center", "style": { "fontSize": 32, "color": "#6b21a8" } },
+        { "type": "text", "role": "recipient", "text": "Recipient Name", "x": 1240, "y": 540, "w": 1700, "h": 90, "align": "center", "style": { "fontSize": 56, "fontWeight": 700, "color": "#111827" } },
+        { "type": "text", "role": "description", "text": "For valuable contribution and spirited involvement.", "x": 1240, "y": 680, "w": 1700, "h": 90, "align": "center", "style": { "fontSize": 28, "color": "#374151", "lineHeight": 1.4 } },
+        { "type": "image", "role": "seal", "src": "", "x": 220, "y": 220, "w": 220, "h": 220 },
+        { "type": "text", "role": "date", "text": "Date: 07 Dec 2025", "x": 400, "y": 1400, "w": 600, "h": 60, "align": "left", "style": { "fontSize": 22, "color": "#4b5563" } },
+        { "type": "image", "role": "signature", "src": "", "x": 1880, "y": 1340, "w": 520, "h": 150 },
+        { "type": "text", "role": "signLabel", "text": "Coordinator", "x": 1880, "y": 1490, "w": 520, "h": 60, "align": "center", "style": { "fontSize": 18, "color": "#6b7280" } }
+      ]
+    },
+    {
+      "id": "midnight-luxe",
+      "name": "Midnight Luxe",
+      "category": "corporate",
+      "canvas": { "width": 2480, "height": 1754, "bg": "#0b1020", "gradient": "linear-gradient(135deg,#0b1020,#121b31)" },
+      "baseWidth": 2480,
+      "baseHeight": 1754,
+      "border": { "style": "silver" },
+      "elements": [
+        { "type": "image", "role": "logo", "src": "", "x": 200, "y": 180, "w": 260, "h": 160 },
+        { "type": "text", "role": "title", "text": "Certificate of Excellence", "x": 1240, "y": 300, "w": 1900, "h": 110, "align": "center", "style": { "fontSize": 62, "fontWeight": 700, "color": "#e5e7eb" } },
+        { "type": "text", "role": "recipient", "text": "Recipient Name", "x": 1240, "y": 520, "w": 1900, "h": 90, "align": "center", "style": { "fontSize": 54, "fontWeight": 600, "color": "#f1f5f9" } },
+        { "type": "text", "role": "subtitle", "text": "In appreciation of outstanding achievement", "x": 1240, "y": 660, "w": 1900, "h": 70, "align": "center", "style": { "fontSize": 28, "color": "#cbd5e1" } },
+        { "type": "text", "role": "date", "text": "07 Dec 2025", "x": 420, "y": 1420, "w": 600, "h": 60, "align": "left", "style": { "fontSize": 24, "color": "#cbd5e1" } },
+        { "type": "image", "role": "signature", "src": "", "x": 1860, "y": 1340, "w": 520, "h": 150 },
+        { "type": "text", "role": "signLabel", "text": "Authorized Signature", "x": 1860, "y": 1490, "w": 520, "h": 60, "align": "center", "style": { "fontSize": 18, "color": "#cbd5e1" } }
+      ]
+    },
+    {
+      "id": "crest-mint",
+      "name": "Crest Mint",
+      "category": "award",
+      "canvas": { "width": 2480, "height": 1754, "bg": "#f4fff9", "gradient": "linear-gradient(135deg,#f4fff9,#e8f7ff)" },
+      "baseWidth": 2480,
+      "baseHeight": 1754,
+      "border": { "style": "single" },
+      "elements": [
+        { "type": "text", "role": "title", "text": "Award of Merit", "x": 1240, "y": 260, "w": 1800, "h": 110, "align": "center", "style": { "fontSize": 66, "fontWeight": 700, "color": "#064e3b" } },
+        { "type": "text", "role": "subtitle", "text": "Presented to", "x": 1240, "y": 410, "w": 1500, "h": 70, "align": "center", "style": { "fontSize": 30, "color": "#0f766e" } },
+        { "type": "text", "role": "recipient", "text": "Recipient Name", "x": 1240, "y": 520, "w": 1700, "h": 90, "align": "center", "style": { "fontSize": 56, "fontWeight": 700, "color": "#0f172a" } },
+        { "type": "text", "role": "description", "text": "For dedication, integrity, and excellence in service.", "x": 1240, "y": 660, "w": 1700, "h": 100, "align": "center", "style": { "fontSize": 28, "color": "#134e4a", "lineHeight": 1.4 } },
+        { "type": "image", "role": "seal", "src": "", "x": 220, "y": 260, "w": 220, "h": 220 },
+        { "type": "text", "role": "date", "text": "07 Dec 2025", "x": 420, "y": 1420, "w": 600, "h": 60, "align": "left", "style": { "fontSize": 24, "color": "#134e4a" } },
+        { "type": "image", "role": "signature", "src": "", "x": 1860, "y": 1340, "w": 520, "h": 150 },
+        { "type": "text", "role": "signLabel", "text": "Director", "x": 1860, "y": 1490, "w": 520, "h": 60, "align": "center", "style": { "fontSize": 18, "color": "#0f766e" } }
+      ]
+    }
+  ]
+}

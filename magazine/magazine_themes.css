@@ -1,0 +1,36 @@
+:root.theme-cyber {
+  --bg-gradient: linear-gradient(140deg, #0b0f1c 0%, #0c1830 45%, #022532 100%);
+  --primary: #6ef0ff;
+  --accent: #ff8ff5;
+  --text: #e8f4ff;
+}
+:root.theme-pastel {
+  --bg-gradient: linear-gradient(135deg, #1a1d2d 0%, #1b2334 40%, #1b2f36 100%);
+  --primary: #f7c8ff;
+  --accent: #8de4ff;
+  --text: #fdf7ff;
+}
+:root.theme-pro {
+  --bg-gradient: linear-gradient(135deg, #0c0c0f 0%, #101828 50%, #0c111d 100%);
+  --primary: #7dd3fc;
+  --accent: #c084fc;
+  --text: #e5e7eb;
+}
+:root.theme-mint {
+  --bg-gradient: linear-gradient(135deg, #0b0f11 0%, #0b1c1d 60%, #0f2b2e 100%);
+  --primary: #7bffdf;
+  --accent: #3dd6b7;
+  --text: #d9f7ef;
+}
+:root.theme-royal {
+  --bg-gradient: linear-gradient(135deg, #120c1f 0%, #1e1141 55%, #120c1f 100%);
+  --primary: #c084fc;
+  --accent: #6ee7ff;
+  --text: #f3e8ff;
+}
+
+body.theme-cyber { --glass: rgba(255,255,255,0.06); --border: rgba(255,255,255,0.12); }
+body.theme-pastel { --glass: rgba(255,255,255,0.08); --border: rgba(255,255,255,0.14); }
+body.theme-pro { --glass: rgba(255,255,255,0.05); --border: rgba(255,255,255,0.12); }
+body.theme-mint { --glass: rgba(255,255,255,0.06); --border: rgba(61,214,183,0.24); }
+body.theme-royal { --glass: rgba(255,255,255,0.04); --border: rgba(192,132,252,0.24); }

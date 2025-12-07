@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Certificate Studio</title>
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/certificate-generator/certificate.css">
+  <link rel="stylesheet" href="/css/ui-effects.css">
+</head>
+<body>
+  <div id="cg-app" class="cg-app">
+    <!-- Left: Templates -->
+    <aside class="cg-sidebar cg-sidebar-left">
+      <header class="cg-sidebar-header">
+        <h1 class="cg-title">Certificates</h1>
+        <select id="cg-template-filter" class="form-select form-select-sm">
+          <option value="all">All types</option>
+          <option value="academic">Academic</option>
+          <option value="corporate">Corporate</option>
+          <option value="award">Awards</option>
+          <option value="participation">Participation</option>
+          <option value="modern">Modern</option>
+        </select>
+      </header>
+      <div id="cg-template-list" class="cg-template-list"></div>
+    </aside>
+
+    <!-- Center: Canvas -->
+    <main class="cg-main">
+      <header class="cg-toolbar">
+        <div class="cg-toolbar-group">
+          <button id="cg-undo" class="btn btn-sm btn-outline-secondary">Undo</button>
+          <button id="cg-redo" class="btn btn-sm btn-outline-secondary">Redo</button>
+          <button id="cg-reset" class="btn btn-sm btn-outline-danger">Reset</button>
+        </div>
+        <div class="cg-toolbar-group">
+          <button id="cg-save" class="btn btn-sm btn-outline-primary">Save</button>
+          <button id="cg-load" class="btn btn-sm btn-outline-primary">Load</button>
+          <button id="cg-export-png" class="btn btn-sm btn-primary">PNG</button>
+          <button id="cg-export-pdf" class="btn btn-sm btn-primary">PDF</button>
+        </div>
+        <div class="cg-toolbar-group cg-zoom-group">
+          <button data-zoom="fit" class="btn btn-sm btn-outline-secondary cg-zoom-btn">Fit</button>
+          <button data-zoom="0.25" class="btn btn-sm btn-outline-secondary cg-zoom-btn">25%</button>
+          <button data-zoom="0.5" class="btn btn-sm btn-outline-secondary cg-zoom-btn">50%</button>
+          <button data-zoom="0.75" class="btn btn-sm btn-outline-secondary cg-zoom-btn">75%</button>
+          <button data-zoom="1" class="btn btn-sm btn-outline-secondary cg-zoom-btn">100%</button>
+        </div>
+      </header>
+
+      <section class="cg-canvas-shell">
+        <label class="cg-grid-toggle">
+          <input type="checkbox" id="cg-grid-toggle" checked />
+          <span>Show grid</span>
+        </label>
+        <div id="cg-canvas-viewport" class="cg-canvas-viewport">
+          <div id="cg-canvas" class="cg-canvas"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Right: Inspector -->
+    <aside class="cg-sidebar cg-sidebar-right">
+      <header class="cg-sidebar-header">
+        <h2 class="cg-panel-title">Inspector</h2>
+        <div id="cg-selection-label" class="cg-selection-label">Nothing selected</div>
+      </header>
+      <div class="cg-controls">
+        <section class="cg-control-group">
+          <h3>Layout</h3>
+          <label class="form-label">Size</label>
+          <select id="cg-page-size" class="form-select form-select-sm">
+            <option value="a4">A4 (Landscape)</option>
+            <option value="letter">Letter (Landscape)</option>
+          </select>
+        </section>
+
+        <section class="cg-control-group">
+          <h3>Background</h3>
+          <label class="form-label">Color</label>
+          <input id="cg-bg-color" type="color" class="form-control form-control-color" />
+          <label class="form-label mt-2">Gradient (CSS)</label>
+          <input id="cg-bg-gradient" type="text" class="form-control form-control-sm" placeholder="e.g. linear-gradient(135deg,#fff7e6,#ffe9c7)" />
+        </section>
+
+        <section class="cg-control-group">
+          <h3>Border</h3>
+          <select id="cg-border-style" class="form-select form-select-sm mb-2">
+            <option value="none">None</option>
+            <option value="single">Single</option>
+            <option value="double">Double</option>
+            <option value="gold">Gold</option>
+            <option value="silver">Silver</option>
+            <option value="image">Image frame</option>
+          </select>
+          <input id="cg-border-image" type="file" accept="image/*" class="form-control form-control-sm" />
+        </section>
+
+        <section class="cg-control-group">
+          <h3>Images</h3>
+          <label class="form-label">Logo</label>
+          <input id="cg-logo-input" type="file" accept="image/*" class="form-control form-control-sm" />
+          <label class="form-label mt-2">Seal</label>
+          <input id="cg-seal-input" type="file" accept="image/*" class="form-control form-control-sm" />
+          <label class="form-label mt-2">Signature</label>
+          <input id="cg-signature-input" type="file" accept="image/*" class="form-control form-control-sm" />
+        </section>
+
+        <section class="cg-control-group">
+          <h3>Text</h3>
+          <label class="form-label">Content</label>
+          <textarea id="cg-text-content" class="form-control form-control-sm" rows="3" placeholder="Edit selected text"></textarea>
+          <div class="cg-row mt-2">
+            <select id="cg-font-family" class="form-select form-select-sm">
+              <option value="serif">Serif</option>
+              <option value="Georgia">Georgia</option>
+              <option value="" selected>System</option>
+            </select>
+            <input id="cg-font-size" type="number" class="form-control form-control-sm" placeholder="Size" />
+          </div>
+          <div class="cg-row mt-2">
+            <select id="cg-font-weight" class="form-select form-select-sm">
+              <option value="400">Regular</option>
+              <option value="600">Semi-bold</option>
+              <option value="700">Bold</option>
+            </select>
+            <input id="cg-text-color" type="color" class="form-control form-control-color" />
+          </div>
+          <div class="cg-row mt-2">
+            <button data-align="left" class="btn btn-sm btn-outline-secondary cg-align-btn">Left</button>
+            <button data-align="center" class="btn btn-sm btn-outline-secondary cg-align-btn">Center</button>
+            <button data-align="right" class="btn btn-sm btn-outline-secondary cg-align-btn">Right</button>
+          </div>
+        </section>
+      </div>
+    </aside>
+  </div>
+
+  <script src="/assets/js/html2canvas.min.js"></script>
+  <script src="/assets/js/jspdf.umd.min.js"></script>
+  <script src="/certificate-generator/ai-hooks.js" type="module"></script>
+  <script src="/certificate-generator/export.js" type="module"></script>
+  <script src="/certificate-generator/certificate.js" type="module"></script>
+</body>
+</html>

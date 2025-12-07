@@ -1,0 +1,338 @@
+/* ===== UI Effects - Neon Glass Theme ===== */
+
+/* Global Neon Glass Variables */
+:root {
+  --neon-blue: #00d4ff;
+  --neon-purple: #8b5cf6;
+  --neon-green: #10b981;
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --frosted-blur: blur(20px);
+  --glow-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  --glow-shadow-purple: 0 0 20px rgba(139, 92, 246, 0.3);
+  --glow-shadow-green: 0 0 20px rgba(16, 185, 129, 0.3);
+  --transition-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Frosted Glass Background */
+.frosted-glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--frosted-blur);
+  -webkit-backdrop-filter: var(--frosted-blur);
+  border: 1px solid var(--glass-border);
+}
+
+/* Neon Hover Ring */
+.neon-ring {
+  position: relative;
+  overflow: hidden;
+}
+
+.neon-ring::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), var(--neon-green));
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.neon-ring:hover::before {
+  opacity: 1;
+}
+
+/* Subtle Glow Around Cards */
+.glow-card {
+  position: relative;
+  transition: all var(--transition-smooth);
+}
+
+.glow-card::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+  border-radius: 22px;
+  opacity: 0;
+  z-index: -1;
+  filter: blur(15px);
+  transition: opacity var(--transition-fast);
+}
+
+.glow-card:hover::after {
+  opacity: 0.3;
+}
+
+/* Animated Light Sweep */
+.light-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.light-sweep::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left var(--transition-smooth);
+}
+
+.light-sweep:hover::before {
+  left: 100%;
+}
+
+/* 3D Card Effect */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: all var(--transition-smooth);
+}
+
+.card-3d:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow:
+    0 20px 40px rgba(0, 212, 255, 0.2),
+    0 15px 30px rgba(139, 92, 246, 0.15),
+    0 10px 20px rgba(16, 185, 129, 0.1);
+}
+
+/* Soft Under-Glow */
+.under-glow {
+  position: relative;
+}
+
+.under-glow::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 40px;
+  background: radial-gradient(ellipse, rgba(0, 212, 255, 0.3), transparent);
+  filter: blur(20px);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.card-3d:hover .under-glow::after {
+  opacity: 1;
+}
+
+/* Button Gradient + Glow */
+.btn-neon {
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple), var(--neon-green));
+  border: none;
+  border-radius: 14px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+.btn-neon:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 212, 255, 0.5);
+}
+
+/* Animated Sheen on Button */
+.btn-neon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.btn-neon:hover::before {
+  left: 100%;
+}
+
+/* Page Fade-in Animation */
+.page-fade-in {
+  animation: pageFadeIn 0.4s ease-out;
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Card Glow Pulse */
+.glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+  }
+}
+
+/* Micro Icon Interaction */
+.icon-micro {
+  transition: transform var(--transition-fast);
+}
+
+.icon-micro:hover {
+  transform: rotate(3deg) scale(1.15);
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--neon-blue), var(--neon-purple));
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.8);
+}
+
+/* Apply to body and main containers */
+body, .sidebar, .main-content, .tool-container {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-blue) rgba(255, 255, 255, 0.15);
+}
+
+/* Typography Enhancements */
+.neon-text {
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.5px;
+  transition: color 0.2s ease;
+}
+
+.neon-text:hover {
+  color: var(--neon-blue);
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+/* Sidebar Enhancements */
+.sidebar-frosted {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-highlight {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.nav-highlight.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+  border-radius: inherit;
+  z-index: -1;
+}
+
+.nav-indicator {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 60%;
+  background: var(--neon-blue);
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* Navbar Floating Shadow */
+.navbar-float {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Theme Toggle Neon Ring */
+.theme-toggle-neon {
+  position: relative;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: all var(--transition-fast);
+}
+
+.theme-toggle-neon:hover {
+  box-shadow: 0 0 20px var(--neon-blue);
+}
+
+/* Iframe Container Glow */
+.iframe-glow::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), var(--neon-green));
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0.5;
+  filter: blur(5px);
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--neon-blue), var(--neon-purple));
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.8);
+}
+
+/* Apply to body and main containers */
+body, .sidebar, .main-content, .tool-container {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-blue) rgba(255, 255, 255, 0.15);
+}

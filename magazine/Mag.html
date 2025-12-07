@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en" data-theme="cyber">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nova Magazine Studio — Futuristic AI Magazine Maker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="./magazine_themes.css">
+  <link rel="stylesheet" href="./magazine_animations.css">
+  <link rel="stylesheet" href="./magazine.css">
+</head>
+<body class="theme-cyber">
+  <div class="bg-aurora"></div>
+  <div class="bg-grid"></div>
+  <header class="top-bar glass">
+    <div class="brand-mark">
+      <div class="orb pulse"></div>
+      <div>
+        <div class="brand-title">Nova Magazine Studio</div>
+        <div class="brand-sub">AI Magazine Maker · Premium Futuristic Desk</div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <div class="theme-switcher" aria-label="Themes">
+        <button class="theme-chip active" data-theme="cyber">Cyber Neon</button>
+        <button class="theme-chip" data-theme="pastel">Soft Pastel</button>
+        <button class="theme-chip" data-theme="pro">Magazine Pro</button>
+        <button class="theme-chip" data-theme="mint">Black & Mint</button>
+        <button class="theme-chip" data-theme="royal">Royal Purple</button>
+      </div>
+      <div class="save-indicator" id="saveIndicator" title="Draft autosave">
+        <span class="dot pulse"></span>Draft sync ready
+      </div>
+    </div>
+  </header>
+
+  <div class="floating-toolbar glass" id="floatingToolbar">
+    <button class="icon-btn" data-trigger="#generateBtn" title="Generate"><i class="bi bi-stars"></i></button>
+    <button class="icon-btn" data-trigger="#previewBtn" title="Preview"><i class="bi bi-eye"></i></button>
+    <button class="icon-btn" data-trigger="#exportPdfBtn" title="Export PDF"><i class="bi bi-filetype-pdf"></i></button>
+    <div class="divider"></div>
+    <button class="icon-btn" id="flipPageBtn" title="3D Flip"><i class="bi bi-journal-richtext"></i></button>
+    <button class="icon-btn" id="zoomPulse" title="Zoom"><i class="bi bi-zoom-in"></i></button>
+  </div>
+
+  <main class="magazine-frame">
+    <aside class="panel tools-panel glass" id="toolsPanel">
+      <div class="panel-header">
+        <div>
+          <div class="label">Tools</div>
+          <div class="title">Creative Deck</div>
+        </div>
+        <button class="panel-toggle" data-target="#toolsPanel"><i class="bi bi-chevron-double-left"></i></button>
+      </div>
+
+      <div class="tool-cluster">
+        <button class="neo-btn primary" id="generateBtn"><i class="bi bi-magic"></i><span>Generate Text</span></button>
+        <button class="neo-btn ghost" id="previewBtn"><i class="bi bi-broadcast"></i><span>Quick Preview</span></button>
+        <button class="neo-btn success" id="exportPdfBtn"><i class="bi bi-filetype-pdf"></i><span>Export PDF</span></button>
+      </div>
+
+      <div class="palette" aria-label="Drag modules">
+        <div class="palette-title">Drag & Drop Modules</div>
+        <div class="drag-items">
+          <div class="drag-card" draggable="true" data-block="title">Title Block</div>
+          <div class="drag-card" draggable="true" data-block="text">Text Column</div>
+          <div class="drag-card" draggable="true" data-block="quote">Pull Quote</div>
+          <div class="drag-card" draggable="true" data-block="image">Image Frame</div>
+          <div class="drag-card" draggable="true" data-block="caption">Caption Duo</div>
+        </div>
+      </div>
+
+      <div class="auto-layout">
+        <div class="palette-title">Auto Layout Suggestions</div>
+        <ul class="suggest-list" id="layoutSuggestions">
+          <li data-layout="cover-left">Bold cover + right image</li>
+          <li data-layout="grid">Grid collage with dual captions</li>
+          <li data-layout="text-led">Editorial text-first layout</li>
+          <li data-layout="photo-led">Full-bleed hero photo</li>
+        </ul>
+      </div>
+
+      <div class="accordion" id="inputAccordion">
+        <details open>
+          <summary>Content Feed</summary>
+          <div class="field">
+            <label>Magazine Title</label>
+            <input id="magTitle" placeholder="The Campus Chronicle" />
+          </div>
+          <div class="field">
+            <label>Issue (e.g., Q1 2025)</label>
+            <input id="magIssue" placeholder="Quarterly — Q1 2025" />
+          </div>
+          <div class="field">
+            <label>Article Type</label>
+            <select id="articleType">
+              <option>Feature Article</option>
+              <option>Event Summary</option>
+              <option>Interview</option>
+              <option>Student Spotlight</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Activity / Event</label>
+            <input id="eventName" placeholder="Annual Tech Fest - Innovate 2025" />
+          </div>
+          <div class="field">
+            <label>Raw Input / Notes</label>
+            <textarea id="rawData" rows="4" placeholder="Names, dates, winners, quotes..."></textarea>
+          </div>
+          <div class="field">
+            <label>AI Prompt / Guidance</label>
+            <textarea id="aiPrompt" rows="3" placeholder="Tone, angle, must-include points..."></textarea>
+            <small>Used when an OpenAI key is provided.</small>
+          </div>
+          <div class="field">
+            <label>Upload Images</label>
+            <input id="images" type="file" multiple accept="image/*" />
+          </div>
+          <div class="field duo">
+            <div>
+              <label>Primary Color</label>
+              <input type="color" id="primaryColor" value="#00d3ff" />
+            </div>
+            <div>
+              <label>Accent Color</label>
+              <input type="color" id="accentColor" value="#f6b200" />
+            </div>
+          </div>
+        </details>
+        <details>
+          <summary>AI Settings</summary>
+          <div class="field">
+            <label>OpenAI API Key</label>
+            <input id="openaiKey" placeholder="sk-... (optional)" />
+            <small>No key? Backend/placeholder will be used.</small>
+          </div>
+        </details>
+        <details>
+          <summary>Storage</summary>
+          <div class="field trio">
+            <button class="neo-btn ghost" id="saveDesignBtn">Save Design</button>
+            <button class="neo-btn ghost" id="loadDesignBtn">Load Design</button>
+            <button class="neo-btn ghost" id="saveLocalBtn">Save Draft</button>
+            <button class="neo-btn ghost" id="loadLocalBtn">Restore Draft</button>
+          </div>
+        </details>
+      </div>
+
+      <div class="generated glass-lite" id="generatedOutput">
+        <em class="text-muted">No output yet. Click Generate.</em>
+      </div>
+    </aside>
+
+    <section class="canvas-area">
+      <div class="ruler horizontal"></div>
+      <div class="ruler vertical"></div>
+
+      <div class="canvas-shell" id="canvasShell">
+        <div class="page-shadow"></div>
+        <div class="page-3d" id="page3d">
+          <div class="canvas-head">
+            <div>
+              <div class="eyebrow">Live preview</div>
+              <h4 id="previewTitle">Magazine Preview</h4>
+            </div>
+            <span class="badge" id="issueBadge">Issue: —</span>
+          </div>
+          <div class="page-guides"></div>
+          <div id="magazinePreview" class="mag-preview">
+            <div id="cover" class="cover row-flex">
+              <div class="cover-meta">
+                <div id="coverTitle" class="cover-title" contenteditable="true">Your Magazine Title</div>
+                <div id="coverSubtitle" class="subtitle">Issue — Quarterly</div>
+              </div>
+              <div class="cover-image-shell">
+                <img id="coverImage" alt="cover" />
+              </div>
+            </div>
+
+            <div id="articleSection" class="article">
+              <div class="article-header">
+                <div>
+                  <div class="eyebrow">Feature</div>
+                  <h5 id="articleHeading">Featured Article</h5>
+                </div>
+                <span class="badge" id="issueBadgeSecondary">Issue: —</span>
+              </div>
+              <p id="summaryThin" class="summary thin"></p>
+              <p id="summaryThick" class="summary thick"></p>
+
+              <div class="article-grid">
+                <div class="image-col">
+                  <img id="articleImagePreview" class="article-image" alt="article" />
+                  <div id="captions" class="captions"></div>
+                </div>
+                <div class="text-col">
+                  <div id="mainBodyText" class="body-text"></div>
+                  <div id="pullQuote" class="pull-quote"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="page-safe-area"></div>
+        </div>
+      </div>
+
+      <div class="page-thumbs" id="pageTimeline">
+        <div class="thumb active">Cover</div>
+        <div class="thumb">Spread</div>
+        <div class="thumb">Back</div>
+      </div>
+    </section>
+
+    <aside class="panel props-panel glass" id="propsPanel">
+      <div class="panel-header">
+        <div>
+          <div class="label">Properties</div>
+          <div class="title">Typography & Styling</div>
+        </div>
+        <button class="panel-toggle" data-target="#propsPanel"><i class="bi bi-chevron-double-right"></i></button>
+      </div>
+
+      <div class="accordion props">
+        <details open>
+          <summary>Typography</summary>
+          <div class="prop-field">
+            <label>Headline Font</label>
+            <select id="headlineFont">
+              <option value="Playfair Display">Playfair Display</option>
+              <option value="Poppins">Poppins</option>
+              <option value="Inter">Inter</option>
+              <option value="Montserrat">Montserrat</option>
+            </select>
+          </div>
+          <div class="prop-field duo">
+            <div>
+              <label>Line Height</label>
+              <input type="range" id="lineHeight" min="1" max="2" step="0.05" value="1.4" />
+            </div>
+            <div>
+              <label>Letter Spacing</label>
+              <input type="range" id="letterSpacing" min="0" max="6" step="0.2" value="0" />
+            </div>
+          </div>
+          <div class="prop-field">
+            <label><input type="checkbox" id="enableDropCap" /> Drop cap first paragraph</label>
+          </div>
+        </details>
+
+        <details open>
+          <summary>Color & Effects</summary>
+          <div class="prop-field duo">
+            <div>
+              <label>Background Blur</label>
+              <input type="range" id="bgBlur" min="0" max="20" value="10" />
+            </div>
+            <div>
+              <label>Edge Shadow</label>
+              <input type="range" id="edgeShadow" min="10" max="60" value="30" />
+            </div>
+          </div>
+          <div class="prop-field">
+            <label><input type="checkbox" id="safeGuides" checked /> Show safe area guides</label>
+          </div>
+        </details>
+
+        <details>
+          <summary>Layers & Alignment</summary>
+          <div class="prop-field trio">
+            <button class="mini-btn" data-align="left">Align Left</button>
+            <button class="mini-btn" data-align="center">Center</button>
+            <button class="mini-btn" data-align="right">Align Right</button>
+          </div>
+          <div class="prop-field trio">
+            <button class="mini-btn" id="undoBtn">Undo</button>
+            <button class="mini-btn" id="redoBtn">Redo</button>
+            <button class="mini-btn" id="flipSafeBtn">Toggle Guides</button>
+          </div>
+        </details>
+
+        <details>
+          <summary>Magazine Styles</summary>
+          <div class="style-stack" id="styleStack">
+            <div class="style-card" data-style="classic">Classic Editorial</div>
+            <div class="style-card" data-style="modern">Modern Spread</div>
+            <div class="style-card" data-style="grid">Grid Mosaic</div>
+            <div class="style-card" data-style="retro">Retro Pop</div>
+          </div>
+        </details>
+      </div>
+
+      <div class="floating-save" id="saveDraftFloating">
+        <span class="dot"></span>Animated Save Draft
+      </div>
+    </aside>
+  </main>
+
+  <div class="floating-stack" id="undoRedoPanel">
+    <button class="icon-btn" id="undoFab" title="Undo"><i class="bi bi-arrow-counterclockwise"></i></button>
+    <button class="icon-btn" id="redoFab" title="Redo"><i class="bi bi-arrow-clockwise"></i></button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="./magazine.js"></script>
+  <script src="./magazine_UI_components.js"></script>
+</body>
+</html>

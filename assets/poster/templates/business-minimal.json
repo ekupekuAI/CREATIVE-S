@@ -1,0 +1,11 @@
+{
+  "name": "Business Minimal",
+  "category": "Business",
+  "size": { "width": 1200, "height": 1600 },
+  "background": { "type": "solid", "color": "#ffffff" },
+  "layers": [
+    { "type": "rect", "left": 160, "top": 160, "width": 880, "height": 1280, "fill": "#f3f4f6", "rx": 24 },
+    { "type": "text", "text": "Consulting Agency", "left": 200, "top": 220, "fontSize": 64, "fontWeight": "bold", "fill": "#111827" },
+    { "type": "text", "text": "Professional Services", "left": 200, "top": 300, "fontSize": 32, "fill": "#374151" }
+  ]
+}

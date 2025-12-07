@@ -1,0 +1,18 @@
+{
+  "name": "Mega Sale",
+  "category": "Marketing",
+  "size": { "width": 1200, "height": 1600 },
+  "background": { "type": "solid", "color": "#111827" },
+  "layers": [
+    { "type": "gradient-overlay", "colors": ["#ef4444","#f59e0b"], "opacity": 0.25 },
+    { "type": "curved-text", "text": "MEGA SALE", "left": 120, "top": 220, "fontSize": 120, "fill": "#ffffff", "radius": 700 },
+    { "type": "text", "text": "Up to 70% OFF", "left": 120, "top": 420, "fontSize": 72, "fontWeight": "bold", "fill": "#fef3c7" },
+    { "type": "image-placeholder", "name": "product", "left": 680, "top": 260, "width": 420, "height": 420, "clipRadius": 28 },
+    { "type": "group", "name": "features", "children": [
+      { "type": "shape", "shape": "rect", "left": 120, "top": 520, "width": 380, "height": 120, "rx": 16, "fill": "#1f2937" },
+      { "type": "text", "text": "New Arrivals", "left": 140, "top": 560, "fontSize": 36, "fill": "#93c5fd" },
+      { "type": "shape", "shape": "rect", "left": 120, "top": 660, "width": 380, "height": 120, "rx": 16, "fill": "#1f2937" },
+      { "type": "text", "text": "Best Sellers", "left": 140, "top": 700, "fontSize": 36, "fill": "#93c5fd" }
+    ]}
+  ]
+}

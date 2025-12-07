@@ -1,0 +1,15 @@
+{
+  "name": "Food Promo",
+  "category": "Food",
+  "size": { "width": 1200, "height": 1600 },
+  "background": { "type": "solid", "color": "#0b1324" },
+  "layers": [
+    { "type": "text", "text": "Delicious Burgers", "left": 120, "top": 180, "fontSize": 88, "fontWeight": "bold", "fill": "#ffffff" },
+    { "type": "image-placeholder", "name": "product", "left": 700, "top": 220, "width": 420, "height": 420, "clipRadius": 30 },
+    { "type": "text", "text": "Buy 1 Get 1 Free", "left": 120, "top": 380, "fontSize": 56, "fill": "#f59e0b" },
+    { "type": "group", "children": [
+      { "type": "shape", "shape": "rect", "left": 120, "top": 480, "width": 400, "height": 120, "rx": 16, "fill": "#111827" },
+      { "type": "text", "text": "Order Now", "left": 160, "top": 520, "fontSize": 42, "fill": "#93c5fd" }
+    ]}
+  ]
+}

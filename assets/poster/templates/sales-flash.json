@@ -1,0 +1,15 @@
+{
+  "name": "Flash Sale",
+  "category": "Sales",
+  "size": { "width": 1200, "height": 1600 },
+  "background": { "type": "solid", "color": "#111827" },
+  "layers": [
+    { "type": "gradient-overlay", "colors": ["#3b82f6","#06b6d4"], "opacity": 0.25 },
+    { "type": "text", "text": "FLASH SALE", "left": 120, "top": 200, "fontSize": 120, "fontWeight": "bold", "fill": "#ffffff" },
+    { "type": "text", "text": "Today Only", "left": 120, "top": 340, "fontSize": 54, "fill": "#93c5fd" },
+    { "type": "group", "children": [
+      { "type": "shape", "shape": "rect", "left": 120, "top": 420, "width": 420, "height": 140, "rx": 18, "fill": "#1f2937" },
+      { "type": "text", "text": "Up to 60% OFF", "left": 140, "top": 470, "fontSize": 42, "fill": "#fef3c7" }
+    ]}
+  ]
+}

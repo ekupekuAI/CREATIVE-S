@@ -1,0 +1,16 @@
+{
+  "name": "Business Flyer",
+  "category": "Business",
+  "size": { "width": 1200, "height": 1600 },
+  "background": { "type": "gradient", "colors": ["#111827", "#1f2937"], "angle": 135 },
+  "layers": [
+    { "type": "rect", "left": 100, "top": 120, "width": 1000, "height": 1360, "fill": "#ffffff", "rx": 24 },
+    { "type": "text", "text": "Corporate Solutions", "left": 140, "top": 180, "fontSize": 72, "fontWeight": "bold", "fill": "#111827" },
+    { "type": "text", "text": "We help you grow", "left": 140, "top": 260, "fontSize": 36, "fill": "#374151" },
+    { "type": "image-placeholder", "name": "hero", "left": 140, "top": 320, "width": 920, "height": 440, "clipRadius": 18 },
+    { "type": "group", "children": [
+      { "type": "shape", "shape": "rect", "left": 140, "top": 800, "width": 300, "height": 160, "rx": 16, "fill": "#f3f4f6" },
+      { "type": "text", "text": "Consulting", "left": 160, "top": 860, "fontSize": 32, "fill": "#111827" }
+    ]}
+  ]
+}

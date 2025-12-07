@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Studio - All-in-One Design Platform</title>
+
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Dashboard CSS -->
+        <link rel="stylesheet" href="css/dashboard.css">
+        <link rel="stylesheet" href="css/ui-effects.css">
+
+        <script>
+            // Early guard: if no session, send to login before UI renders
+            (function() {
+                try {
+                    if (!localStorage.getItem('cs.session')) {
+                        window.location.replace('/auth/login.html');
+                    }
+                } catch (e) {
+                    // If storage blocked, still allow page to load and dashboard.js will handle
+                }
+            })();
+        </script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h3>Creative Studio</h3>
+            <p>Loading your creative workspace...</p>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Container -->
+    <div id="dashboard" class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-palette"></i>
+                    <span>Creative Studio</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-tool="welcome">
+                            <div class="nav-icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <span class="nav-text">Welcome</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-tool="mindmap">
+                            <div class="nav-icon">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <span class="nav-text">MindMap Generator</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-tool="event-planner">
+                            <div class="nav-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <span class="nav-text">Event Planner</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-tool="certificate">
+                            <div class="nav-icon">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <span class="nav-text">Certificate Generator</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-tool="activity-report">
+                            <div class="nav-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <span class="nav-text">Activity Report</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-tool="ai-study">
+                            <div class="nav-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <span class="nav-text">MoodSense+</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-tool="magazine">
+                            <div class="nav-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <span class="nav-text">Magazine Maker</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-tool="todo">
+                            <div class="nav-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <span class="nav-text">Task Manager</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-tool="logout">
+                            <div class="nav-icon">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </div>
+                            <span class="nav-text">Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Backend Status -->
+            <div class="backend-status">
+                <div class="status-item">
+                    <div class="status-indicator" id="main-server-status"></div>
+                    <span>Main Server (8000)</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Welcome Screen -->
+            <div id="welcome-screen" class="welcome-screen">
+                <div class="welcome-content">
+                    <div class="welcome-header">
+                        <h1>Welcome to Creative Studio</h1>
+                        <p>Your all-in-one creative workspace</p>
+                    </div>
+
+                    <div class="welcome-grid">
+                        <div class="welcome-card" data-tool="mindmap">
+                            <div class="card-icon">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <h3>MindMap Generator</h3>
+                            <p>Create visual mind maps and knowledge graphs with AI assistance</p>
+                            <button class="btn btn-primary" onclick="window.creativeStudio.loadTool('mindmap')">Open Tool</button>
+                        </div>
+
+                        <div class="welcome-card" data-tool="event-planner">
+                            <div class="card-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <h3>Event Planner</h3>
+                            <p>Plan events end-to-end with AI-powered scheduling and budgeting</p>
+                            <button class="btn btn-primary" onclick="window.creativeStudio.loadTool('event-planner')">Open Tool</button>
+                        </div>
+
+                        <div class="welcome-card" data-tool="certificate">
+                            <div class="card-icon">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <h3>Certificate Generator</h3>
+                            <p>Design professional certificates with templates and AI content</p>
+                            <button class="btn btn-primary" onclick="window.creativeStudio.loadTool('certificate')">Open Tool</button>
+                        </div>
+
+                        <div class="welcome-card" data-tool="activity-report">
+                            <div class="card-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Activity Report</h3>
+                            <p>Generate structured activity reports and analytics</p>
+                            <button class="btn btn-primary" onclick="window.creativeStudio.loadTool('activity-report')">Open Tool</button>
+                        </div>
+
+                        <div class="welcome-card" data-tool="ai-study">
+                            <div class="card-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3>MoodSense+</h3>
+                            <p>AI-powered mood analysis and emotional wellness</p>
+                            <button class="btn btn-primary" onclick="window.creativeStudio.loadTool('ai-study')">Open Tool</button>
+                        </div>
+
+                        <div class="welcome-card" data-tool="magazine">
+                            <div class="card-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <h3>Magazine Maker</h3>
+                            <p>Design stunning magazines and publications with AI-powered content</p>
+                            <button class="btn btn-primary" onclick="window.creativeStudio.loadTool('magazine')">Open Tool</button>
+                        </div>
+
+                        <div class="welcome-card" data-tool="todo">
+                            <div class="card-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <h3>Task Manager</h3>
+                            <p>Organize your tasks with smart filtering and priorities</p>
+                            <button class="btn btn-primary" onclick="window.creativeStudio.loadTool('todo')">Open Tool</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tool Iframe Container -->
+            <div id="tool-container" class="tool-container">
+                <iframe id="tool-frame" src="about:blank" frameborder="0"></iframe>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Dashboard JS -->
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

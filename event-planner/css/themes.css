@@ -1,0 +1,394 @@
+/* AI Event Architect - Premium Color Themes */
+
+:root {
+    /* Base Theme Variables */
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --transition-theme: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Neon Theme (Default) */
+.theme-neon {
+    --bg-primary: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(139, 92, 246, 0.08) 50%, rgba(16, 185, 129, 0.08) 100%);
+    --bg-secondary: rgba(255, 255, 255, 0.75);
+    --bg-tertiary: rgba(255, 255, 255, 0.82);
+    --text-primary: #0f172a;
+    --text-secondary: #1f2937;
+    --text-muted: #334155;
+    --border-color: rgba(0, 0, 0, 0.08);
+    --border-light: rgba(0, 0, 0, 0.04);
+    --shadow-primary: rgba(0, 212, 255, 0.25);
+    --shadow-secondary: rgba(139, 92, 246, 0.15);
+    --accent-primary: #00d4ff;
+    --accent-secondary: #8b5cf6;
+    --accent-gradient: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 100%);
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+    --card-bg: rgba(255, 255, 255, 0.78);
+    --sidebar-bg: rgba(255, 255, 255, 0.82);
+    --topbar-bg: rgba(255, 255, 255, 0.86);
+}
+
+/* Pastel Theme */
+.theme-pastel {
+    --bg-primary: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%);
+    --bg-secondary: rgba(255, 255, 255, 0.78);
+    --bg-tertiary: rgba(255, 255, 255, 0.84);
+    --text-primary: #0f172a;
+    --text-secondary: #1f2937;
+    --text-muted: #334155;
+    --border-color: rgba(0, 0, 0, 0.08);
+    --border-light: rgba(0, 0, 0, 0.04);
+    --shadow-primary: rgba(139, 92, 246, 0.25);
+    --shadow-secondary: rgba(16, 185, 129, 0.15);
+    --accent-primary: #8b5cf6;
+    --accent-secondary: #10b981;
+    --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #10b981 100%);
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+    --card-bg: rgba(255, 255, 255, 0.76);
+    --sidebar-bg: rgba(255, 255, 255, 0.82);
+    --topbar-bg: rgba(255, 255, 255, 0.86);
+}
+
+/* Midnight Theme */
+.theme-midnight {
+    --bg-primary: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+    --bg-secondary: rgba(45, 55, 72, 0.35);
+    --bg-tertiary: rgba(30, 41, 59, 0.4);
+    --text-primary: #f8fafc;
+    --text-secondary: #e2e8f0;
+    --text-muted: #cbd5e1;
+    --border-color: rgba(255, 255, 255, 0.16);
+    --border-light: rgba(255, 255, 255, 0.08);
+    --shadow-primary: rgba(0, 212, 255, 0.25);
+    --shadow-secondary: rgba(139, 92, 246, 0.15);
+    --accent-primary: #00d4ff;
+    --accent-secondary: #8b5cf6;
+    --accent-gradient: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 100%);
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+    --card-bg: rgba(30, 41, 59, 0.55);
+    --sidebar-bg: rgba(30, 41, 59, 0.6);
+    --topbar-bg: rgba(30, 41, 59, 0.6);
+}
+
+/* Gold Theme */
+.theme-gold {
+    --bg-primary: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(0, 212, 255, 0.08) 100%);
+    --bg-secondary: rgba(255, 247, 237, 0.7);
+    --bg-tertiary: rgba(255, 247, 237, 0.78);
+    --text-primary: #78350f;
+    --text-secondary: #92400e;
+    --text-muted: #b45309;
+    --border-color: rgba(120, 53, 15, 0.14);
+    --border-light: rgba(120, 53, 15, 0.08);
+    --shadow-primary: rgba(16, 185, 129, 0.25);
+    --shadow-secondary: rgba(0, 212, 255, 0.15);
+    --accent-primary: #10b981;
+    --accent-secondary: #00d4ff;
+    --accent-gradient: linear-gradient(135deg, #10b981 0%, #00d4ff 100%);
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+    --card-bg: rgba(255, 247, 237, 0.8);
+    --sidebar-bg: rgba(255, 247, 237, 0.84);
+    --topbar-bg: rgba(255, 247, 237, 0.88);
+}
+
+/* Apply Theme Variables */
+body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    transition: var(--transition-theme);
+}
+
+.main-content {
+    background: var(--bg-tertiary);
+}
+
+/* Sidebar Theming */
+.sidebar {
+    background: var(--sidebar-bg);
+    border-right-color: var(--border-color);
+}
+
+.nav-link {
+    color: var(--text-secondary);
+}
+
+.nav-link:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary);
+}
+
+.nav-link.active {
+    background: var(--accent-gradient);
+    color: white;
+    box-shadow: 0 4px 16px var(--shadow-primary);
+}
+
+.nav-link.active:hover {
+    transform: translateX(4px);
+}
+
+/* Topbar Theming */
+.topbar {
+    background: var(--topbar-bg);
+    border-bottom-color: var(--border-color);
+}
+
+.search-box input {
+    background: var(--card-bg);
+    border-color: var(--border-light);
+    color: var(--text-primary);
+}
+
+.search-box input:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    background: var(--card-bg);
+}
+
+.search-box i {
+    color: var(--text-secondary);
+}
+
+.topbar-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--text-primary);
+}
+
+.theme-btn.active {
+    background: var(--accent-primary);
+    color: white;
+}
+
+/* Dashboard Cards Theming */
+.dashboard-card {
+    background: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+.welcome-card {
+    background: var(--accent-gradient);
+}
+
+.panel-title {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* AI Chat Theming */
+.ai-chat-interface,
+.ai-progress-sidebar {
+    background: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+.message-text {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary);
+}
+
+.ai-message .message-text {
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.user-message .message-text {
+    background: var(--accent-gradient);
+}
+
+.chat-input {
+    background: var(--card-bg);
+    border-color: var(--border-light);
+    color: var(--text-primary);
+}
+
+.chat-input:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Progress Steps Theming */
+.progress-step.active {
+    background: rgba(99, 102, 241, 0.1);
+    border-left-color: var(--accent-primary);
+}
+
+.progress-step.active .step-icon {
+    background: var(--accent-primary);
+}
+
+/* Button Theming */
+.btn-primary {
+    background: var(--accent-gradient);
+}
+
+.btn-outline-secondary {
+    background: var(--card-bg);
+    color: var(--text-secondary);
+    border-color: var(--border-light);
+}
+
+.btn-outline-secondary:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
+}
+
+/* Form Controls */
+.form-control,
+.form-select {
+    background: var(--card-bg);
+    border-color: var(--border-light);
+    color: var(--text-primary);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    background: var(--card-bg);
+}
+
+/* Modal Theming */
+.modal-content {
+    background: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+/* Activity Items */
+.activity-title {
+    color: var(--text-primary);
+}
+
+.activity-time {
+    color: var(--text-muted);
+}
+
+/* Stats */
+.stat-number {
+    color: var(--accent-primary);
+}
+
+.stat-label {
+    color: var(--text-secondary);
+}
+
+/* Action Buttons */
+.action-btn {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--accent-primary);
+    border-color: rgba(99, 102, 241, 0.2);
+}
+
+.action-btn:hover {
+    background: var(--accent-primary);
+    color: white;
+}
+
+/* User Menu */
+.user-menu-dropdown {
+    background: var(--card-bg);
+    border-color: var(--border-color);
+    box-shadow: 0 8px 32px var(--shadow-primary);
+}
+
+.user-menu-item {
+    color: var(--text-primary);
+}
+
+.user-menu-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.user-menu-divider {
+    background: var(--border-light);
+}
+
+/* Toast Notifications */
+.toast {
+    background: var(--card-bg);
+    color: var(--text-primary);
+}
+
+/* Help Modal */
+.help-section h6 {
+    color: var(--accent-primary);
+}
+
+.help-section li {
+    color: var(--text-secondary);
+}
+
+/* Theme Transition Effects */
+* {
+    transition: background-color var(--transition-theme),
+                color var(--transition-theme),
+                border-color var(--transition-theme),
+                box-shadow var(--transition-theme);
+}
+
+/* Special Theme Overrides */
+.theme-midnight .welcome-card {
+    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+}
+
+.theme-gold .welcome-card {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+}
+
+.theme-pastel .panel-title {
+    background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.theme-midnight .panel-title {
+    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.theme-gold .panel-title {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Theme-specific accent colors for interactive elements */
+.theme-neon .nav-link.active {
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+}
+
+.theme-pastel .nav-link.active {
+    box-shadow: 0 4px 16px rgba(236, 72, 153, 0.3);
+}
+
+.theme-midnight .nav-link.active {
+    box-shadow: 0 4px 16px rgba(96, 165, 250, 0.3);
+}
+
+.theme-gold .nav-link.active {
+    box-shadow: 0 4px 16px rgba(251, 191, 36, 0.3);
+}
+
+/* Responsive theme adjustments */
+@media (max-width: 768px) {
+    .theme-selector {
+        display: none;
+    }
+}
+

@@ -1,0 +1,11 @@
+{
+  "name": "Night Festival",
+  "category": "Events",
+  "size": { "width": 1200, "height": 1600 },
+  "background": { "type": "gradient", "colors": ["#0ea5e9", "#111827"], "angle": 180 },
+  "layers": [
+    { "type": "text", "text": "Night Festival", "left": 120, "top": 160, "fontSize": 100, "fontWeight": "bold", "fill": "#e5e7eb" },
+    { "type": "image-placeholder", "name": "hero", "left": 120, "top": 260, "width": 960, "height": 520, "clipRadius": 20 },
+    { "type": "text", "text": "DJ • Dance • Lights", "left": 120, "top": 820, "fontSize": 42, "fill": "#93c5fd" }
+  ]
+}

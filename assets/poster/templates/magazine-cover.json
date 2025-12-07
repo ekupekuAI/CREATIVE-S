@@ -1,0 +1,14 @@
+{
+  "name": "Magazine Cover",
+  "category": "Magazines",
+  "size": { "width": 1200, "height": 1600 },
+  "background": { "type": "solid", "color": "#ffffff" },
+  "layers": [
+    { "type": "image-placeholder", "name": "cover", "left": 80, "top": 140, "width": 1040, "height": 1200, "clipRadius": 0 },
+    { "type": "text", "text": "STYLE", "left": 80, "top": 80, "fontSize": 140, "fontWeight": "bold", "fill": "#111827" },
+    { "type": "group", "children": [
+      { "type": "text", "text": "Features", "left": 80, "top": 1370, "fontSize": 36, "fill": "#111827" },
+      { "type": "text", "text": "Trend Report • Interviews • Guides", "left": 80, "top": 1420, "fontSize": 28, "fill": "#374151" }
+    ]}
+  ]
+}

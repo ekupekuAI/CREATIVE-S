@@ -1,0 +1,22 @@
+{
+  "name": "TechFest 2025",
+  "category": "Events",
+  "size": { "width": 1200, "height": 1600 },
+  "background": {
+    "type": "gradient",
+    "colors": ["#0ea5e9", "#3b82f6"],
+    "angle": 45
+  },
+  "layers": [
+    { "type": "rect", "left": 80, "top": 120, "width": 1040, "height": 1360, "fill": "rgba(255,255,255,0.06)", "rx": 24 },
+    { "type": "image-placeholder", "name": "hero", "left": 100, "top": 160, "width": 1000, "height": 540, "clipRadius": 18 },
+    { "type": "text", "text": "TechFest 2025", "left": 120, "top": 740, "fontSize": 96, "fontWeight": "bold", "fill": "#ffffff" },
+    { "type": "text", "text": "Innovation • AI • Robotics", "left": 120, "top": 860, "fontSize": 42, "fill": "#dbeafe" },
+    { "type": "group", "name": "details", "children": [
+      { "type": "text", "text": "Date: Mar 12", "left": 120, "top": 980, "fontSize": 36, "fill": "#ffffff" },
+      { "type": "text", "text": "Venue: Grand Hall", "left": 120, "top": 1040, "fontSize": 36, "fill": "#ffffff" },
+      { "type": "text", "text": "Register: techfest.com", "left": 120, "top": 1100, "fontSize": 36, "fill": "#ffffff" }
+    ]},
+    { "type": "decor-shape", "shape": "circle", "left": 980, "top": 1140, "radius": 80, "fill": "rgba(255,255,255,0.12)" }
+  ]
+}

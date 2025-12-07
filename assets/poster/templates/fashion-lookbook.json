@@ -1,0 +1,14 @@
+{
+  "name": "Fashion Lookbook",
+  "category": "Fashion",
+  "size": { "width": 1200, "height": 1600 },
+  "background": { "type": "solid", "color": "#f9fafb" },
+  "layers": [
+    { "type": "text", "text": "SPRING '25", "left": 120, "top": 180, "fontSize": 96, "fontWeight": "bold", "fill": "#111827" },
+    { "type": "image-placeholder", "name": "model", "left": 120, "top": 280, "width": 520, "height": 900 },
+    { "type": "group", "children": [
+      { "type": "shape", "shape": "rect", "left": 700, "top": 280, "width": 380, "height": 220, "rx": 16, "fill": "#111827" },
+      { "type": "text", "text": "NEW COLLECTION", "left": 720, "top": 340, "fontSize": 42, "fill": "#ffffff" }
+    ]}
+  ]
+}

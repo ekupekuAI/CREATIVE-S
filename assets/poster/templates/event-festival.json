@@ -1,0 +1,15 @@
+{
+  "name": "Summer Fest",
+  "category": "Events",
+  "size": { "width": 1200, "height": 1600 },
+  "background": { "type": "gradient", "colors": ["#f59e0b", "#ef4444"], "angle": 90 },
+  "layers": [
+    { "type": "rect", "left": 60, "top": 60, "width": 1080, "height": 1480, "fill": "rgba(255,255,255,0.08)", "rx": 24 },
+    { "type": "text", "text": "Summer Fest", "left": 100, "top": 180, "fontSize": 100, "fontWeight": "bold", "fill": "#ffffff" },
+    { "type": "image-placeholder", "name": "hero", "left": 100, "top": 300, "width": 1000, "height": 520, "clipRadius": 24 },
+    { "type": "group", "name": "info", "children": [
+      { "type": "text", "text": "Live Music • Food • Games", "left": 100, "top": 860, "fontSize": 44, "fill": "#fff" },
+      { "type": "text", "text": "Sat, June 21 • City Park", "left": 100, "top": 920, "fontSize": 36, "fill": "#fee2e2" }
+    ]}
+  ]
+}
