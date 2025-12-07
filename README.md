@@ -18,12 +18,14 @@ A comprehensive web-based creative platform that combines **Certificate Generati
 
 ### 🛠️ Integrated Tools
 - **MindMap AI**: Intelligent mind mapping with AI assistance
-- **Event Planner**: Complete event management with budgeting
-- **Certificate Generator**: Professional certificate creation
-- **Activity Report**: Structured report generation and analytics
-- **MoodSense+**: AI-powered mood tracking and wellness
-- **Poster Maker**: Canvas-based design with drag-and-drop
-- **Task Manager**: Smart task organization and tracking
+- **Event Planner**: Complete event management with budgeting and scheduling
+- **Certificate Generator**: Professional certificate creation with templates
+- **Activity Report Generator**: Structured report generation with AI templates
+- **MoodSense+**: AI-powered mood tracking and wellness activities
+- **Poster Maker**: Canvas-based design with drag-and-drop elements
+- **Task Manager**: Smart task organization with AI assistance
+- **Magazine Creator**: Interactive magazine design with themes and animations
+- **Authentication System**: User login and access management
 
 ## 🚀 Quick Start
 
@@ -34,22 +36,35 @@ A comprehensive web-based creative platform that combines **Certificate Generati
 4. The dashboard will open at `http://localhost:5500`
 
 ### Option 2: Run Backend Servers
+
+The platform includes multiple backend servers for different tools:
+
+**Main Servers:**
 ```bash
-# Start the main server (port 8000)
+# Main dashboard server (port 8000)
 python server.py
 
-# In another terminal, start certificate server (port 8001)
-python certificate_server.py
+# Event Planner backend (port 8002 - configured internally)
+python event-planner/backend/server.py
 
-# Or run both servers simultaneously
+# MoodSense backend (port 8003 - configured internally)  
+python mood-sense/server.py
+```
+
+**Convenient Scripts:**
+```bash
+# Run all servers simultaneously (Windows)
+run_servers.bat
+
+# Run all servers simultaneously (Cross-platform)
 python run_both_servers.py
 ```
 
-### Option 3: Use Batch File (Windows)
-```bash
-# Run the batch file to start both servers
-run_servers.bat
-```
+**Individual Tool Servers:**
+- **Certificate Generator**: Uses main server (port 8000)
+- **Event Planner**: Dedicated server (port 8002)
+- **MoodSense**: Dedicated server (port 8003)
+- **Other Tools**: Frontend-only, no backend required
 
 ## 🎯 How to Use the Dashboard
 
@@ -70,7 +85,18 @@ run_servers.bat
 - **JavaScript ES6+**: Vanilla JS with modern features
 - **Bootstrap 5.3**: Responsive UI components and utilities
 
+### Backend Framework
+- **Python 3.8+**: Server-side logic and API development
+- **Flask/FastAPI**: Lightweight web frameworks for tool backends
+- **JSON**: Data interchange format for API communication
+
 ### Libraries & Dependencies
+- **Fabric.js** (4.6.0) - Canvas object manipulation for poster maker
+- **html2canvas** (1.4.1) - Export functionality for high-quality image generation
+- **jsPDF** (2.5.1) - PDF export capabilities
+- **SortableJS** (1.15.0) - Drag and drop functionality
+- **Font Awesome** (6.4.0) - Professional icon set
+- **Google Fonts** - Typography with Poppins, Inter, Playfair Display
 - **Fabric.js** (4.6.0) - Canvas object manipulation for poster maker
 - **html2canvas** (1.4.1) - Export functionality for high-quality image generation
 - **jsPDF** (2.5.1) - PDF export capabilities
@@ -87,22 +113,135 @@ run_servers.bat
 ## 📁 Project Structure
 
 ```
-creative-studio/
-├── index.html              # Main homepage with module navigation
-├── certificate.html        # Certificate generator interface
-├── poster.html            # Magazine/poster maker interface  
-├── todo.html              # Task manager interface
-├── css/
-│   ├── style.css          # Global styles and theme system
-│   ├── certificate.css    # Certificate generator specific styles
-│   ├── poster.css         # Poster maker specific styles
-│   └── todo.css           # Task manager specific styles
-├── js/
-│   ├── main.js            # Core functionality and theme management
-│   ├── certificate.js     # Certificate generation logic
-│   ├── poster.js          # Canvas-based design functionality
-│   └── todo.js            # Task management and data persistence
-└── README.md              # Project documentation
+CREATIVE-S-main/
+├── index.html                    # Main dashboard with tool navigation
+├── README.md                     # Project documentation
+├── README_SERVER.md              # Server setup documentation
+├── requirements.txt              # Python dependencies
+├── server.py                     # Main backend server (port 8000)
+├── run_both_servers.py           # Script to run multiple servers
+├── run_servers.bat               # Windows batch file for servers
+├── songs.json                    # Data for music features
+├── sw.js                         # Service worker for PWA features
+├── .gitignore                    # Git ignore file
+├── .env                          # Environment variables (not tracked)
+├── auth/                         # Authentication system
+│   ├── login.html
+│   ├── login.js
+│   └── login.css
+├── assets/                       # Shared assets
+│   ├── css/
+│   │   ├── bootstrap.min.css
+│   │   └── fontawesome.min.css
+│   ├── js/
+│   │   ├── bootstrap.bundle.min.js
+│   │   ├── html2canvas.min.js
+│   │   └── jspdf.umd.min.js
+│   ├── poster/
+│   │   ├── backgrounds/
+│   │   ├── icons/
+│   │   └── templates/
+│   └── webfonts/
+├── certificate-generator/        # Certificate creation tool
+│   ├── certificate.html
+│   ├── certificate.js
+│   ├── certificate.css
+│   ├── export.js
+│   └── templates.json
+├── css/                          # Global styles
+│   ├── style.css
+│   ├── dashboard.css
+│   ├── magazine.css
+│   ├── poster.css
+│   ├── todo.css
+│   ├── ui-effects.css
+│   └── certificate.css
+├── data/                         # Shared data files
+├── event-planner/                # Event planning and management
+│   ├── index.html
+│   ├── README.md
+│   ├── backend/
+│   │   ├── server.py
+│   │   └── __pycache__/
+│   ├── css/
+│   │   ├── style.css
+│   │   └── themes.css
+│   ├── data/
+│   │   ├── events.json
+│   │   └── sample-event.json
+│   ├── js/
+│   │   ├── ai-hooks.js
+│   │   ├── ai.js
+│   │   ├── api-config.js
+│   │   ├── basics.js
+│   │   ├── budget.js
+│   │   ├── export.js
+│   │   ├── planner.js
+│   │   ├── schedule.js
+│   │   ├── tasks.js
+│   │   ├── ui.js
+│   │   └── utils.js
+│   └── tests/
+│       └── integration_test.py
+├── js/                           # Global JavaScript files
+│   ├── dashboard.js
+│   ├── main.js
+│   ├── magazine.js
+│   ├── poster.js
+│   ├── todo_ai.js
+│   ├── todo_calendar.js
+│   ├── todo_focusmode.js
+│   ├── todo_kanban.js
+│   ├── todo_scheduler.js
+│   └── todo.js
+├── magazine/                     # Magazine creation tool
+│   ├── index.html
+│   ├── Mag.html
+│   ├── magazine_animations.css
+│   ├── magazine_themes.css
+│   ├── magazine_UI_components.js
+│   └── magazine.js
+├── mindmap-ai/                   # AI-powered mind mapping
+│   └── frontend/
+│       └── index.html
+├── mood-sense/                   # Mood tracking and wellness
+│   ├── index.html
+│   ├── README.md
+│   ├── activities.js
+│   ├── backend_api.js
+│   ├── chats.js
+│   ├── script.js
+│   ├── server.py
+│   ├── style.css
+│   ├── themes.css
+│   ├── ui.js
+│   └── assets/
+│       ├── activities/
+│       ├── animations/
+│       └── icons/
+├── poster/                       # Poster design tool
+│   ├── index.html (referenced as poster.html)
+├── activity-report-generator/    # Activity report creation
+│   ├── index.html
+│   ├── css/
+│   │   └── style.css
+│   ├── data/
+│   │   └── demo.json
+│   ├── js/
+│   │   ├── ai-hooks.js
+│   │   ├── editor.js
+│   │   └── report.js
+│   └── templates/
+│       ├── academic.html
+│       ├── ai-template.html
+│       ├── corporate.html
+│       ├── grid.html
+│       ├── institutional.html
+│       ├── minimal.html
+│       ├── modern.html
+│       ├── pastel.html
+│       └── timeline.html
+└── __pycache__/                  # Python cache files
 ```
 
 ## 🚀 Installation & Setup
@@ -111,6 +250,7 @@ creative-studio/
 - **Python 3.8+** - Backend server requirements
 - **Modern Web Browser** - Chrome 80+, Firefox 75+, Safari 13+, Edge 80+
 - **Internet Connection** - Required for CDN resources and AI features
+- **Git** - For version control and deployment
 
 ### Quick Start
 
@@ -174,7 +314,123 @@ Then access the Certificate Generator from the main page by clicking "Certificat
 - Manual saves to `certificate_current`
 - Supports image data as base64 strings
 
-### Poster & Magazine Maker (`poster.html`)
+### Event Planner (`event-planner/index.html`)
+
+**Main Features:**
+- Event creation with detailed planning (title, description, dates, location)
+- Budget management with expense tracking and cost analysis
+- Task management for event organization
+- Vendor management and contact information
+- Schedule planning with timeline visualization
+- AI-powered suggestions for event planning
+
+**Key Functions:**
+- `createEvent()` - Initialize new event with basic details
+- `addBudgetItem()` - Add expenses and track budget
+- `manageTasks()` - Create and organize event tasks
+- `addVendor()` - Store vendor contact information
+- `generateSchedule()` - Create event timeline
+- `exportEventData()` - Export event details as JSON/PDF
+
+**Backend Integration:**
+- Dedicated server at `event-planner/backend/server.py`
+- RESTful API for data persistence
+- AI hooks for intelligent suggestions
+
+### Activity Report Generator (`activity-report-generator/index.html`)
+
+**Main Features:**
+- Multiple report templates (Academic, Corporate, Institutional, etc.)
+- AI-powered content generation and suggestions
+- Rich text editor with formatting options
+- Template customization and theme selection
+- Export capabilities (PDF, Word, HTML)
+- Data visualization for activity metrics
+
+**Key Functions:**
+- `selectTemplate()` - Choose from predefined templates
+- `generateContent()` - AI-assisted content creation
+- `customizeTheme()` - Apply different visual themes
+- `addCharts()` - Insert data visualizations
+- `exportReport()` - Generate final report in multiple formats
+
+**Templates Available:**
+- Academic, AI-Template, Corporate, Grid, Institutional
+- Minimal, Modern, Pastel, Timeline, Vibrant
+
+### MoodSense+ (`mood-sense/index.html`)
+
+**Main Features:**
+- Daily mood tracking with visual indicators
+- Wellness activities and guided exercises
+- AI-powered mood analysis and insights
+- Chat interface for emotional support
+- Activity recommendations based on mood
+- Progress tracking and statistics
+
+**Key Functions:**
+- `trackMood()` - Record daily mood with notes
+- `startActivity()` - Launch wellness activities
+- `analyzeMood()` - AI analysis of mood patterns
+- `chatSupport()` - Interactive emotional support
+- `viewProgress()` - Display mood trends and insights
+
+**Backend Features:**
+- Dedicated server for data processing
+- AI integration for mood analysis
+- Activity database with guided content
+
+### Magazine Creator (`magazine/index.html`)
+
+**Main Features:**
+- Interactive magazine design with multiple layouts
+- Animation effects and transitions
+- Theme customization with CSS variables
+- Component-based UI elements
+- Responsive design for different screen sizes
+- Export functionality for web and print
+
+**Key Functions:**
+- `createPage()` - Add new magazine pages
+- `applyTheme()` - Switch between visual themes
+- `addAnimation()` - Apply CSS animations
+- `customizeLayout()` - Modify page layouts
+- `exportMagazine()` - Generate final magazine
+
+**Themes Available:**
+- Magazine themes with custom animations
+- UI components library
+- Responsive breakpoints
+
+### MindMap AI (`mindmap-ai/frontend/index.html`)
+
+**Main Features:**
+- Visual mind mapping with drag-and-drop interface
+- AI-powered node generation and suggestions
+- Node connections and relationship mapping
+- Export capabilities (PNG, PDF, JSON)
+- Collaborative features for shared mapping
+
+**Key Functions:**
+- `createNode()` - Add new nodes to the mind map
+- `connectNodes()` - Create relationships between nodes
+- `generateSuggestions()` - AI-powered content suggestions
+- `exportMap()` - Export mind map in various formats
+
+### Authentication System (`auth/login.html`)
+
+**Main Features:**
+- User login and registration
+- Session management
+- Secure password handling
+- User profile management
+- Access control for different tools
+
+**Key Functions:**
+- `loginUser()` - Authenticate user credentials
+- `registerUser()` - Create new user accounts
+- `manageSession()` - Handle user sessions
+- `updateProfile()` - Modify user information
 
 **Main Features:**
 - Canvas size presets (Instagram 1080x1080, A4, A3, Facebook, Twitter, Custom)
@@ -442,10 +698,4 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 **Built with ❤️ for creators, designers, and productivity enthusiasts.**
 
-*Last updated: December 2024*#   C S 
- 
- #   C S 
- 
- #   C S 
- 
- 
+*Last updated: December 2025*
