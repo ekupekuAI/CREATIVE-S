@@ -1,0 +1,50 @@
+{
+  "reportMeta": {
+    "title": "Annual Technical Symposium 2025",
+    "organization": "EduCare Institute of Technology",
+    "department": "Department of Computer Science and Engineering",
+    "logo": "../assets/logos/default.png",
+    "date": "2025-03-12",
+    "venue": "Main Auditorium, EIT Campus"
+  },
+  "overview": {
+    "objective": "To provide students with a platform to exhibit technical skills and creativity through project presentations, hackathons, and workshops.",
+    "summary": "The Annual Technical Symposium 2025 witnessed participation from over 300 students across 5 branches. The event included coding contests, AI project showcases, and expert lectures from industry professionals."
+  },
+  "participants": [
+    { "name": "Riya Sharma", "branch": "CSE", "role": "Student Coordinator" },
+    { "name": "Arjun Patel", "branch": "ECE", "role": "Participant" },
+    { "name": "Sneha Iyer", "branch": "MECH", "role": "Volunteer" },
+    { "name": "Rahul Das", "branch": "IT", "role": "Presenter" },
+    { "name": "Priya Nair", "branch": "EEE", "role": "Judge Assistant" }
+  ],
+  "activities": [
+    {
+      "title": "AI Innovation Challenge",
+      "date": "2025-03-10",
+      "description": "Teams built AI models addressing real-world problems. The top 3 teams were awarded certificates and prizes."
+    },
+    {
+      "title": "Coding Marathon",
+      "date": "2025-03-11",
+      "description": "A 6-hour coding contest promoting efficient algorithms and creative problem solving."
+    },
+    {
+      "title": "Tech Expo",
+      "date": "2025-03-12",
+      "description": "Students exhibited hardware and IoT-based innovations to industry visitors."
+    }
+  ],
+  "statistics": {
+    "totalEvents": 3,
+    "totalParticipants": 312,
+    "branchesRepresented": 5,
+    "projectsDisplayed": 42,
+    "guestSpeakers": 4
+  },
+  "remarks": {
+    "facultyCoordinator": "Prof. S. Meena",
+    "principalRemark": "An inspiring display of innovation and teamwork by the students. Encourages continued interdisciplinary engagement.",
+    "closingNote": "Certificates were distributed to winners and volunteers. The event concluded with a vote of thanks."
+  }
+}

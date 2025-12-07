@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoodSense+</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="mood-neutral">
+    <header class="fixed-header">
+        <div class="header-content">
+            <i class="fas fa-brain"></i>
+            <h1>MoodSense+</h1>
+            <span>AI-Powered Mood Analysis & Wellness</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="glass-card input-card fade-in">
+            <h2><i class="fas fa-edit"></i> Share Your Feelings</h2>
+            <textarea id="inputText" placeholder="How are you feeling today? Describe your mood..."></textarea>
+            <div class="controls">
+                <select id="targetEmotion">
+                    <option value="">Auto Detect Mood</option>
+                    <option value="happy">😊 Happy</option>
+                    <option value="sad">😢 Sad</option>
+                    <option value="angry">😠 Angry</option>
+                    <option value="neutral">😐 Neutral</option>
+                    <option value="excited">🤩 Excited</option>
+                    <option value="tired">😴 Tired</option>
+                    <option value="lonely">😔 Lonely</option>
+                    <option value="depressed">💔 Depressed (Extreme Mode)</option>
+                </select>
+                <button id="rewriteBtn" class="glow-btn">
+                    <i class="fas fa-magic"></i> Analyze Mood
+                </button>
+            </div>
+        </div>
+
+        <div id="outputContainer" class="glass-card output-card hidden fade-in">
+            <h2><i class="fas fa-brain"></i> Mood Analysis Results</h2>
+            <div id="moodResult" class="mood-summary"></div>
+            <div id="rewrittenText" class="rewritten-text"></div>
+        </div>
+
+        <div id="moodDetails" class="glass-card mood-details-card hidden fade-in">
+            <h2><i class="fas fa-chart-pie"></i> Detailed Mood Analysis</h2>
+            <div id="emotionBreakdown"></div>
+        </div>
+
+        <div id="suggestionBox" class="glass-card suggestions-card hidden fade-in">
+            <h2><i class="fas fa-lightbulb"></i> Personalized Suggestions</h2>
+            
+            <div class="section">
+                <h3><i class="fas fa-music"></i> Music Recommendations</h3>
+                <select id="songLanguage">
+                    <option value="">Choose Language</option>
+                    <option value="english">🇺🇸 English</option>
+                    <option value="hindi">🇮🇳 Hindi</option>
+                    <option value="telugu">🇮🇳 Telugu</option>
+                    <option value="tamil">🇮🇳 Tamil</option>
+                    <option value="kannada">🇮🇳 Kannada</option>
+                    <option value="malayalam">🇮🇳 Malayalam</option>
+                    <option value="punjabi">🇮🇳 Punjabi</option>
+                </select>
+                <button id="songBtn" class="secondary-btn">
+                    <i class="fas fa-play"></i> Get Songs
+                </button>
+                <ul id="songList" class="animated-list"></ul>
+            </div>
+
+            <div class="section">
+                <h3><i class="fas fa-running"></i> Activities to Try</h3>
+                <ul id="activityList" class="animated-list"></ul>
+            </div>
+
+            <div class="section">
+                <h3><i class="fas fa-om"></i> Quick Meditation</h3>
+                <button id="meditationBtn" class="secondary-btn">
+                    <i class="fas fa-peace"></i> Start 2-Min Meditation
+                </button>
+                <div id="meditationGuide" class="meditation-guide hidden">
+                    <p>Close your eyes, take a deep breath in... hold... and exhale slowly.</p>
+                    <p>Focus on your breath. Let thoughts pass like clouds.</p>
+                    <div class="breathing-circle"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3><i class="fas fa-quote-left"></i> Mood Affirmation</h3>
+                <div id="affirmation" class="affirmation">
+                    <p id="affirmationText">Loading affirmation...</p>
+                </div>
+                <button id="newAffirmationBtn" class="secondary-btn">
+                    <i class="fas fa-refresh"></i> New Affirmation
+                </button>
+            </div>
+
+            <div id="extremeMode" class="extreme-notice hidden">
+                <div class="extreme-content">
+                    <i class="fas fa-heart-broken"></i>
+                    <h3>We're Here For You</h3>
+                    <p>Remember, you're not alone. Consider reaching out to a professional.</p>
+                    <a href="https://www.samaritans.org/" target="_blank" rel="noopener" class="safety-link">
+                        <i class="fas fa-external-link-alt"></i> Get Support
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

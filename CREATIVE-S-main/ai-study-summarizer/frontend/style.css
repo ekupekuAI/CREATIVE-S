@@ -1,0 +1,479 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.5s ease;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Fixed Header */
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 1000;
+    padding: 15px 0;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.header-content i {
+    font-size: 2rem;
+    color: #00c6ff;
+}
+
+.header-content h1 {
+    font-size: 1.8rem;
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.header-content span {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 100px auto 40px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.glass-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.glass-card h2 i {
+    color: #00c6ff;
+}
+
+/* Input Card */
+.input-card textarea {
+    width: 100%;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    font-size: 1rem;
+    color: inherit;
+    resize: none;
+    transition: all 0.3s ease;
+}
+
+.input-card textarea:focus {
+    outline: none;
+    border-color: #00c6ff;
+    box-shadow: 0 0 20px rgba(0, 198, 255, 0.3);
+}
+
+.controls {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.controls select {
+    flex: 1;
+    min-width: 200px;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    color: inherit;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.controls select:focus {
+    outline: none;
+    border-color: #00c6ff;
+    box-shadow: 0 0 20px rgba(0, 198, 255, 0.3);
+}
+
+.glow-btn {
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0, 198, 255, 0.3);
+}
+
+.glow-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 198, 255, 0.5);
+}
+
+.secondary-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: inherit;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 12px 25px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.02);
+}
+
+/* Output Card */
+.output-card {
+    text-align: left;
+}
+
+#moodResult {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    padding: 15px;
+    background: rgba(0, 198, 255, 0.1);
+    border-radius: 10px;
+    border-left: 4px solid #00c6ff;
+}
+
+#rewrittenText {
+    font-style: italic;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+/* Suggestions Card */
+.suggestions-card .section {
+    margin-bottom: 30px;
+}
+
+.suggestions-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.suggestions-card h3 i {
+    color: #00c6ff;
+}
+
+.animated-list {
+    list-style: none;
+    padding: 0;
+}
+
+.animated-list li {
+    background: rgba(255, 255, 255, 0.1);
+    margin: 10px 0;
+    padding: 15px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideIn 0.5s ease forwards;
+}
+
+.animated-list li:nth-child(1) { animation-delay: 0.1s; }
+.animated-list li:nth-child(2) { animation-delay: 0.2s; }
+.animated-list li:nth-child(3) { animation-delay: 0.3s; }
+.animated-list li:nth-child(4) { animation-delay: 0.4s; }
+.animated-list li:nth-child(5) { animation-delay: 0.5s; }
+.animated-list li:nth-child(6) { animation-delay: 0.6s; }
+
+.animated-list li:hover {
+    transform: translateX(10px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.animated-list li i {
+    color: #00c6ff;
+    font-size: 1.2rem;
+}
+
+/* Extreme Mode */
+.extreme-notice {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    margin-top: 20px;
+    animation: pulse 2s infinite;
+}
+
+.extreme-content i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.extreme-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.extreme-content p {
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.safety-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.safety-link:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+/* Mood Details Card */
+.mood-details-card {
+    order: 1;
+}
+
+.emotion-item {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.emotion-label {
+    flex: 1;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.emotion-bar {
+    flex: 3;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    margin: 0 15px;
+    overflow: hidden;
+}
+
+.emotion-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    border-radius: 4px;
+    transition: width 1s ease;
+}
+
+.emotion-score {
+    flex: 0 0 60px;
+    text-align: right;
+    font-weight: 600;
+}
+
+.mood-sad {
+    background: linear-gradient(135deg, #1b1f3a, #4a5568);
+    color: #9bb1ff;
+}
+
+.mood-sad .glow-btn {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.mood-angry {
+    background: linear-gradient(135deg, #3b0000, #8b0000);
+    color: #ff7070;
+}
+
+.mood-angry .glow-btn {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    box-shadow: 0 4px 15px rgba(255, 65, 108, 0.3);
+}
+
+.mood-excited {
+    background: linear-gradient(135deg, #ff62e5, #ff8fa3);
+    color: white;
+}
+
+.mood-excited .glow-btn {
+    background: linear-gradient(45deg, #ff0080, #ff8c00);
+    box-shadow: 0 4px 15px rgba(255, 0, 128, 0.3);
+}
+
+.mood-tired {
+    background: linear-gradient(135deg, #2e2e2e, #5a5a5a);
+    color: #c7c7c7;
+}
+
+.mood-tired .glow-btn {
+    background: linear-gradient(45deg, #434343, #000000);
+    box-shadow: 0 4px 15px rgba(67, 67, 67, 0.3);
+}
+
+.mood-lonely {
+    background: linear-gradient(135deg, #2a1f3f, #5c4d7d);
+    color: #c9aaff;
+}
+
+.mood-lonely .glow-btn {
+    background: linear-gradient(45deg, #a855f7, #7c3aed);
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+}
+
+.mood-depressed {
+    background: linear-gradient(135deg, #3a0000, #8b0000);
+    color: #ffb3b3;
+}
+
+.mood-depressed .glass-card {
+    border-color: rgba(255, 179, 179, 0.5);
+    box-shadow: 0 8px 32px rgba(255, 0, 0, 0.2);
+}
+
+.mood-depressed .glow-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.mood-neutral {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: white;
+}
+
+/* Animations */
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+.fade-in {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Breathing Animation for High Intensity */
+@keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+}
+
+.intensity-high .glass-card {
+    animation: breathe 4s ease-in-out infinite;
+}
+
+.intensity-high .glow-btn {
+    animation: pulse 2s infinite;
+}
+
+/* Meditation Guide */
+.meditation-guide {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    margin-top: 15px;
+}
+
+.breathing-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    margin: 20px auto;
+    animation: breathe 4s ease-in-out infinite;
+}
+
+/* Affirmation */
+.affirmation {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    margin-top: 15px;
+    text-align: center;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: #00c6ff;
+}

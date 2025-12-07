@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Event Architect - Premium Event Planning</title>
+
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body class="theme-neon">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h3>AI Event Architect</h3>
+            <p>Initializing your premium event planning experience...</p>
+        </div>
+    </div>
+
+    <!-- Main Application Container -->
+    <div id="app" class="app-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-sparkles"></i>
+                    <span>AI Event Architect</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-panel="dashboard">
+                            <div class="nav-icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-panel="ai-planner">
+                            <div class="nav-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <span class="nav-text">AI Planner</span>
+                            <div class="nav-badge">NEW</div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-panel="basics">
+                            <div class="nav-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <span class="nav-text">Event Basics</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-panel="budget">
+                            <div class="nav-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <span class="nav-text">Budget</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-panel="schedule">
+                            <div class="nav-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <span class="nav-text">Schedule</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-panel="tasks">
+                            <div class="nav-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <span class="nav-text">Tasks</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-panel="vendors">
+                            <div class="nav-icon">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <span class="nav-text">Vendors</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-panel="export">
+                            <div class="nav-icon">
+                                <i class="fas fa-file-export"></i>
+                            </div>
+                            <span class="nav-text">Export</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-status">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name">Event Planner</div>
+                        <div class="user-role">Premium User</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="breadcrumb">
+                        <span class="breadcrumb-item">AI Event Architect</span>
+                        <span class="breadcrumb-separator">/</span>
+                        <span class="breadcrumb-item active" id="current-panel-title">Dashboard</span>
+                    </div>
+                </div>
+
+                <div class="topbar-center">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search events, tasks, vendors..." id="global-search">
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <button class="topbar-btn" id="ai-quick-action" title="AI Quick Action">
+                        <i class="fas fa-magic"></i>
+                    </button>
+
+                    <div class="theme-selector">
+                        <button class="theme-btn active" data-theme="neon">
+                            <i class="fas fa-sun"></i>
+                        </button>
+                        <button class="theme-btn" data-theme="pastel">
+                            <i class="fas fa-palette"></i>
+                        </button>
+                        <button class="theme-btn" data-theme="midnight">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <button class="theme-btn" data-theme="gold">
+                            <i class="fas fa-crown"></i>
+                        </button>
+                    </div>
+
+                    <button class="topbar-btn" id="notifications-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+
+                    <div class="user-menu">
+                        <button class="user-menu-btn">
+                            <div class="user-avatar-small">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </button>
+                        <div class="user-menu-dropdown">
+                            <a href="#" class="user-menu-item">
+                                <i class="fas fa-user"></i> Profile
+                            </a>
+                            <a href="#" class="user-menu-item">
+                                <i class="fas fa-cog"></i> Settings
+                            </a>
+                            <a href="#" class="user-menu-item">
+                                <i class="fas fa-question-circle"></i> Help
+                            </a>
+                            <div class="user-menu-divider"></div>
+                            <a href="#" class="user-menu-item">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Canvas -->
+            <div class="content-canvas">
+                <!-- Dashboard Panel -->
+                <section id="dashboard-panel" class="panel active">
+                    <div class="panel-header">
+                        <h1 class="panel-title">Event Dashboard</h1>
+                        <p class="panel-subtitle">Welcome to your AI-powered event planning hub</p>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card welcome-card">
+                            <div class="card-icon">
+                                <i class="fas fa-sparkles"></i>
+                            </div>
+                            <div class="card-content">
+                                <h3>Get Started with AI</h3>
+                                <p>Describe your event idea and let AI create a complete plan for you</p>
+                                <button class="btn btn-primary btn-lg" data-panel="ai-planner">
+                                    <i class="fas fa-rocket"></i> Start AI Planning
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card stats-card">
+                            <div class="card-header">
+                                <h4>Planning Progress</h4>
+                            </div>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-number" id="stats-basics">0%</div>
+                                    <div class="stat-label">Basics</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="stats-budget">0%</div>
+                                    <div class="stat-label">Budget</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="stats-schedule">0%</div>
+                                    <div class="stat-label">Schedule</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="stats-tasks">0%</div>
+                                    <div class="stat-label">Tasks</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="stats-vendors">0%</div>
+                                    <div class="stat-label">Vendors</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card quick-actions">
+                            <div class="card-header">
+                                <h4>Quick Actions</h4>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="action-btn" data-panel="basics">
+                                    <i class="fas fa-plus"></i> Add Event Details
+                                </button>
+                                <button class="action-btn" data-panel="budget">
+                                    <i class="fas fa-calculator"></i> Create Budget
+                                </button>
+                                <button class="action-btn" data-panel="schedule">
+                                    <i class="fas fa-calendar-plus"></i> Plan Schedule
+                                </button>
+                                <button class="action-btn" data-panel="export">
+                                    <i class="fas fa-file-export"></i> Export Report
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card recent-activity">
+                            <div class="card-header">
+                                <h4>Recent Activity</h4>
+                            </div>
+                            <div class="activity-list" id="recent-activity">
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Welcome to AI Event Architect</div>
+                                        <div class="activity-time">Just now</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- AI Planner Panel -->
+                <section id="ai-planner-panel" class="panel">
+                    <div class="panel-header">
+                        <h1 class="panel-title">AI Assisted Planner</h1>
+                        <p class="panel-subtitle">Describe your event and let AI create a complete plan</p>
+                    </div>
+
+                    <div class="ai-planner-container">
+                        <div class="ai-chat-interface">
+                            <div class="chat-messages" id="ai-chat-messages">
+                                <div class="message ai-message">
+                                    <div class="message-avatar">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="message-content">
+                                        <div class="message-text">
+                                            Hello! I'm your AI Event Architect. Describe your event idea, and I'll help you plan it perfectly. What kind of event are you thinking of?
+                                        </div>
+                                        <div class="message-time">Now</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="chat-input-area">
+                                <div class="chat-input-container">
+                                    <textarea
+                                        id="ai-input"
+                                        class="chat-input"
+                                        placeholder="Describe your event idea... e.g., 'I want to plan a wedding for 150 guests in June with a $50k budget'"
+                                        rows="3"></textarea>
+                                    <button class="btn btn-primary chat-send-btn" id="ai-send-btn">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                                <div class="chat-actions">
+                                    <button class="btn btn-outline-secondary" id="ai-clear-chat">
+                                        <i class="fas fa-trash"></i> Clear Chat
+                                    </button>
+                                    <button class="btn btn-success" id="ai-generate-plan">
+                                        <i class="fas fa-magic"></i> Generate Complete Plan
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ai-progress-sidebar">
+                            <div class="progress-header">
+                                <h4>Planning Progress</h4>
+                            </div>
+                            <div class="progress-steps">
+                                <div class="progress-step active" data-step="idea">
+                                    <div class="step-icon">
+                                        <i class="fas fa-lightbulb"></i>
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="step-title">Event Idea</div>
+                                        <div class="step-desc">Describe your vision</div>
+                                    </div>
+                                </div>
+                                <div class="progress-step" data-step="questions">
+                                    <div class="step-icon">
+                                        <i class="fas fa-question-circle"></i>
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="step-title">Refine Details</div>
+                                        <div class="step-desc">Answer follow-up questions</div>
+                                    </div>
+                                </div>
+                                <div class="progress-step" data-step="generate">
+                                    <div class="step-icon">
+                                        <i class="fas fa-cogs"></i>
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="step-title">Generate Plan</div>
+                                        <div class="step-desc">Create schedule, budget, vendors</div>
+                                    </div>
+                                </div>
+                                <div class="progress-step" data-step="review">
+                                    <div class="step-icon">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="step-title">Review & Edit</div>
+                                        <div class="step-desc">Customize your plan</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Event Basics Panel -->
+                <section id="basics-panel" class="panel">
+                    <div class="panel-header">
+                        <h1 class="panel-title">Event Basics</h1>
+                        <p class="panel-subtitle">Define the fundamental details of your event</p>
+                    </div>
+                    <div id="basics-content" class="panel-content">
+                        <!-- Basics content will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Budget Panel -->
+                <section id="budget-panel" class="panel">
+                    <div class="panel-header">
+                        <h1 class="panel-title">Budget Management</h1>
+                        <p class="panel-subtitle">Track and manage your event expenses</p>
+                    </div>
+                    <div id="budget-content" class="panel-content">
+                        <!-- Budget content will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Schedule Panel -->
+                <section id="schedule-panel" class="panel">
+                    <div class="panel-header">
+                        <h1 class="panel-title">Event Schedule</h1>
+                        <p class="panel-subtitle">Plan and organize your event timeline</p>
+                    </div>
+                    <div id="schedule-content" class="panel-content">
+                        <!-- Schedule content will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Tasks Panel -->
+                <section id="tasks-panel" class="panel">
+                    <div class="panel-header">
+                        <h1 class="panel-title">Task Management</h1>
+                        <p class="panel-subtitle">Track your planning tasks and progress</p>
+                    </div>
+                    <div id="tasks-content" class="panel-content">
+                        <!-- Tasks content will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Vendors Panel -->
+                <section id="vendors-panel" class="panel">
+                    <div class="panel-header">
+                        <h1 class="panel-title">Vendor Management</h1>
+                        <p class="panel-subtitle">Find and manage your event vendors</p>
+                    </div>
+                    <div id="vendors-content" class="panel-content">
+                        <!-- Vendors content will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Export Panel -->
+                <section id="export-panel" class="panel">
+                    <div class="panel-header">
+                        <h1 class="panel-title">Export & Reports</h1>
+                        <p class="panel-subtitle">Generate professional reports and exports</p>
+                    </div>
+                    <div id="export-content" class="panel-content">
+                        <!-- Export content will be loaded here -->
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal fade" id="helpModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-question-circle me-2"></i>Help & Getting Started
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="help-content">
+                        <div class="help-section">
+                            <h6>🎯 Getting Started</h6>
+                            <p>Start by describing your event idea in the AI Planner. The AI will guide you through creating a complete event plan.</p>
+                        </div>
+                        <div class="help-section">
+                            <h6>🤖 AI Features</h6>
+                            <ul>
+                                <li><strong>Smart Analysis:</strong> Extracts event details from your description</li>
+                                <li><strong>Follow-up Questions:</strong> Asks for missing information</li>
+                                <li><strong>Auto-Generation:</strong> Creates budget, schedule, vendor lists</li>
+                            </ul>
+                        </div>
+                        <div class="help-section">
+                            <h6>📱 Navigation</h6>
+                            <ul>
+                                <li><strong>Sidebar:</strong> Click to switch between panels</li>
+                                <li><strong>Search:</strong> Find anything in your event data</li>
+                                <li><strong>Themes:</strong> Switch between Neon, Pastel, Midnight, Gold</li>
+                            </ul>
+                        </div>
+                        <div class="help-section">
+                            <h6>⌨️ Keyboard Shortcuts</h6>
+                            <ul>
+                                <li><strong>Alt + 1-7:</strong> Jump to panels</li>
+                                <li><strong>Ctrl + S:</strong> Save changes</li>
+                                <li><strong>Escape:</strong> Return to dashboard</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Details Modal -->
+    <div class="modal fade" id="eventDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-calendar-alt me-2"></i>Event Report: <span id="event-title"></span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="event-report-tabs">
+                        <ul class="nav nav-tabs" id="eventReportTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="basics-tab" data-bs-toggle="tab" data-bs-target="#basics-report" type="button" role="tab">Basics</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="budget-tab" data-bs-toggle="tab" data-bs-target="#budget-report" type="button" role="tab">Budget</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="schedule-tab" data-bs-toggle="tab" data-bs-target="#schedule-report" type="button" role="tab">Schedule</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="tasks-tab" data-bs-toggle="tab" data-bs-target="#tasks-report" type="button" role="tab">Tasks</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="vendors-tab" data-bs-toggle="tab" data-bs-target="#vendors-report" type="button" role="tab">Vendors</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content mt-3" id="eventReportContent">
+                            <div class="tab-pane fade show active" id="basics-report" role="tabpanel">
+                                <div id="basics-details"></div>
+                            </div>
+                            <div class="tab-pane fade" id="budget-report" role="tabpanel">
+                                <div id="budget-details"></div>
+                            </div>
+                            <div class="tab-pane fade" id="schedule-report" role="tabpanel">
+                                <div id="schedule-details"></div>
+                            </div>
+                            <div class="tab-pane fade" id="tasks-report" role="tabpanel">
+                                <div id="tasks-details"></div>
+                            </div>
+                            <div class="tab-pane fade" id="vendors-report" role="tabpanel">
+                                <div id="vendors-details"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="load-event-btn">Load This Event</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div id="toast-container"></div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- html2canvas & jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- Custom JS Modules -->
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/planner.js"></script>
+    <script type="module" src="js/ui.js"></script>
+    <script type="module" src="js/ai-hooks.js"></script>
+    <script type="module" src="js/basics.js"></script>
+    <script type="module" src="js/budget.js"></script>
+    <script type="module" src="js/schedule.js"></script>
+    <script type="module" src="js/tasks.js"></script>
+    <script type="module" src="js/vendors.js"></script>
+    <script type="module" src="js/export.js"></script>
+
+    <!-- Initialize App -->
+    <script>
+        // Hide loading screen after everything loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loading-screen').style.display = 'none';
+                    document.getElementById('app').style.opacity = '1';
+                }, 500);
+            }, 1000);
+        });
+
+        // Dashboard functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            // Import required modules
+            import('./js/utils.js').then(({ Utils }) => {
+                import('./js/planner.js').then(({ planner }) => {
+                    import('./js/api-config.js').then(({ api }) => {
+                        // Initialize dashboard
+                        updatePlanningProgress();
+                        loadRecentActivity();
+
+                        // Update progress when event data changes
+                        document.addEventListener('eventLoaded', () => {
+                            updatePlanningProgress();
+                        });
+
+                        // Listen for panel changes to update progress
+                        document.addEventListener('panelShown', (e) => {
+                            if (e.detail.panelId === 'dashboard') {
+                                updatePlanningProgress();
+                                loadRecentActivity();
+                            }
+                        });
+
+                        function updatePlanningProgress() {
+                            const basics = planner.eventState.basics;
+                            const budget = planner.eventState.budget;
+                            const schedule = planner.eventState.schedule;
+                            const tasks = planner.eventState.checklist;
+                            const vendors = planner.eventState.vendors;
+
+                            // Calculate completion percentages
+                            const basicsComplete = calculateBasicsProgress(basics);
+                            const budgetComplete = budget.length > 0 ? Math.min(100, (budget.filter(item => item.arranged).length / budget.length) * 100) : 0;
+                            const scheduleComplete = schedule.length > 0 ? Math.min(100, (schedule.filter(item => item.scheduled).length / schedule.length) * 100) : 0;
+                            const tasksComplete = tasks.length > 0 ? Math.min(100, (tasks.filter(t => t.completed).length / tasks.length) * 100) : 0;
+                            const vendorsComplete = vendors.length > 0 ? Math.min(100, (vendors.filter(v => v.status === 'booked').length / vendors.length) * 100) : 0;
+
+                            // Calculate arranged budget percentage
+                            const arrangedAmount = budget
+                                .filter(item => item.arranged)
+                                .reduce((sum, item) => sum + (item.amount || 0), 0);
+                            const totalBudgetAmount = budget.reduce((sum, item) => sum + (item.amount || 0), 0);
+                            const arrangedPercentage = totalBudgetAmount > 0 ? (arrangedAmount / totalBudgetAmount) * 100 : 0;
+
+                            // Update DOM
+                            document.getElementById('stats-basics').textContent = `${Math.round(basicsComplete)}%`;
+                            document.getElementById('stats-budget').textContent = budget.length > 0 ? `${Math.round(budgetComplete)}% (${Math.round(arrangedPercentage)}% arranged)` : '0%';
+                            document.getElementById('stats-schedule').textContent = schedule.length > 0 ? `${Math.round(scheduleComplete)}%` : '0%';
+                            document.getElementById('stats-tasks').textContent = tasks.length > 0 ? `${Math.round(tasksComplete)}%` : '0%';
+                            document.getElementById('stats-vendors').textContent = vendors.length > 0 ? `${Math.round(vendorsComplete)}%` : '0%';
+                        }
+
+                        function calculateBasicsProgress(basics) {
+                            const fields = ['name', 'type', 'attendees', 'date', 'venue', 'budget'];
+                            const filled = fields.filter(field => basics[field] && basics[field].toString().trim() !== '').length;
+                            return (filled / fields.length) * 100;
+                        }
+
+                        async function loadRecentActivity() {
+                            try {
+                                const res = await fetch(api('/events'));
+                                if (!res.ok) throw new Error('Failed to load events');
+                                const events = await res.json();
+
+                                // Sort by updated date, take last 5
+                                const recentEvents = events
+                                    .sort((a, b) => new Date(b.updated_at || b.created_at) - new Date(a.updated_at || a.created_at))
+                                    .slice(0, 5);
+
+                                renderRecentActivity(recentEvents);
+                            } catch (err) {
+                                console.error('loadRecentActivity error', err);
+                                // Show default message
+                                renderRecentActivity([]);
+                            }
+                        }
+
+                        function renderRecentActivity(events) {
+                            const container = document.getElementById('recent-activity');
+                            if (!container) return;
+
+                            if (events.length === 0) {
+                                container.innerHTML = `
+                                    <div class="activity-item">
+                                        <div class="activity-icon">
+                                            <i class="fas fa-info-circle"></i>
+                                        </div>
+                                        <div class="activity-content">
+                                            <div class="activity-title">No events yet</div>
+                                            <div class="activity-time">Start planning your first event!</div>
+                                        </div>
+                                    </div>
+                                `;
+                                return;
+                            }
+
+                            container.innerHTML = events.map(event => `
+                                <div class="activity-item event-activity-item" data-event-id="${event.id}">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">${event.basics?.name || 'Unnamed Event'}</div>
+                                        <div class="activity-time">${formatEventTime(event.updated_at || event.created_at)}</div>
+                                    </div>
+                                    <div class="activity-actions">
+                                        <button class="btn btn-sm btn-outline-primary view-event-btn" data-event-id="${event.id}">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('');
+
+                            // Add event listeners
+                            container.addEventListener('click', (e) => {
+                                const btn = e.target.closest('.view-event-btn');
+                                if (btn) {
+                                    const eventId = btn.getAttribute('data-event-id');
+                                    showEventDetails(eventId);
+                                }
+                            });
+                        }
+
+                        function formatEventTime(dateString) {
+                            const date = new Date(dateString);
+                            const now = new Date();
+                            const diffMs = now - date;
+                            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+                            if (diffDays === 0) return 'Today';
+                            if (diffDays === 1) return 'Yesterday';
+                            if (diffDays < 7) return `${diffDays} days ago`;
+                            return date.toLocaleDateString();
+                        }
+
+                        async function showEventDetails(eventId) {
+                            try {
+                                const event = await planner.loadEventById(eventId);
+                                populateEventModal(event);
+                                const modal = new bootstrap.Modal(document.getElementById('eventDetailsModal'));
+                                modal.show();
+                            } catch (err) {
+                                console.error('showEventDetails error', err);
+                                Utils.showToast('Failed to load event details', 'error');
+                            }
+                        }
+
+                        function populateEventModal(event) {
+                            // Set title
+                            document.getElementById('event-title').textContent = event.basics?.name || 'Unnamed Event';
+
+                            // Basics
+                            const basicsHtml = `
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6>Event Details</h6>
+                                        <p><strong>Type:</strong> ${event.basics?.type || 'N/A'}</p>
+                                        <p><strong>Date:</strong> ${event.basics?.date || 'N/A'}</p>
+                                        <p><strong>Venue:</strong> ${event.basics?.venue || 'N/A'}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6>Attendees & Budget</h6>
+                                        <p><strong>Attendees:</strong> ${event.basics?.attendees || 'N/A'}</p>
+                                        <p><strong>Budget:</strong> $${event.basics?.budget || 'N/A'}</p>
+                                        <p><strong>Description:</strong> ${event.basics?.description || 'N/A'}</p>
+                                    </div>
+                                </div>
+                            `;
+                            document.getElementById('basics-details').innerHTML = basicsHtml;
+
+                            // Budget
+                            const budgetItems = event.components?.budget?.budget_items || [];
+                            const arrangedCount = budgetItems.filter(item => item.arranged).length;
+                            const totalArrangedAmount = budgetItems
+                                .filter(item => item.arranged)
+                                .reduce((sum, item) => sum + (item.amount || 0), 0);
+                            const budgetHtml = budgetItems.length > 0 ? `
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6 class="mb-0">Budget Items</h6>
+                                        <small class="text-muted">${arrangedCount}/${budgetItems.length} arranged ($${totalArrangedAmount.toLocaleString()})</small>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Category</th>
+                                                    <th>Amount</th>
+                                                    <th>Status</th>
+                                                    <th>Notes</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                ${budgetItems.map(item => `
+                                                    <tr class="${item.arranged ? 'table-success' : ''}">
+                                                        <td>${item.category}</td>
+                                                        <td>$${item.amount?.toLocaleString()}</td>
+                                                        <td>
+                                                            <span class="badge ${item.arranged ? 'bg-success' : 'bg-warning'}">
+                                                                ${item.arranged ? 'Arranged' : 'Pending'}
+                                                            </span>
+                                                        </td>
+                                                        <td>${item.notes || ''}</td>
+                                                    </tr>
+                                                `).join('')}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            ` : '<p>No budget data available</p>';
+                            document.getElementById('budget-details').innerHTML = budgetHtml;
+
+                            // Schedule
+                            const scheduleItems = event.components?.schedule?.schedule_items || [];
+                            const scheduleHtml = scheduleItems.length > 0 ? `
+                                <div class="timeline">
+                                    ${scheduleItems.map(item => `
+                                        <div class="timeline-item">
+                                            <h6>${item.title}</h6>
+                                            <p class="mb-1">${item.start_time} - ${item.end_time}</p>
+                                            <p class="mb-0">${item.description}</p>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : '<p>No schedule data available</p>';
+                            document.getElementById('schedule-details').innerHTML = scheduleHtml;
+
+                            // Tasks
+                            const taskItems = event.components?.tasks?.task_list || [];
+                            const tasksHtml = taskItems.length > 0 ? `
+                                <div class="row">
+                                    ${taskItems.map(task => `
+                                        <div class="col-md-6 mb-2">
+                                            <div class="task-item ${task.completed ? 'completed' : ''}">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>${task.title}</span>
+                                                    <span class="badge bg-${task.priority === 'high' ? 'danger' : task.priority === 'medium' ? 'warning' : 'success'}">${task.priority}</span>
+                                                </div>
+                                                <small class="text-muted">${task.category}</small>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : '<p>No tasks data available</p>';
+                            document.getElementById('tasks-details').innerHTML = tasksHtml;
+
+                            // Vendors
+                            const vendorItems = event.components?.vendors?.vendor_recommendations || [];
+                            const vendorsHtml = vendorItems.length > 0 ? `
+                                <div class="row">
+                                    ${vendorItems.map(vendor => `
+                                        <div class="col-md-6 mb-3">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6>${vendor.name}</h6>
+                                                    <p class="mb-1">${vendor.category}</p>
+                                                    <div class="rating">
+                                                        ${'★'.repeat(Math.floor(vendor.rating || 0))}${'☆'.repeat(5 - Math.floor(vendor.rating || 0))}
+                                                        <span class="ms-1">${vendor.rating || 'N/A'}</span>
+                                                    </div>
+                                                    <p class="mb-0"><small>${vendor.contact || ''}</small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : '<p>No vendors data available</p>';
+                            document.getElementById('vendors-details').innerHTML = vendorsHtml;
+
+                            // Set up load event button
+                            document.getElementById('load-event-btn').onclick = () => {
+                                planner.loadEventById(event.id).then(() => {
+                                    // Switch to basics panel
+                                    document.querySelector('[data-panel="basics"]').click();
+                                    bootstrap.Modal.getInstance(document.getElementById('eventDetailsModal')).hide();
+                                    Utils.showToast('Event loaded successfully!', 'success');
+                                });
+                            };
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
