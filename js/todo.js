@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeTaskManager();
 });
 
-function initializeTaskManager() {
-    loadTasks();
+async function initializeTaskManager() {
+    await loadTasks();
     setupEventListeners();
     updateDisplay();
     updateViewTitle();
@@ -111,6 +111,17 @@ function setupEventListeners() {
     window.addEventListener('beforeunload', saveTasks);
 }
 
+// ===== External Integrations =====
+// Expose a safe getter so auxiliary modules (kanban, calendar, AI tools)
+// can read the current task list without direct mutation.
+try {
+    window.getAllTasks = function() {
+        return Array.isArray(tasks) ? tasks.map(t => ({ ...t })) : [];
+    };
+    // Fallback stub to avoid missing function errors
+    window.saveTaskEdit = window.saveTaskEdit || function(){ return true; };
+} catch {}
+
 // ===== Task CRUD Operations =====
 
 function addNewTask(event) {
@@ -159,23 +170,22 @@ function editTask(taskId) {
     if (!task) return;
     
     // Populate edit modal
-    document.getElementById('editTaskId').value = task.id;
-    document.getElementById('editTaskTitle').value = task.title;
-    document.getElementById('editTaskDescription').value = task.description || '';
-    document.getElementById('editTaskDueDate').value = task.dueDate || '';
-    document.getElementById('editTaskPriority').value = task.priority;
-    document.getElementById('editTaskStatus').value = task.status;
-    document.getElementById('editTaskTags').value = task.tags.join(', ');
+    const idEl = document.getElementById('editTaskId'); if(!idEl) return; idEl.value = task.id;
+    const titleEl = document.getElementById('editTaskTitle'); if(!titleEl) return; titleEl.value = task.title || '';
+    const descEl = document.getElementById('editTaskDescription'); if(!descEl) return; descEl.value = task.description || '';
+    const dueEl = document.getElementById('editTaskDueDate'); if(!dueEl) return; dueEl.value = task.dueDate || '';
+    const prioEl = document.getElementById('editTaskPriority'); if(!prioEl) return; prioEl.value = task.priority || 'medium';
+    const statusEl = document.getElementById('editTaskStatus'); if(!statusEl) return; statusEl.value = task.status || 'todo';
+    const tagsEl = document.getElementById('editTaskTags'); if(!tagsEl) return; tagsEl.value = Array.isArray(task.tags) ? task.tags.join(', ') : '';
     
     // Show modal
-    const modal = new bootstrap.Modal(document.getElementById('editTaskModal'));
+    const modalEl = document.getElementById('editTaskModal'); if(!modalEl) return;
+    const modal = new bootstrap.Modal(modalEl);
     modal.show();
     
     // Handle save
-    document.getElementById('saveEditBtn').onclick = function() {
-        saveEditedTask();
-        modal.hide();
-    };
+    const btn = document.getElementById('saveEditBtn'); if(!btn) return;
+    btn.onclick = function() { saveEditedTask(); modal.hide(); };
 }
 
 function saveEditedTask() {
@@ -332,11 +342,13 @@ function getFilteredTasks() {
     
     // Apply search filter
     if (searchTerm) {
-        filteredTasks = filteredTasks.filter(task =>
-            task.title.toLowerCase().includes(searchTerm) ||
-            task.description.toLowerCase().includes(searchTerm) ||
-            task.tags.some(tag => tag.toLowerCase().includes(searchTerm))
-        );
+        filteredTasks = filteredTasks.filter(task => {
+            if (!task) return false;
+            const titleHit = task.title ? String(task.title).toLowerCase().includes(searchTerm) : false;
+            const descHit = task.description ? String(task.description).toLowerCase().includes(searchTerm) : false;
+            const tagsHit = Array.isArray(task.tags) ? task.tags.some(tag => String(tag).toLowerCase().includes(searchTerm)) : false;
+            return titleHit || descHit || tagsHit;
+        });
     }
     
     // Sort tasks
@@ -577,7 +589,7 @@ function selectTask(taskId) {
 
 // ===== Data Management =====
 
-function saveTasks() {
+async function saveTasks() {
     const data = {
         tasks: tasks,
         filters: { current: currentFilter, priority: priorityFilters },
@@ -588,21 +600,22 @@ function saveTasks() {
     if (window.CreativeStudio) {
         window.CreativeStudio.saveToStorage('tasks_data', data);
     } else {
-        localStorage.setItem('tasks_data', JSON.stringify(data));
+        await window.AppStorage.save('todo/tasks', data);
     }
 }
 
-function loadTasks() {
+async function loadTasks() {
     let data = null;
-    
-    if (window.CreativeStudio) {
+    // Prefer AppStorage Firestore-first path
+    try {
+        data = await window.AppStorage.load('todo/tasks');
+    } catch {}
+    // Fallback to older localStorage key if present
+    if (!data && window.CreativeStudio) {
         data = window.CreativeStudio.loadFromStorage('tasks_data');
-    } else {
-        try {
-            data = JSON.parse(localStorage.getItem('tasks_data'));
-        } catch (e) {
-            console.error('Error loading tasks:', e);
-        }
+    }
+    if (!data) {
+        try { data = JSON.parse(localStorage.getItem('tasks_data')); } catch (e) { console.error('Error loading tasks:', e); }
     }
     
     if (data) {

@@ -15,6 +15,22 @@
 <body class="theme-cyber">
   <div class="bg-aurora"></div>
   <div class="bg-grid"></div>
+    <script>
+    window.AppStorage = window.AppStorage || {
+      async save(key, value) {
+        try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+      },
+      async load(key, def=null) {
+        try { 
+          const v = localStorage.getItem(key);
+          return v ? JSON.parse(v) : def;
+        } catch(e) { return def; }
+      },
+      async remove(key) {
+        try { localStorage.removeItem(key); } catch(e) {}
+      }
+    };
+    </script>
   <header class="top-bar glass">
     <div class="brand-mark">
       <div class="orb pulse"></div>
@@ -306,6 +322,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script type="module" src="../js/appStorage.js"></script>
   <script src="./magazine.js"></script>
   <script src="./magazine_UI_components.js"></script>
 </body>

@@ -473,6 +473,22 @@
 
 <body>
   <div class='container'>
+    <script>
+    window.AppStorage = window.AppStorage || {
+      async save(key, value) {
+        try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+      },
+      async load(key, def=null) {
+        try { 
+          const v = localStorage.getItem(key);
+          return v ? JSON.parse(v) : def;
+        } catch(e) { return def; }
+      },
+      async remove(key) {
+        try { localStorage.removeItem(key); } catch(e) {}
+      }
+    };
+    </script>
     <div class='header'>
       <h1> AI MindGraph Pro</h1>
       <p class='subtitle'>Transform your text into stunning visual insights with advanced AI</p>
@@ -819,7 +835,7 @@
 
     try {
       // First, classify the text to get recommended mode
-      const classifyResponse = await fetch('http://localhost:8000/api/mindmap/classify', {
+      const classifyResponse = await fetch('/api/mindmap/classify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text })
@@ -843,7 +859,7 @@
 
       if (selectedMode === 'summary') {
         // Get structured summary from backend
-        const summaryResponse = await fetch('http://localhost:8000/api/mindmap/summarize', {
+        const summaryResponse = await fetch('/api/mindmap/summarize', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text })
@@ -853,7 +869,7 @@
         data = await summaryResponse.json();
       } else {
         // Send to backend for other modes
-        const response = await fetch('http://localhost:8000/api/mindmap/analyze', {
+        const response = await fetch('/api/mindmap/analyze', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

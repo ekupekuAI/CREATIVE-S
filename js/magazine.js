@@ -198,12 +198,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // State persistence
   const state = loadState() || { selectedTemplate: 'classic', lastDesign: null };
-  function saveState() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {} }
-  function loadState() { try { const raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : null; } catch(e) { return null; } }
+  async function saveState() { try { await window.AppStorage.save('magazine/state', state); } catch (e) {} }
+  function loadState() { try { const raw = localStorage.getItem('magazine_state'); return raw ? JSON.parse(raw) : null; } catch(e) { return null; } }
 
   // Save/Load design (basic JSON of content + selected template)
   function exportDesignState() { const s = { template: state.selectedTemplate, content: { magTitle: document.getElementById('magTitle').value, magIssue: document.getElementById('magIssue').value, articleType: document.getElementById('articleType').value, rawData: document.getElementById('rawData').value } }; return s; }
-  function saveDesignLocal() { try { const s = exportDesignState(); localStorage.setItem('magazine_design', JSON.stringify(s)); alert('Design saved locally'); } catch(e) { alert('Save failed'); } }
+  async function saveDesignLocal() { try { const s = exportDesignState(); await window.AppStorage.save('magazine/design', s); alert('Design saved locally'); } catch(e) { alert('Save failed'); } }
   function loadDesignLocal() { try { const raw = localStorage.getItem('magazine_design'); if (!raw) { alert('No saved design'); return; } const s = JSON.parse(raw); document.getElementById('magTitle').value = s.content.magTitle || ''; document.getElementById('magIssue').value = s.content.magIssue || ''; document.getElementById('articleType').value = s.content.articleType || ''; document.getElementById('rawData').value = s.content.rawData || ''; applyTemplate(s.template || 'classic'); alert('Design loaded'); } catch(e) { alert('Load failed'); } }
 
   renderTemplateGrid();
@@ -314,7 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (outputEl) outputEl.innerHTML = '<div class="spinner-border spinner-border-sm text-primary" role="status"></div> Generating...';
 
       try {
-        const response = await fetch('http://localhost:8000/api/magazine/generate', {
+        const response = await fetch('/api/magazine/generate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData)

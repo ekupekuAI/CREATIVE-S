@@ -1,1 +1,26 @@
 .env
+.env*
+*.env.local
+secrets.*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Node/Frontend
+node_modules/
+dist/
+*.log
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+coverage/

@@ -21,32 +21,43 @@ export class EventPlanner {
             aiInsights: {}
         };
         this.currentEventId = null;
-        this.loadState();
         this.setupAutoSave();
-        // If a currentEventId was saved previously, try to load it
-        this.loadCurrentEventIfNeeded();
+        this.initAsync();
     }
 
-    loadState() {
-        const saved = Utils.loadFromLocalStorage('eventPlannerState');
+    async initAsync() {
+        await this.loadState();
+        // If a currentEventId was saved previously, try to load it
+        await this.loadCurrentEventIfNeeded();
+    }
+
+    async loadState() {
+        const saved = await Utils.loadFromLocalStorage('eventPlannerState');
         if (saved) {
             this.eventState = { ...this.eventState, ...saved };
         }
     }
 
-    saveState() {
-        Utils.saveToLocalStorage('eventPlannerState', this.eventState);
+    async saveState() {
+        await Utils.saveToLocalStorage('eventPlannerState', this.eventState);
         Utils.showToast('Event saved successfully!', 'success');
     }
 
-    setCurrentEventId(id) {
+    async setCurrentEventId(id) {
         this.currentEventId = id;
-        Utils.saveToLocalStorage('currentEventId', id);
+        await Utils.saveToLocalStorage('currentEventId', id);
     }
 
     async loadEventById(id) {
         try {
-            const res = await fetch(api(`/events/${id}`));
+            const resolvedId = await Promise.resolve(id);
+            if (!resolvedId) {
+                throw new Error('Invalid event identifier');
+            }
+
+            const eventId = typeof resolvedId === 'string' ? resolvedId : String(resolvedId);
+
+            const res = await fetch(api(`/events/${encodeURIComponent(eventId)}`));
             if (!res.ok) throw new Error('Failed to load event');
             const data = await res.json();
             // Apply basics
@@ -73,10 +84,10 @@ export class EventPlanner {
                     data.components.vendors.vendor_recommendations.forEach(v => this.addVendor(v));
                 }
             }
-            this.setCurrentEventId(id);
+            await this.setCurrentEventId(eventId);
             Utils.showToast('Event loaded from server', 'success');
             // Notify UI that an event was loaded so panels can re-render
-            const evt = new CustomEvent('eventLoaded', { detail: { id } });
+            const evt = new CustomEvent('eventLoaded', { detail: { id: eventId } });
             document.dispatchEvent(evt);
             return data;
         } catch (err) {
@@ -88,7 +99,7 @@ export class EventPlanner {
 
     async loadCurrentEventIfNeeded() {
         try {
-            const stored = Utils.loadFromLocalStorage('currentEventId');
+            const stored = await Utils.loadFromLocalStorage('currentEventId');
             if (stored && !this.currentEventId) {
                 await this.loadEventById(stored);
             }

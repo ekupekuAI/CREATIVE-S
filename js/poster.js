@@ -1197,7 +1197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // This would position objects based on AI suggestions
     }
 
-    saveProject() {
+    async saveProject() {
         const project = {
             canvas: this.canvas.toJSON(),
             zoom: this.zoom,
@@ -1206,27 +1206,25 @@ document.addEventListener('DOMContentLoaded', () => {
             timestamp: new Date().toISOString()
         };
 
-        localStorage.setItem('posterDesignerProject', JSON.stringify(project));
+        await window.AppStorage.save('poster/project', project);
         this.showNotification('Project saved successfully!');
     }
 
-    loadProject() {
-        const saved = localStorage.getItem('posterDesignerProject');
-        if (saved) {
-            try {
-                const project = JSON.parse(saved);
-                this.canvas.loadFromJSON(project.canvas, () => {
-                    this.canvas.renderAll();
-                    this.zoom = project.zoom || 1;
-                    this.panOffset = project.panOffset || { x: 0, y: 0 };
-                    this.guides = project.guides || [];
-                    this.canvas.setZoom(this.zoom);
-                    this.renderGuides();
-                    this.onObjectChange();
-                });
-            } catch (e) {
-                console.error('Failed to load project:', e);
-            }
+    async loadProject() {
+        try {
+            const project = await window.AppStorage.load('poster/project');
+            if (!project) return;
+            this.canvas.loadFromJSON(project.canvas, () => {
+                this.canvas.renderAll();
+                this.zoom = project.zoom || 1;
+                this.panOffset = project.panOffset || { x: 0, y: 0 };
+                this.guides = project.guides || [];
+                this.canvas.setZoom(this.zoom);
+                this.renderGuides();
+                this.onObjectChange();
+            });
+        } catch (e) {
+            console.error('Failed to load project:', e);
         }
     }
 

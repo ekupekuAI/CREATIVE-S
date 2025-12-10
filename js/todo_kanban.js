@@ -82,7 +82,7 @@ window.todoKanban = (function(){
     render();
   }
 
-  function moveToColumn(id, key){
+  async function moveToColumn(id, key){
     const tasks = window.getAllTasks?window.getAllTasks():[];
     const state = getState(tasks);
     // remove from all
@@ -90,7 +90,7 @@ window.todoKanban = (function(){
       state.columns[k] = (state.columns[k]||[]).filter(x=>String(x)!==String(id));
     }
     (state.columns[key] = state.columns[key]||[]).push(id);
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+    try { await window.AppStorage.save(STORAGE_KEY, state); } catch {}
     // reflect status change
     if(window.updateTaskStatus){
       const statusMap = { todo:'pending', progress:'in-progress', review:'in-progress', completed:'completed' };

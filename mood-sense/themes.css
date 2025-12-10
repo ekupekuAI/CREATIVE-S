@@ -27,91 +27,53 @@
     backdrop-filter: blur(20px);
     border: 1px solid rgba(139, 92, 246, 0.2);
 }
-
-/* Angry Theme */
-.angry-theme {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
+body.theme-calm {
+    background: linear-gradient(140deg, #eef2ff, #f5f4ff);
 }
 
-.angry-theme .analyze-container,
-.angry-theme .chat-container,
-.angry-theme .activity-card,
-.angry-theme .history-container {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(16, 185, 129, 0.2);
+body.theme-bloom {
+    background: linear-gradient(140deg, #ffe8f1, #fff7ea);
 }
 
-/* Anxious Theme */
-.anxious-theme {
-    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+body.theme-energized {
+    background: linear-gradient(150deg, #fce5e0, #fff5d7);
 }
 
-.anxious-theme .analyze-container,
-.anxious-theme .chat-container,
-.anxious-theme .activity-card,
-.anxious-theme .history-container {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(0, 212, 255, 0.2);
+body.theme-focused {
+    background: linear-gradient(130deg, #e8fbff, #e8f5ff);
 }
 
-/* Calm Theme */
-.calm-theme {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+body.theme-grounded {
+    background: linear-gradient(160deg, #e6f3ed, #f3fffb);
 }
 
-.calm-theme .analyze-container,
-.calm-theme .chat-container,
-.calm-theme .activity-card,
-.calm-theme .history-container {
-    background: rgba(255, 255, 255, 0.9);
+.theme-calm .tab-button.active { background: #6e7dff; }
+.theme-bloom .tab-button.active { background: #ff77b7; }
+.theme-energized .tab-button.active { background: #f9a23b; }
+.theme-focused .tab-button.active { background: #46a5ff; }
+.theme-grounded .tab-button.active { background: #4fc9a7; }
+
+.theme-calm .summary-emoji { filter: drop-shadow(0 15px 35px rgba(110, 125, 255, 0.45)); }
+.theme-bloom .summary-emoji { filter: drop-shadow(0 15px 35px rgba(255, 119, 183, 0.45)); }
+.theme-energized .summary-emoji { filter: drop-shadow(0 15px 35px rgba(249, 162, 59, 0.45)); }
+.theme-focused .summary-emoji { filter: drop-shadow(0 15px 35px rgba(70, 165, 255, 0.45)); }
+.theme-grounded .summary-emoji { filter: drop-shadow(0 15px 35px rgba(79, 201, 167, 0.45)); }
+
+.theme-calm .music-item { border-color: rgba(110, 125, 255, 0.25); }
+.theme-bloom .music-item { border-color: rgba(255, 119, 183, 0.25); }
+.theme-energized .music-item { border-color: rgba(249, 162, 59, 0.25); }
+.theme-focused .music-item { border-color: rgba(70, 165, 255, 0.25); }
+.theme-grounded .music-item { border-color: rgba(79, 201, 167, 0.25); }
+
+.theme-bloom .brand-icon,
+.theme-energized .brand-icon,
+.theme-focused .brand-icon,
+.theme-grounded .brand-icon {
+    filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.08));
 }
 
-/* Depressed Theme */
-.depressed-theme {
-    background: linear-gradient(135deg, #434343 0%, #000000 100%);
-    color: #e0e0e0;
-}
-
-.depressed-theme .analyze-container,
-.depressed-theme .chat-container,
-.depressed-theme .activity-card,
-.depressed-theme .history-container {
-    background: rgba(0, 0, 0, 0.8);
-    color: #e0e0e0;
-}
-
-.depressed-theme .suggestions > div {
-    background: rgba(255, 255, 255, 0.1);
-    color: #e0e0e0;
-}
-
-/* Crisis Theme */
-.crisis-theme {
-    background: linear-gradient(135deg, #6b0f1a 0%, #b91372 100%);
-    color: #ffffff;
-}
-
-.crisis-theme .analyze-container,
-.crisis-theme .chat-container,
-.crisis-theme .activity-card,
-.crisis-theme .history-container {
-    background: rgba(255, 255, 255, 0.95);
-    border: 2px solid #dc3545;
-    color: #333;
-}
-
-.crisis-theme header,
-.crisis-theme nav {
-    background: rgba(107, 15, 26, 0.9);
-}
-
-.crisis-theme .tab-button.active {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-}
-
-.crisis-theme .tab-button {
-    color: white;
-}
+.theme-calm .primary { background: #6e7dff; }
+.theme-bloom .primary { background: #ff77b7; }
+.theme-energized .primary { background: #f48c06; }
+.theme-focused .primary { background: #3ba8ff; }
+.theme-grounded .primary { background: #35b89c; }

@@ -8,7 +8,7 @@ window.todoScheduler = (function(){
     return Math.min(180, base + Math.floor(len/80)*10);
   }
 
-  function autoScheduleToday(){
+  async function autoScheduleToday(){
     const tasks = (window.getAllTasks?window.getAllTasks():[]).filter(t=>t.status!=='completed');
     const today = new Date(); today.setHours(9,0,0,0);
     const endDay = new Date(); endDay.setHours(18,0,0,0);
@@ -25,7 +25,7 @@ window.todoScheduler = (function(){
       timeline.push({ id:t.id, title:t.title, start:new Date(cursor), end:slotEnd, priority:t.priority });
       cursor = slotEnd;
     }
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ date: new Date().toDateString(), timeline })); } catch {}
+    try { await window.AppStorage.save(STORAGE_KEY, { date: new Date().toDateString(), timeline }); } catch {}
     // switch to tab and render
     const scheduleTab = document.querySelector('#schedule-tab');
     if(scheduleTab){ new bootstrap.Tab(scheduleTab).show(); }

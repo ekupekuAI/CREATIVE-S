@@ -4,27 +4,58 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeTheme();
     initializeAnimations();
     initializeModuleCards();
+    initializeOfflineMode();
+    initializeFirebaseMigration();
 });
 
+// ===== Offline Mode =====
+function initializeOfflineMode() {
+    window.addEventListener("offline", () => {
+        document.body.classList.add("offline-mode");
+    });
+
+    window.addEventListener("online", () => {
+        document.body.classList.remove("offline-mode");
+    });
+}
+
+// ===== Firebase Migration =====
+async function initializeFirebaseMigration() {
+    // Wait a bit for Firebase to initialize
+    setTimeout(async () => {
+        if (window.AppStorage && window.AppStorage.migrateLocalStorageToFirebase) {
+            try {
+                await window.AppStorage.migrateLocalStorageToFirebase();
+            } catch (e) {
+                console.warn('Firebase migration failed:', e);
+            }
+        }
+    }, 2000); // 2 second delay to ensure Firebase is ready
+}
+
 // ===== Theme Management =====
-function initializeTheme() {
+async function initializeTheme() {
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
 
-    // Load saved theme or default to light
-    const currentTheme = localStorage.getItem('theme') || 'light';
+    // Load saved theme via AppStorage (Firestore-first), default to light
+    let currentTheme = 'light';
+    try {
+        const saved = await window.AppStorage.load('theme');
+        if (typeof saved === 'string') currentTheme = saved;
+    } catch {}
     document.documentElement.setAttribute('data-theme', currentTheme);
     updateThemeIcon(currentTheme);
 
     themeToggle.addEventListener('click', toggleTheme);
 }
 
-function toggleTheme() {
+async function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
     document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
+    await window.AppStorage.save('theme', newTheme);
     updateThemeIcon(newTheme);
 
     // Add transition effect
@@ -345,23 +376,22 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
-// Local Storage helper functions
-function saveToStorage(key, data) {
+// Storage helper functions
+async function saveToStorage(key, data) {
     try {
-        localStorage.setItem(key, JSON.stringify(data));
+        await window.AppStorage.save(key, data);
         return true;
     } catch (error) {
-        console.error('Error saving to localStorage:', error);
+        console.error('Error saving to storage:', error);
         return false;
     }
 }
 
 function loadFromStorage(key) {
     try {
-        const data = localStorage.getItem(key);
-        return data ? JSON.parse(data) : null;
+        return localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : null;
     } catch (error) {
-        console.error('Error loading from localStorage:', error);
+        console.error('Error loading from storage:', error);
         return null;
     }
 }

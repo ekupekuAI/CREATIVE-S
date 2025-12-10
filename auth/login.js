@@ -6,6 +6,9 @@
 class LoginSystem {
     constructor() {
         this.currentTab = 'login';
+        // Demo credentials
+        this.DEMO_EMAIL = 'demo@creative.studio';
+        this.DEMO_PASSWORD = 'demo123';
         this.init();
     }
 
@@ -13,6 +16,9 @@ class LoginSystem {
         this.bindEvents();
         this.initializeAnimations();
         this.checkSession();
+        this.ensureDemoBanner();
+        // Ensure demo account exists in DB (non-blocking)
+        this.ensureDemoAccount().catch(()=>{});
     }
 
     bindEvents() {
@@ -145,7 +151,7 @@ class LoginSystem {
         // Show loading
         this.showLoading();
 
-        // Simulate API call
+        // Firebase-backed auth
         this.authenticateUser(email, password, rememberMe, 'login');
     }
 
@@ -166,8 +172,8 @@ class LoginSystem {
         // Show loading
         this.showLoading();
 
-        // Simulate API call
-        this.authenticateUser(email, password, false, 'register');
+        // Firebase-backed registration
+        this.authenticateUser(email, password, false, 'register', { name });
     }
 
     validateLoginForm(email, password) {
@@ -277,38 +283,113 @@ class LoginSystem {
         overlay.classList.remove('active');
     }
 
-    async authenticateUser(email, password, rememberMe, action) {
+    async authenticateUser(email, password, rememberMe, action, extra = {}) {
         try {
-            const response = await fetch(`/auth/${action}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email,
-                    password,
-                    rememberMe
-                })
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                // Set session markers
-                localStorage.setItem('cs.session', email || 'user');
-                document.cookie = `session=true; path=/; max-age=${rememberMe ? 86400 * 30 : 3600}`;
-
-                // Success animation
-                this.showSuccessAnimation(() => {
-                    window.location.href = data.redirect || '/';
-                });
-            } else {
-                throw new Error(data.message || 'Authentication failed');
+            // Demo shortcut
+            if (action === 'login' && email.toLowerCase() === this.DEMO_EMAIL && password === this.DEMO_PASSWORD) {
+                await this.setSessionAndRedirect(email, rememberMe);
+                return;
             }
+
+            const key = this.emailToKey(email);
+            if (!window.AppStorage) throw new Error('Storage not initialized');
+
+            if (action === 'register') {
+                const existing = await this.loadUser(key);
+                if (existing) throw new Error('Account already exists');
+                const passwordHash = await this.hashPassword(password);
+                const user = {
+                    name: (extra.name||'').trim() || email.split('@')[0],
+                    email,
+                    passwordHash,
+                    createdAt: new Date().toISOString(),
+                    lastLoginAt: null,
+                    roles: ['user']
+                };
+                await this.saveUser(key, user);
+                await this.setSessionAndRedirect(email, false);
+                return;
+            }
+
+            // login
+            const user = await this.loadUser(key);
+            if (!user || !user.passwordHash) throw new Error('Invalid credentials');
+            const incoming = await this.hashPassword(password);
+            if (incoming !== user.passwordHash) throw new Error('Invalid credentials');
+            // patch lastLoginAt
+            try { await window.FirebaseClient?.patch?.(`auth/users/${key}`, { lastLoginAt: new Date().toISOString() }); } catch {}
+            await this.setSessionAndRedirect(email, rememberMe);
         } catch (error) {
             this.hideLoading();
-            this.showError('loginEmail', error.message || 'Login failed. Please try again.');
+            const field = (action === 'register') ? 'signupEmail' : 'loginEmail';
+            this.showError(field, error.message || 'Authentication failed');
         }
+    }
+
+    async setSessionAndRedirect(email, rememberMe){
+        try { await window.AppStorage.save('auth/session', { email, ts: Date.now() }); } catch {}
+        try { localStorage.setItem('cs.session', email || 'user'); } catch {}
+        document.cookie = `session=true; path=/; max-age=${rememberMe ? 86400 * 30 : 3600}`;
+
+        this.showSuccessAnimation(() => {
+            window.location.href = '/';
+        });
+    }
+
+    emailToKey(email){
+        // Firebase keys cannot contain . # $ [ ]
+        return String(email).toLowerCase().replaceAll('.', ',').replaceAll('#','(hash)').replaceAll('$','(dol)').replaceAll('[','(').replaceAll(']',')');
+    }
+
+    async loadUser(key){
+        // Try Firebase first, then fallback to localStorage path
+        const path = `auth/users/${key}`;
+        let user = null;
+        try { user = await window.FirebaseClient?.load?.(path); } catch {}
+        if (user) return user;
+        try { const raw = localStorage.getItem(path); return raw? JSON.parse(raw): null; } catch { return null; }
+    }
+
+    async saveUser(key, user){
+        const path = `auth/users/${key}`;
+        try { await window.FirebaseClient?.save?.(path, user); return; } catch {}
+        try { localStorage.setItem(path, JSON.stringify(user)); } catch {}
+    }
+
+    async ensureDemoAccount(){
+        try {
+            const key = this.emailToKey(this.DEMO_EMAIL);
+            const existing = await this.loadUser(key);
+            if (existing) return;
+            const passwordHash = await this.hashPassword(this.DEMO_PASSWORD);
+            const user = {
+                name: 'Demo User',
+                email: this.DEMO_EMAIL,
+                passwordHash,
+                createdAt: new Date().toISOString(),
+                lastLoginAt: null,
+                roles: ['demo']
+            };
+            await this.saveUser(key, user);
+        } catch {}
+    }
+
+    async hashPassword(plain){
+        const enc = new TextEncoder().encode(plain);
+        const buf = await crypto.subtle.digest('SHA-256', enc);
+        const bytes = Array.from(new Uint8Array(buf));
+        return bytes.map(b=>b.toString(16).padStart(2,'0')).join('');
+    }
+
+    ensureDemoBanner(){
+        try {
+            const card = document.querySelector('.login-card');
+            if(!card) return;
+            const note = document.createElement('div');
+            note.style.cssText = 'margin-top:10px;color:#9ca3af;font-size:14px;text-align:center;';
+            note.innerHTML = `Demo: <code>${this.DEMO_EMAIL}</code> / <code>${this.DEMO_PASSWORD}</code>`;
+            card.appendChild(note);
+        } catch {}
     }
 
     showSuccessAnimation(callback) {
@@ -414,8 +495,19 @@ class LoginSystem {
     }
 
     checkSession() {
-        const hasSession = !!localStorage.getItem('cs.session') || document.cookie.includes('session=true');
-        if (hasSession && window.location.pathname !== '/index.html' && window.location.pathname !== '/') {
+        // Avoid redirect loops by validating cookie and localStorage together
+        let hasLocal = false;
+        try { hasLocal = !!localStorage.getItem('cs.session'); } catch {}
+        const hasCookie = document.cookie.split('; ').some(c => c.startsWith('session=') && c.split('=')[1] === 'true');
+
+        // If local session exists but cookie is missing, clear stale local session
+        if (hasLocal && !hasCookie) {
+            try { localStorage.removeItem('cs.session'); } catch {}
+            return; // stay on login page
+        }
+
+        // If both exist, redirect to dashboard (from login page only)
+        if (hasLocal && hasCookie && window.location.pathname !== '/index.html' && window.location.pathname !== '/') {
             window.location.href = '/index.html';
         }
     }

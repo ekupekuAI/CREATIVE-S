@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoodSense+ AI Emotional Companion</title>
+    <title>MoodSense+ AI Companion</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,232 +11,318 @@
     <link rel="stylesheet" href="themes.css">
     <link rel="stylesheet" href="../css/ui-effects.css">
 </head>
-<body>
-    <header>
-        <div class="logo">🌈</div>
-        <h1>MoodSense+ AI Emotional Companion</h1>
-        <div class="selectors">
-            <select id="language-select">
-                <option value="en">English</option>
-                <option value="hi">Hindi</option>
-                <option value="te">Telugu</option>
-            </select>
-            <select id="persona-select">
-                <option value="auto">Auto</option>
-                <option value="parent">Parent</option>
-                <option value="mentor">Mentor</option>
-                <option value="doctor">Doctor/Therapist</option>
-                <option value="friend">Friend</option>
-            </select>
-        </div>
-    </header>
-
-    <nav>
-        <button class="tab-button active" data-tab="analyze">Analyze</button>
-        <button class="tab-button" data-tab="chat">Chat</button>
-        <button class="tab-button" data-tab="activities">Activities</button>
-        <button class="tab-button" data-tab="history">History</button>
-    </nav>
-
-    <main>
-        <div id="analyze-tab" class="tab-content active">
-            <div class="analyze-container">
-                <textarea id="mood-input" placeholder="Share your thoughts and feelings..."></textarea>
-                <button id="analyze-btn">Analyze Mood</button>
-                <div id="mood-output" class="mood-output hidden">
-                    <div class="mood-header">
-                        <div class="mood-emoji">😊</div>
-                        <div class="mood-details">
-                            <h3 id="primary-emotion">Happy</h3>
-                            <p id="intensity">Intensity: Moderate</p>
-                            <p id="sentiment">Sentiment: Positive</p>
-                        </div>
-                    </div>
-                    <div class="mood-breakdown">
-                        <canvas id="emotion-chart"></canvas>
-                    </div>
-                    <div class="suggestions">
-                        <div class="affirmations">
-                            <h4>Affirmations</h4>
-                            <ul id="affirmation-list"></ul>
-                        </div>
-                        <div class="music-suggestions">
-                            <h4>Music Suggestions</h4>
-                            <div id="music-list"></div>
-                        </div>
-                        <div class="activities-suggestions">
-                            <h4>Suggested Activities</h4>
-                            <ul id="activity-list"></ul>
-                        </div>
-                        <div class="coping-steps">
-                            <h4>Coping Steps</h4>
-                            <ol id="coping-list"></ol>
-                        </div>
-                    </div>
+<body class="theme-calm">
+    <div class="app-shell">
+        <header class="app-header">
+            <div class="brand-group">
+                <div class="brand-icon">🌤️</div>
+                <div>
+                    <p class="eyebrow">Creative Studio</p>
+                    <h1 class="brand-title">MoodSense+ Companion</h1>
+                    <p class="brand-subtitle">Understand, reflect, and rebalance in minutes.</p>
                 </div>
             </div>
-        </div>
-
-        <div id="chat-tab" class="tab-content">
-            <div class="chat-container">
-                <div class="chat-header">
-                    <button id="mood-refresh-btn" class="mood-refresh-btn">🔄 Refresh Mood Context</button>
-                </div>
-                <div id="chat-messages" class="chat-messages"></div>
-                <div class="chat-input-container">
-                    <input type="text" id="chat-input" placeholder="Type your message...">
-                    <button id="send-btn">Send</button>
-                </div>
-                <div class="quick-replies">
-                    <button class="quick-reply">How are you feeling?</button>
-                    <button class="quick-reply">I need advice</button>
-                    <button class="quick-reply">Tell me a joke</button>
-                </div>
+            <div class="control-group">
+                <label class="control">
+                    <span>Language</span>
+                    <select id="languageSelect">
+                        <option value="en">English</option>
+                        <option value="hi">Hindi</option>
+                        <option value="te">Telugu</option>
+                    </select>
+                </label>
+                <label class="control">
+                    <span>Persona</span>
+                    <select id="personaSelect">
+                        <option value="auto">Auto</option>
+                        <option value="parent">Parent</option>
+                        <option value="mentor">Mentor</option>
+                        <option value="doctor">Therapist</option>
+                        <option value="friend">Friend</option>
+                    </select>
+                </label>
+                <button class="refresh-btn" id="restoreDefaults" aria-label="Restore defaults">↺</button>
             </div>
-        </div>
+        </header>
 
-        <div id="activities-tab" class="tab-content">
-            <div class="activities-container">
-                <div class="activity-card" data-activity="breathing">
-                    <h3>Breathing Exercise</h3>
-                    <p>4-7-8 breathing technique</p>
-                    <button class="activity-btn">Start</button>
-                </div>
-                <div class="activity-card" data-activity="bubbles">
-                    <h3>Pop the Bubbles</h3>
-                    <p>Release anger by popping bubbles</p>
-                    <button class="activity-btn">Start</button>
-                </div>
-                <div class="activity-card" data-activity="grounding">
-                    <h3>5-4-3-2-1 Grounding</h3>
-                    <p>Ground yourself in the present</p>
-                    <button class="activity-btn">Start</button>
-                </div>
-                <div class="activity-card" data-activity="journaling">
-                    <h3>Mini Journaling</h3>
-                    <p>Write down your thoughts</p>
-                    <button class="activity-btn">Start</button>
-                </div>
-                <div class="activity-card" data-activity="checklist">
-                    <h3>Self-Check List</h3>
-                    <p>Daily wellness checklist</p>
-                    <button class="activity-btn">Start</button>
-                </div>
-                <div class="activity-card" data-activity="timer">
-                    <h3>Focus Timer</h3>
-                    <p>1-minute mindfulness timer</p>
-                    <button class="activity-btn">Start</button>
-                </div>
-            </div>
-        </div>
+        <nav class="tab-bar" role="tablist">
+            <button class="tab-button active" data-tab="analyze" role="tab">Analyze</button>
+            <button class="tab-button" data-tab="chat" role="tab">Chat</button>
+            <button class="tab-button" data-tab="activities" role="tab">Activities</button>
+            <button class="tab-button" data-tab="history" role="tab">History</button>
+        </nav>
 
-        <div id="history-tab" class="tab-content">
-            <div class="history-container">
-                <div class="analytics">
-                    <div class="chart-container">
-                        <h3>Weekly Mood Graph</h3>
-                        <canvas id="mood-graph"></canvas>
+        <main class="tab-wrapper">
+            <section id="tab-analyze" class="tab-panel active" role="tabpanel">
+                <div class="panel-grid">
+                    <div class="card input-card">
+                        <header>
+                            <h2>How are you feeling?</h2>
+                            <p>Describe your thoughts. We will translate them into insights, support, and music.</p>
+                        </header>
+                        <textarea id="analysisInput" placeholder="Share anything on your mind..."></textarea>
+                        <div class="actions">
+                            <button id="analyzeButton" class="primary">Analyze my mood</button>
+                            <span id="analysisStatus" class="status-text">Awaiting input</span>
+                        </div>
                     </div>
-                    <div class="chart-container">
-                        <h3>Emotion Frequency</h3>
-                        <canvas id="emotion-pie"></canvas>
+                    <div class="card summary-card" id="analysisSummary">
+                        <div class="summary-header">
+                            <div class="summary-emoji" id="summaryEmoji">🙂</div>
+                            <div>
+                                <p class="label">Primary Emotion</p>
+                                <h3 id="summaryEmotion">Calm</h3>
+                            </div>
+                        </div>
+                        <dl class="summary-metrics">
+                            <div>
+                                <dt>Intensity</dt>
+                                <dd id="summaryIntensity">Low</dd>
+                            </div>
+                            <div>
+                                <dt>Sentiment</dt>
+                                <dd id="summarySentiment">Neutral</dd>
+                            </div>
+                            <div>
+                                <dt>Confidence</dt>
+                                <dd id="summaryConfidence">0%</dd>
+                            </div>
+                        </dl>
+                        <canvas id="emotionBarChart" width="400" height="220" aria-label="Emotion breakdown chart"></canvas>
                     </div>
                 </div>
-                <div class="stats">
-                    <div class="stat-card">
-                        <h4>Mood Streak</h4>
-                        <p id="mood-streak">5 days</p>
+                <div class="panel-grid suggestions-grid">
+                    <div class="card">
+                        <header><h3>Affirmations</h3></header>
+                        <ul id="affirmationsList" class="chip-list"></ul>
                     </div>
-                    <div class="stat-card">
-                        <h4>Activities Completed</h4>
-                        <p id="activities-completed">12</p>
+                    <div class="card">
+                        <header class="card-header-flex">
+                            <div>
+                                <h3>Music cues</h3>
+                                <p>Select a song to open on Spotify or YouTube.</p>
+                            </div>
+                            <div class="music-language" id="musicLanguage"></div>
+                        </header>
+                        <div id="musicGrid" class="music-grid"></div>
                     </div>
-                    <div class="stat-card">
-                        <h4>Songs Explored</h4>
-                        <p id="songs-explored">8</p>
+                    <div class="card">
+                        <header><h3>Activities</h3></header>
+                        <ul id="activitiesList" class="bullet-list"></ul>
+                    </div>
+                    <div class="card">
+                        <header><h3>Coping steps</h3></header>
+                        <ol id="copingList" class="ordered-list"></ol>
                     </div>
                 </div>
-                <div class="achievements">
-                    <h3>Achievements</h3>
-                    <div id="achievement-list"></div>
-                </div>
-                <div class="history-list">
-                    <h3>Recent Entries</h3>
-                    <ul id="history-entries"></ul>
-                </div>
-                <div class="journal-list">
-                    <h3>Journal Entries</h3>
-                    <ul id="journal-entries"></ul>
-                </div>
-            </div>
-        </div>
-    </main>
+            </section>
 
-    <!-- Modals -->
-    <div id="breathing-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Breathing Exercise</h2>
-            <div class="breathing-circle"></div>
-            <p id="breathing-instruction">Inhale for 4 seconds</p>
+            <section id="tab-chat" class="tab-panel" role="tabpanel">
+                <div class="chat-layout">
+                    <div class="card chat-card">
+                        <header class="card-header-flex">
+                            <div>
+                                <h2>Companion chat</h2>
+                                <p>Conversations adapt to your persona and latest analysis.</p>
+                            </div>
+                            <button id="chatRefresh" class="ghost">Refresh context</button>
+                        </header>
+                        <div id="chatThread" class="chat-thread" aria-live="polite"></div>
+                        <div class="chat-input">
+                            <input id="chatMessage" type="text" placeholder="Type a message...">
+                            <button id="chatSend" class="primary">Send</button>
+                        </div>
+                        <div id="chatQuickReplies" class="quick-replies"></div>
+                    </div>
+                    <aside class="card chat-highlights">
+                        <h3>Context</h3>
+                        <ul id="chatContext" class="context-list"></ul>
+                    </aside>
+                </div>
+            </section>
+
+            <section id="tab-activities" class="tab-panel" role="tabpanel">
+                <div class="activities-grid" id="activitiesGrid">
+                    <article class="activity-card" data-activity="breathing">
+                        <h3>Breathing</h3>
+                        <p>4-7-8 guided breathing with calm visuals.</p>
+                        <button class="ghost">Start</button>
+                    </article>
+                    <article class="activity-card" data-activity="bubbles">
+                        <h3>Bubble release</h3>
+                        <p>Tap bubbles to discharge anger and stress.</p>
+                        <button class="ghost">Start</button>
+                    </article>
+                    <article class="activity-card" data-activity="grounding">
+                        <h3>5-4-3-2-1</h3>
+                        <p>Re-focus with a grounding walkthrough.</p>
+                        <button class="ghost">Start</button>
+                    </article>
+                    <article class="activity-card" data-activity="journaling">
+                        <h3>Mini journal</h3>
+                        <p>Capture a thought with guided prompts.</p>
+                        <button class="ghost">Start</button>
+                    </article>
+                    <article class="activity-card" data-activity="checklist">
+                        <h3>Self check</h3>
+                        <p>Complete a daily wellbeing checklist.</p>
+                        <button class="ghost">Start</button>
+                    </article>
+                    <article class="activity-card" data-activity="timer">
+                        <h3>Focus timer</h3>
+                        <p>One-minute reset timer with cues.</p>
+                        <button class="ghost">Start</button>
+                    </article>
+                </div>
+            </section>
+
+            <section id="tab-history" class="tab-panel" role="tabpanel">
+                <div class="panel-grid stats-grid">
+                    <div class="card stat-card">
+                        <p>Mood streak</p>
+                        <h3 id="statStreak">0 days</h3>
+                    </div>
+                    <div class="card stat-card">
+                        <p>Activities done</p>
+                        <h3 id="statActivities">0</h3>
+                    </div>
+                    <div class="card stat-card">
+                        <p>Songs explored</p>
+                        <h3 id="statSongs">0</h3>
+                    </div>
+                </div>
+                <div class="panel-grid charts-grid">
+                    <div class="card">
+                        <header class="card-header-flex">
+                            <h3>Weekly trend</h3>
+                        </header>
+                        <canvas id="trendChart" width="480" height="260"></canvas>
+                    </div>
+                    <div class="card">
+                        <header class="card-header-flex">
+                            <h3>Emotion frequency</h3>
+                        </header>
+                        <canvas id="frequencyChart" width="480" height="260"></canvas>
+                    </div>
+                </div>
+                <div class="panel-grid log-grid">
+                    <div class="card">
+                        <header><h3>Recent entries</h3></header>
+                        <ul id="historyList" class="history-list"></ul>
+                    </div>
+                    <div class="card">
+                        <header><h3>Journal snapshots</h3></header>
+                        <ul id="journalList" class="history-list"></ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Activity Modals -->
+    <div class="modal" id="modal-breathing" aria-hidden="true">
+        <div class="modal-card">
+            <button class="close" data-close>&times;</button>
+            <h2>Guided breathing</h2>
+            <p class="modal-subtext">Follow the animation to inhale, hold, and exhale.</p>
+            <div class="breathing-visual" id="breathingVisual"></div>
+            <p id="breathingInstruction">Inhale for 4 seconds</p>
         </div>
     </div>
 
-    <div id="bubbles-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Pop the Bubbles</h2>
-            <div class="bubbles-container"></div>
+    <div class="modal" id="modal-bubbles" aria-hidden="true">
+        <div class="modal-card">
+            <button class="close" data-close>&times;</button>
+            <h2>Bubble release</h2>
+            <div class="bubbles-stage" id="bubblesStage"></div>
         </div>
     </div>
 
-    <div id="grounding-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
+    <div class="modal" id="modal-grounding" aria-hidden="true">
+        <div class="modal-card">
+            <button class="close" data-close>&times;</button>
             <h2>5-4-3-2-1 Grounding</h2>
-            <div id="grounding-steps"></div>
+            <div id="groundingSteps" class="grounding-steps"></div>
         </div>
     </div>
 
-    <div id="journaling-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Mini Journaling</h2>
-            <p id="journal-prompt">What's on your mind right now?</p>
-            <textarea id="journal-entry"></textarea>
-            <button id="save-journal">Save Entry</button>
-        </div>
-    </div>
-
-    <div id="checklist-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Self-Check List</h2>
-            <ul id="checklist-items"></ul>
-        </div>
-    </div>
-
-    <div id="timer-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Focus Timer</h2>
-            <div class="timer-display">01:00</div>
-            <button id="start-timer">Start</button>
-        </div>
-    </div>
-
-    <div id="crisis-modal" class="modal">
-        <div class="modal-content crisis-content">
-            <h2>You are not alone</h2>
-            <p>We're here to support you. Take a deep breath.</p>
-            <div class="emergency-links">
-                <a href="tel:988">Call 988 (US Suicide Prevention)</a>
-                <a href="https://www.crisistextline.org/">Text HOME to 741741</a>
+    <div class="modal" id="modal-journaling" aria-hidden="true">
+        <div class="modal-card">
+            <button class="close" data-close>&times;</button>
+            <h2>Mini journal</h2>
+            <p id="journalPrompt">What would you like to release?</p>
+            <textarea id="journalEntry"></textarea>
+            <div class="actions">
+                <button id="saveJournal" class="primary">Save entry</button>
             </div>
-            <button id="breathing-emergency">Start Breathing Exercise</button>
         </div>
     </div>
 
+    <div class="modal" id="modal-checklist" aria-hidden="true">
+        <div class="modal-card">
+            <button class="close" data-close>&times;</button>
+            <h2>Self check</h2>
+            <ul id="checklistItems" class="checklist"></ul>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-timer" aria-hidden="true">
+        <div class="modal-card">
+            <button class="close" data-close>&times;</button>
+            <h2>Focus timer</h2>
+            <div class="timer-display" id="timerDisplay">01:00</div>
+            <div class="actions">
+                <button id="startTimer" class="primary">Start</button>
+                <button id="resetTimer" class="ghost">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal crisis" id="modal-crisis" aria-hidden="true">
+        <div class="modal-card">
+            <h2>You are not alone</h2>
+            <p>If you feel unsafe or overwhelmed, reach out now.</p>
+            <div class="crisis-links">
+                <a href="tel:988">Call 988 (US Lifeline)</a>
+                <a href="https://www.crisistextline.org/" target="_blank" rel="noopener">Text HOME to 741741</a>
+            </div>
+            <button id="crisisBreathing" class="primary">Start breathing exercise</button>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
+        <div class="spinner"></div>
+        <p>Analyzing your entry...</p>
+    </div>
+
+    <script>
+        window.awaitAppStorage = function() {
+            return new Promise((resolve) => {
+                const check = () => {
+                    if (window.AppStorage) {
+                        resolve(window.AppStorage);
+                    } else {
+                        requestAnimationFrame(check);
+                    }
+                };
+                check();
+            });
+        };
+    </script>
+    <script>
+        // Load API base from config.json with safe fallback
+        (function() {
+            fetch('./config.json')
+                .then(r => r.ok ? r.json() : null)
+                .then(cfg => {
+                    window.MOOD_API_BASE = (cfg && cfg.apiBase) ? cfg.apiBase : (window.MOOD_API_BASE || 'http://localhost:5000');
+                })
+                .catch(() => {
+                    window.MOOD_API_BASE = window.MOOD_API_BASE || 'http://localhost:5000';
+                });
+        })();
+    </script>
+    <script type="module" src="../js/appStorage.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="ui.js"></script>
     <script src="chats.js"></script>

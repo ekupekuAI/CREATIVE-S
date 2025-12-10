@@ -1,21 +1,29 @@
 // AI Event Architect - Utilities
 
 export class Utils {
-    static saveToLocalStorage(key, data) {
+    static async saveToLocalStorage(key, data) {
         try {
-            localStorage.setItem(key, JSON.stringify(data));
+            if (window.AppStorage) {
+                await AppStorage.save(key, data);
+            } else {
+                localStorage.setItem(key, JSON.stringify(data));
+            }
         } catch (error) {
-            console.error('Error saving to localStorage:', error);
+            console.error('Error saving to storage:', error);
         }
     }
 
-    static loadFromLocalStorage(key) {
+    static async loadFromLocalStorage(key, defaultValue = null) {
         try {
-            const data = localStorage.getItem(key);
-            return data ? JSON.parse(data) : null;
+            if (window.AppStorage) {
+                const result = await AppStorage.load(key);
+                return result !== undefined ? result : defaultValue;
+            }
+            const raw = localStorage.getItem(key);
+            return raw ? JSON.parse(raw) : defaultValue;
         } catch (error) {
-            console.error('Error loading from localStorage:', error);
-            return null;
+            console.error('Error loading from storage:', error);
+            return defaultValue;
         }
     }
 

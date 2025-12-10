@@ -1,50 +1,65 @@
-// Export engine for the new certificate canvas.
-// Exports the visible certificate (without scrollbars) to PNG and PDF.
+// Export functions for the certificate generator
 
-export async function exportCanvasPNG(canvasEl) {
-  if (!canvasEl) return;
-  const prevTransform = canvasEl.style.transform;
-  canvasEl.style.transform = 'none';
-
-  const rect = canvasEl.getBoundingClientRect();
-  const canvas = await html2canvas(canvasEl, {
-    backgroundColor: null,
-    scale: 2.5,
-    useCORS: true,
-    allowTaint: true,
-    width: rect.width,
-    height: rect.height
+export function initCertificateExport() {
+  document.getElementById('exportPngBtn').addEventListener('click', () => {
+    exportPNG();
   });
-
-  canvasEl.style.transform = prevTransform;
-  const dataURL = canvas.toDataURL('image/png');
-  const a = document.createElement('a');
-  a.href = dataURL;
-  a.download = 'certificate.png';
-  a.click();
+  document.getElementById('exportPdfBtn').addEventListener('click', () => {
+    exportPDF();
+  });
 }
 
-export async function exportCanvasPDF(canvasEl, orientationHint = 'landscape') {
-  if (!canvasEl) return;
-  const prevTransform = canvasEl.style.transform;
-  canvasEl.style.transform = 'none';
+function getExportTarget() {
+  return document.querySelector('#certificateCanvas');
+}
 
-  const rect = canvasEl.getBoundingClientRect();
-  const canvas = await html2canvas(canvasEl, {
-    backgroundColor: null,
-    scale: 2.5,
-    useCORS: true,
-    allowTaint: true,
-    width: rect.width,
-    height: rect.height
-  });
+async function exportPNG() {
+  const target = getExportTarget();
+  if (!target) return;
 
-  canvasEl.style.transform = prevTransform;
+  try {
+    const canvas = await html2canvas(target, {
+      backgroundColor: null,
+      scale: 2,
+      useCORS: true
+    });
+    const dataURL = canvas.toDataURL('image/png');
+    downloadFile(dataURL, 'certificate.png');
+  } catch (error) {
+    console.error('PNG export failed:', error);
+  }
+}
 
-  const imgData = canvas.toDataURL('image/jpeg', 0.96);
-  const { jsPDF } = window.jspdf;
-  const orientation = rect.width > rect.height ? 'landscape' : orientationHint;
-  const pdf = new jsPDF({ orientation, unit: 'px', format: [rect.width, rect.height] });
-  pdf.addImage(imgData, 'JPEG', 0, 0, rect.width, rect.height);
-  pdf.save('certificate.pdf');
+async function exportPDF() {
+  const target = getExportTarget();
+  if (!target) return;
+
+  try {
+    const canvas = await html2canvas(target, {
+      backgroundColor: null,
+      scale: 2,
+      useCORS: true
+    });
+    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'px',
+      format: [canvas.width, canvas.height]
+    });
+    pdf.addImage(imgData, 'JPEG', 0, 0, canvas.width, canvas.height);
+    pdf.save('certificate.pdf');
+  } catch (error) {
+    console.error('PDF export failed:', error);
+  }
+}
+
+function downloadFile(dataURL, filename) {
+  const a = document.createElement('a');
+  a.href = dataURL;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }

@@ -163,7 +163,12 @@
         </div>
         <p>Signing you in...</p>
     </div>
+    <!-- Firebase + AppStorage (for auth) -->
+    <script type="module" src="/js/firebaseConfig.js"></script>
+    <script type="module" src="/js/firebaseClient.js"></script>
+    <script type="module" src="/js/appStorage.js"></script>
 
-    <script src="/auth/login.js"></script>
+    <!-- Auth Logic (deferred to ensure Firebase is ready) -->
+    <script src="/auth/login.js" defer></script>
 </body>
 </html>

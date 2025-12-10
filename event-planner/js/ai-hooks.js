@@ -149,10 +149,27 @@ export class AIAssistant {
                 description: this.eventData.description || idea
             };
 
+            const attendeesValue = this.eventData.attendees !== undefined && this.eventData.attendees !== null
+                ? Number(this.eventData.attendees) || null
+                : null;
+
+            const basicsPayload = {
+                name: basics.name || 'Untitled Event',
+                type: basics.type || 'General Event',
+                date: basics.date || null,
+                attendees: attendeesValue,
+                duration: basics.duration || null,
+                description: basics.description || idea,
+                budget: this.eventData.budget || null,
+                venue: this.eventData.venue || null,
+                location: this.eventData.location || null,
+                theme: this.eventData.theme || null
+            };
+
             const res = await fetch(api('/ai/plan'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(basics)
+                body: JSON.stringify(basicsPayload)
             });
 
             if (!res.ok) throw new Error('AI analysis request failed');
@@ -407,9 +424,32 @@ export class AIAssistant {
                     duration: this.eventData.duration || null
                 },
                 tasks: (planPayload && planPayload.data) ? planPayload.data.map(item => ({ title: item.title || 'Task', description: item.text || '' })) : [],
-                budget: (budgetPayload && budgetPayload.data) ? budgetPayload.data : [],
-                schedule: (schedulePayload && schedulePayload.data) ? schedulePayload.data : [],
-                vendors: (vendorsPayload && vendorsPayload.data) ? vendorsPayload.data : []
+                // Normalize budget items: backend returns {category, estimate}
+                budget: (budgetPayload && budgetPayload.data && Array.isArray(budgetPayload.data))
+                    ? budgetPayload.data.map(b => ({
+                        category: b.category,
+                        amount: (typeof b.amount === 'number') ? b.amount : (typeof b.estimate === 'number' ? b.estimate : 0),
+                        description: b.description || b.notes || ''
+                    }))
+                    : [],
+                // Normalize schedule: backend returns { data: { schedule_items: [...] } } with snake_case keys
+                schedule: (schedulePayload && schedulePayload.data && Array.isArray(schedulePayload.data.schedule_items))
+                    ? schedulePayload.data.schedule_items.map(s => ({
+                        title: s.title,
+                        startTime: s.start_time || s.startTime || '',
+                        endTime: s.end_time || s.endTime || '',
+                        description: s.description || ''
+                    }))
+                    : [],
+                vendors: (vendorsPayload && vendorsPayload.data && Array.isArray(vendorsPayload.data))
+                    ? vendorsPayload.data.map(v => ({
+                        name: v.name,
+                        category: v.category,
+                        contact: v.contact,
+                        rating: v.rating || 5,
+                        notes: v.notes || ''
+                    }))
+                    : []
             };
 
             this.applyGeneratedPlan(plan);

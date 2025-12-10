@@ -1636,5 +1636,112 @@
     },
     "created_at": "2025-12-07T05:48:55.797532",
     "updated_at": "2025-12-07T05:50:58.226772"
+  },
+  "530144a358b045fea9dead5da9230223": {
+    "id": "530144a358b045fea9dead5da9230223",
+    "basics": {
+      "name": "H1",
+      "type": "HALLOWEEN",
+      "date": "2025-01-18",
+      "attendees": 300,
+      "duration": "2-4 hours",
+      "description": "halloween event",
+      "budget": "$1,000 - $5,000",
+      "venue": "CONVENTION HALL",
+      "location": "HYD",
+      "theme": "MODERN"
+    },
+    "preview": {
+      "event_name": "",
+      "event_type": "",
+      "objectives": [
+        "Create engaging and successful event",
+        "Ensure positive attendee experience",
+        "Achieve event goals and objectives",
+        "Stay within budget constraints"
+      ],
+      "key_considerations": [
+        "Clear event purpose and goals",
+        "Target audience understanding",
+        "Venue selection and logistics",
+        "Marketing and promotion",
+        "Event execution and follow-up"
+      ],
+      "recommended_themes": [
+        "Professional",
+        "Casual",
+        "Creative",
+        "Traditional"
+      ],
+      "estimated_budget_range": "$1000-$10000",
+      "attendee_count": 300,
+      "suggested_duration": "4-6 hours",
+      "planning_timeline": [
+        "1-2 months out: Secure venue and key vendors",
+        "1 month out: Finalize guest list and send invitations",
+        "2 weeks out: Confirm all arrangements and logistics",
+        "1 week out: Final headcount and last-minute preparations",
+        "Day of: Execute plan and enjoy the event!"
+      ]
+    },
+    "components": {
+      "budget": {
+        "total_budget": 3000,
+        "budget_items": [
+          {
+            "category": "Venue",
+            "name": "Venue Services",
+            "amount": 1111.11,
+            "percentage": 37.0,
+            "notes": "Estimated cost for 300 attendees"
+          },
+          {
+            "category": "Catering",
+            "name": "Catering Services",
+            "amount": 888.89,
+            "percentage": 29.6,
+            "notes": "Estimated cost for 300 attendees"
+          },
+          {
+            "category": "Entertainment",
+            "name": "Entertainment Services",
+            "amount": 444.44,
+            "percentage": 14.8,
+            "notes": "Estimated cost for 300 attendees"
+          },
+          {
+            "category": "Decorations",
+            "name": "Decorations Services",
+            "amount": 333.33,
+            "percentage": 11.1,
+            "notes": "Estimated cost for 300 attendees"
+          },
+          {
+            "category": "Miscellaneous",
+            "name": "Miscellaneous Services",
+            "amount": 222.22,
+            "percentage": 7.4,
+            "notes": "Estimated cost for 300 attendees"
+          }
+        ],
+        "cost_breakdown": {
+          "venue": 3.7037037037037033,
+          "catering": 2.962962962962963,
+          "entertainment": 1.4814814814814814,
+          "decorations": 1.1111111111111112,
+          "miscellaneous": 0.7407407407407407
+        },
+        "attendee_count": 300,
+        "budget_range_used": "$1,000 - $5,000",
+        "recommendations": [
+          "Budget planned within range: $1,000 - $5,000",
+          "Consider 10-15% contingency for unexpected expenses",
+          "Review vendor quotes for actual pricing",
+          "Track expenses throughout planning process"
+        ]
+      }
+    },
+    "created_at": "2025-12-09T22:07:51.092864",
+    "updated_at": "2025-12-09T22:11:58.295323"
   }
 }

@@ -192,7 +192,7 @@ export class BasicsManager {
         });
     }
 
-    saveBasics() {
+    async saveBasics() {
         const formData = {
             name: document.getElementById('event-name').value.trim(),
             type: document.getElementById('event-type').value,
@@ -217,10 +217,10 @@ export class BasicsManager {
 
         // If this event was created on the server, persist updates
         try {
-            const currentId = planner.currentEventId || Utils.loadFromLocalStorage('currentEventId');
-                if (currentId) {
+            const storedId = planner.currentEventId || await Utils.loadFromLocalStorage('currentEventId');
+            if (storedId) {
                 const body = { basics: formData, preview: planner.eventState.aiInsights || {} };
-                fetch(api(`/events/${currentId}`), { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+                fetch(api(`/events/${storedId}`), { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
                     .then(res => {
                         if (!res.ok) throw new Error('Failed to save event to server');
                         Utils.showToast('Saved event changes to server', 'success');

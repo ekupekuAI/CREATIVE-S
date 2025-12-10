@@ -667,3 +667,17 @@ body.dark-theme .nav-link:hover {
 .welcome-card:nth-child(7) {
     animation-fill-mode: both;
 }
+
+/* Offline Mode Banner */
+.offline-mode::before {
+  content: "Offline mode – changes will sync later";
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #ff4d4d;
+  color: #fff;
+  padding: 8px;
+  text-align: center;
+  z-index: 9999;
+  font-weight: 600;
+}

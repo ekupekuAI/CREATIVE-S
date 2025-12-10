@@ -2,108 +2,63 @@ import os
 import json
 import re
 import io
+import time
+import random
+import importlib.util
 from pathlib import Path
 from datetime import datetime, timedelta
-from fastapi import FastAPI, HTTPException, UploadFile, File, Request
+
+from fastapi import FastAPI, HTTPException, UploadFile, File, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, RedirectResponse
 from pydantic import BaseModel
-import importlib
-import importlib.util
+
+try:
+    from openai import OpenAI
+except Exception:
+    OpenAI = None
 
 try:
     import PyPDF2
+except Exception:
+    PyPDF2 = None
+
+try:
     import pytesseract
     from PIL import Image
-    import pdfplumber
-except ImportError:
-    print("Document processing libraries not available. Install with: pip install PyPDF2 pytesseract Pillow pdfplumber")
-    PyPDF2 = None
+except Exception:
     pytesseract = None
     Image = None
-    pdfplumber = None
-
-# NOTE: heavy ML/model code (in `rewriter.py`) is imported lazily to avoid
-# blocking server startup. Use `get_rewriter_module()` to access functions
-# if available. If local models are unavailable or fail to load, endpoints
-# fall back to lightweight OpenAI calls or mock data.
-
-_rewriter = None
-def get_rewriter_module():
-    global _rewriter
-    if _rewriter is not None:
-        return _rewriter
-    try:
-        _rewriter = importlib.import_module('rewriter')
-        return _rewriter
-    except Exception as e:
-        # keep _rewriter as None and return None to indicate unavailable
-        print('rewriter module lazy-load failed:', e)
-        _rewriter = None
-        return None
 
 ROOT = Path(__file__).resolve().parent
+app = FastAPI(title="Creative Studio API", version="1.0.0")
 
-app = FastAPI(title="Creative Studio Unified Server")
-
-# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
 
-# Mount CSS static files
-app.mount("/css", StaticFiles(directory=str(ROOT / "css")), name="css")
+mounted_projects: list[tuple[str, str]] = []
+client = None  # Will initialise after loading environment variables
 
-# Mount JS static files
-app.mount("/js", StaticFiles(directory=str(ROOT / "js")), name="js")
 
-# Mount assets static files
-app.mount("/assets", StaticFiles(directory=str(ROOT / "assets")), name="assets")
+# Mount core static asset folders (css/js/assets) so dashboard requests resolve
+STATIC_FOLDERS: list[tuple[str, Path]] = [
+    ("/css", ROOT / "css"),
+    ("/js", ROOT / "js"),
+    ("/assets", ROOT / "assets"),
+]
 
-# Authentication models
-class LoginRequest(BaseModel):
-    email: str
-    password: str
-    rememberMe: bool = False
+for mount_path, directory in STATIC_FOLDERS:
+    if directory.exists():
+        app.mount(mount_path, StaticFiles(directory=str(directory)), name=mount_path.strip("/"))
 
-class RegisterRequest(BaseModel):
-    email: str
-    password: str
-    name: str
 
-# Authentication routes
-@app.post("/auth/login")
-async def login(request: LoginRequest):
-    # Simple placeholder authentication - accept any non-empty credentials
-    if not request.email or not request.password:
-        return {"success": False, "message": "Email and password are required"}
 
-    # For now, always return success
-    return {"success": True, "message": "Login successful", "redirect": "/"}
-
-@app.post("/auth/register")
-async def register(request: RegisterRequest):
-    # Simple placeholder registration - accept any non-empty credentials
-    if not request.email or not request.password or not request.name:
-        return {"success": False, "message": "All fields are required"}
-
-    # For now, always return success
-    return {"success": True, "message": "Registration successful"}
-
-# Session check endpoint
-@app.get("/auth/check-session")
-async def check_session():
-    # Simple cookie-based session check
-    from fastapi import Request
-    # Note: In a real implementation, you'd use proper session management
-    return {"authenticated": True}  # Placeholder
-
-# Auth static file routes
 @app.get("/auth/login.html")
 async def serve_login_html():
     auth_dir = ROOT / "auth"
@@ -113,6 +68,33 @@ async def serve_login_html():
             content = f.read()
         return HTMLResponse(content=content)
     raise HTTPException(status_code=404, detail="Login page not found")
+
+
+_rewriter_module = None
+
+
+def get_rewriter_module():
+    """Lazy-load the optional rewriter.py helper if available."""
+    global _rewriter_module
+    if _rewriter_module is not None:
+        return _rewriter_module
+
+    rewriter_path = ROOT / "rewriter.py"
+    if not rewriter_path.exists():
+        return None
+
+    try:
+        spec = importlib.util.spec_from_file_location("creative_rewriter", rewriter_path)
+        if spec and spec.loader:
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            _rewriter_module = module
+            return module
+    except Exception as exc:
+        print("Failed to load rewriter module:", exc)
+
+    _rewriter_module = None
+    return None
 
 @app.get("/auth/login.css")
 async def serve_login_css():
@@ -176,7 +158,7 @@ async def auth_middleware(request, call_next):
         request.url.path.startswith("/css") or
         request.url.path.startswith("/js") or
         request.url.path.startswith("/assets") or
-        request.url.path in ["/", "/docs", "/openapi.json", "/sw.js", "/favicon.ico"] or
+        request.url.path in ["/", "/index.html", "/docs", "/openapi.json", "/sw.js", "/favicon.ico"] or
         request.url.path.startswith("/.well-known")):
         response = await call_next(request)
         return response
@@ -213,7 +195,6 @@ async def serve_chrome_devtools_probe():
     return HTMLResponse(content="{}", media_type="application/json")
 
 # Auto-mount frontend folders (any folder or immediate subfolder with index.html)
-mounted_projects = []
 for child in ROOT.iterdir():
     if child.is_dir():
         # Mount folder if it has index.html
@@ -450,16 +431,13 @@ async def serve_cert_js():
             return HTMLResponse(f.read(), media_type='application/javascript')
     raise HTTPException(status_code=404, detail='JS not found')
 
-@app.get('/index.html', response_class=HTMLResponse)
-async def dashboard():
-    # Serve the main Creative Studio dashboard (protected route)
-    index_path = ROOT / 'index.html'
-    if index_path.exists():
-        with open(index_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-        return HTMLResponse(content=content)
-    else:
-        return HTMLResponse(content="<h1>Dashboard Not Found</h1><p>Please check index.html</p>")
+"""
+Note:
+There was a duplicate route definition for '/index.html'. The authoritative
+handler (with authentication awareness) is defined earlier in the file.
+To avoid routing conflicts and potential redirect loops, the duplicate
+definition has been removed.
+"""
 
 # Auto-discover backend server apps and mount under /api/<project>
 def import_fastapi_app_from(path: Path):
@@ -612,11 +590,11 @@ Respond in JSON format:
   ]
 }}
 """
-            response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
+            response = _chat_completion_with_retry(
+                model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
                 messages=[{"role": "user", "content": prompt}],
-                max_tokens=1000,
-                temperature=0.3
+                max_tokens=800,
+                temperature=0.2
             )
             result_text = response.choices[0].message.content.strip()
             # Clean the response: remove markdown code blocks if present
@@ -720,11 +698,11 @@ Respond in JSON format:
   ]
 }}
 """
-            response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
+            response = _chat_completion_with_retry(
+                model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
                 messages=[{"role": "user", "content": prompt}],
-                max_tokens=1500,
-                temperature=0.3
+                max_tokens=1200,
+                temperature=0.2
             )
             result_text = response.choices[0].message.content.strip()
             # Clean the response
@@ -794,18 +772,49 @@ def extract_text_from_image(content):
     text = pytesseract.image_to_string(image)
     return text
 
-# OpenAI client for mindmap (use environment variable; don't hardcode keys)
+# OpenAI client for mindmap (use environment variable; do not hardcode keys)
 api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     print('Warning: OPENAI_API_KEY not set. OpenAI features will be disabled.')
     client = None
 else:
     try:
-        from openai import OpenAI
+        # Optional Gemini support
+        import os
         client = OpenAI(api_key=api_key)
+        # Masked log to confirm which key is loaded
+        print("OpenAI client initialized (key suffix ...{}).".format(api_key[-6:]))
     except Exception as e:
         print('OpenAI client import/initialization failed:', e)
         client = None
+
+# Simple retry wrapper for OpenAI rate limits / transient errors
+def _chat_completion_with_retry(model, messages, max_tokens=None, temperature=0, retries=3):
+    if client is None:
+        raise RuntimeError("openai_client_missing")
+    delay = 1.0
+    last_exc = None
+    for _ in range(retries):
+        try:
+            return client.chat.completions.create(
+                model=model,
+                messages=messages,
+                max_tokens=max_tokens,
+                temperature=temperature
+            )
+        except Exception as e:
+            s = str(e).lower()
+            # Retry on common transient issues including 429
+            if ('rate limit' in s) or ('429' in s) or ('temporarily unavailable' in s) or ('timeout' in s) or ('overloaded' in s):
+                last_exc = e
+                time.sleep(delay + random.random() * 0.5)
+                delay = min(delay * 2, 8.0)
+                continue
+            raise
+    # Exhausted retries
+    if last_exc:
+        raise last_exc
+    raise RuntimeError('openai_retry_failed')
 
 # ============================================================
 # AI Study Summarizer Routes (/api/ai-study)
@@ -887,7 +896,7 @@ def rewrite(request: dict):
 
 class AnalyzeRequest(BaseModel):
     text: str
-    mode: str
+    mode: str = "flowchart"
     enable_web: bool = False
 
 class ClassifyRequest(BaseModel):
@@ -969,15 +978,11 @@ GENERAL RULES
 """
 
 def use_llm(system_prompt: str, user_prompt: str):
-    """Call OpenAI; if unavailable, return a deterministic fallback.
-
-    Fallback returns a minimal JSON-like string extracted from the user prompt
-    to avoid server crashes when OPENAI_API_KEY is not set or network fails.
-    """
+    """Call OpenAI; fallback to deterministic JSON on failure."""
     try:
         if client is None:
             raise RuntimeError("openai_client_missing")
-        completion = client.chat.completions.create(
+        completion = _chat_completion_with_retry(
             model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
             messages=[
                 {"role": "system", "content": system_prompt},
@@ -987,7 +992,6 @@ def use_llm(system_prompt: str, user_prompt: str):
         )
         return completion.choices[0].message.content
     except Exception:
-        # Fallback: generate a simple JSON based on user prompt
         snippet = (user_prompt or "").strip()
         snippet = snippet.splitlines()
         snippet = " ".join([s.strip() for s in snippet if s.strip()])[:400]
@@ -1003,23 +1007,24 @@ def use_llm(system_prompt: str, user_prompt: str):
         )
 
 def force_json(text: str):
-    # Remove ``` blocks
+    """Extract a JSON object from a string, or return None."""
+    import json, re
+    if not text:
+        return None
     text = text.replace("```json", "").replace("```", "").strip()
-
-    # Capture JSON object
+    try:
+        return json.loads(text)
+    except Exception:
+        pass
     match = re.search(r"\{[\s\S]*\}", text)
     if not match:
         return None
-
     json_text = match.group(0)
-
-    # Fix trailing commas
     json_text = re.sub(r",\s*}", "}", json_text)
     json_text = re.sub(r",\s*]", "]", json_text)
-
     try:
         return json.loads(json_text)
-    except:
+    except Exception:
         return None
 
 @app.post("/api/mindmap/classify")
@@ -1510,22 +1515,110 @@ Return JSON with:
 @app.post("/api/mindmap/analyze")
 def analyze(req: AnalyzeRequest):
     prompt = f"""
-Generate a {req.mode} using STRICT RULES.
+Generate a {req.mode} graph strictly.
 Text:
 {req.text}
 
-Return ONLY JSON:
+Return EXACT JSON with keys:
 {{
  "type": "{req.mode}",
- "nodes": [],
- "edges": []
+ "nodes": [{{"id":"n0","label":"Root"}}],
+ "edges": [{{"from":"n0","to":"n1"}}]
 }}
+Only include JSON. No explanations.
 """
 
     raw = use_llm(SYSTEM_MINDENGINE, prompt)
     parsed = force_json(raw)
 
-    return parsed if parsed else {"error": "Invalid JSON", "raw": raw}
+    # Helper: basic keyword extractor for fallback
+    def _extract_keywords(text):
+        import re
+        if not text:
+            return []
+        tokens = re.findall(r"[A-Za-z][A-Za-z0-9\-]+", text.lower())
+        stop = {
+            'the','and','of','to','in','for','on','with','a','an','is','are','this','that','it','at','as','by','from','or','be','into','your','you','we','our'
+        }
+        freq = {}
+        for t in tokens:
+            if t in stop or len(t) < 3:
+                continue
+            freq[t] = freq.get(t, 0) + 1
+        kws = sorted(freq.items(), key=lambda x: (-x[1], x[0]))
+        return [k for k,_ in kws[:12]]
+
+    # Normalize to strict graph schema expected by frontend
+    def _normalize_graph(obj):
+        nodes = []
+        edges = []
+
+        # If already in schema, trust but verify
+        if isinstance(obj, dict):
+            in_nodes = obj.get("nodes")
+            in_edges = obj.get("edges")
+            if isinstance(in_nodes, list) and isinstance(in_edges, list):
+                # Ensure each node has id+label; coerce minimal
+                for i, n in enumerate(in_nodes):
+                    nid = str(n.get("id", i))
+                    lbl = n.get("label") or n.get("text") or n.get("name") or f"Node {i}"
+                    nodes.append({"id": nid, "label": str(lbl)})
+                for e in in_edges:
+                    frm = str(e.get("from", e.get("source", "")))
+                    to = str(e.get("to", e.get("target", "")))
+                    if frm and to:
+                        edges.append({"from": frm, "to": to})
+                if nodes:
+                    return {"type": req.mode, "nodes": nodes, "edges": edges}
+
+        # Derive from summary/key_points/keywords
+        title = "MindGraph"
+        kp = []
+        kw = []
+        if isinstance(obj, dict):
+            title = obj.get("title") or obj.get("topic") or title
+            kp = obj.get("key_points") or []
+            kw = obj.get("keywords") or []
+            if not kw:
+                kw = _extract_keywords((obj.get("summary_detailed") or obj.get("summary_medium") or obj.get("summary_short") or ""))
+
+        # Build simple star graph: title -> each key point; then keywords
+        nodes.append({"id": "title", "label": str(title)})
+        seen = set()
+        for i, k in enumerate(kp):
+            nid = f"kp_{i}"
+            lbl = str(k).strip()
+            if not lbl or lbl in seen:
+                continue
+            seen.add(lbl)
+            nodes.append({"id": nid, "label": lbl})
+            edges.append({"from": "title", "to": nid})
+        for j, k in enumerate(kw):
+            nid = f"kw_{j}"
+            lbl = str(k).strip()
+            if not lbl or lbl in seen:
+                continue
+            seen.add(lbl)
+            nodes.append({"id": nid, "label": lbl})
+            edges.append({"from": "title", "to": nid})
+
+        # If nothing found, create a minimal two-node graph from text snippet
+        if len(nodes) == 1:
+            snippet = (req.text or "").strip().split()
+            second = "Snippet" if not snippet else " ".join(snippet[:5])
+            nodes.append({"id": "n1", "label": second})
+            edges.append({"from": "title", "to": "n1"})
+
+        # Limit size to keep graph readable
+        if len(nodes) > 24:
+            nodes = nodes[:24]
+            valid = {n["id"] for n in nodes}
+            edges = [e for e in edges if e["from"] in valid and e["to"] in valid]
+
+        return {"type": req.mode, "nodes": nodes, "edges": edges}
+
+    normalized = _normalize_graph(parsed)
+    return normalized if normalized else {"error": "Invalid JSON", "raw": raw}
 
 @app.post("/api/mindmap/summarize")
 def summarize(req: SummarizeRequest):

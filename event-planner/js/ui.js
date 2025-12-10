@@ -316,8 +316,8 @@ export class UIManager {
         Utils.showToast('Saving changes...', 'info');
     }
 
-    loadSavedPreferences() {
-        const preferences = Utils.loadFromLocalStorage('uiPreferences') || {};
+    async loadSavedPreferences() {
+        const preferences = await Utils.loadFromLocalStorage('uiPreferences', {}) || {};
 
         this.currentTheme = preferences.theme || 'neon';
         this.sidebarCollapsed = preferences.sidebarCollapsed || false;
@@ -331,12 +331,12 @@ export class UIManager {
         }
     }
 
-    savePreferences() {
+    async savePreferences() {
         const preferences = {
             theme: this.currentTheme,
             sidebarCollapsed: this.sidebarCollapsed
         };
-        Utils.saveToLocalStorage('uiPreferences', preferences);
+        await Utils.saveToLocalStorage('uiPreferences', preferences);
     }
 
     initializeThemeButtons() {

@@ -74,7 +74,7 @@ window.todoAI = (function(){
       return { summary, subtasks, priority, bestTime };
     }
 
-    function render(data){
+      async function render(data){
       const { error, message, fallback } = data || {};
       const info = error ? `<div class="text-warning mb-2"><i class="fas fa-exclamation-triangle me-1"></i>${message}</div>` : '';
       let content = '';
@@ -89,7 +89,7 @@ window.todoAI = (function(){
       else content = JSON.stringify(data, null, 2);
       
       insightsEl.innerHTML = info + `<div>${content}</div>`;
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ ts: Date.now(), data: data.error?fallback:data })); } catch {}
+      try { await window.AppStorage.save(STORAGE_KEY, { ts: Date.now(), data: data.error?fallback:data }); } catch {}
     }
 
     function escapeHtml(s){ return String(s).replace(/[&<>"]/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[m])); }

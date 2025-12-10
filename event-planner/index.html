@@ -19,10 +19,33 @@
     <link rel="stylesheet" href="css/themes.css">
     <link rel="stylesheet" href="../css/ui-effects.css">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
+        <script>
+        window.AppStorage = window.AppStorage || {
+            async save(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch(e){} },
+            async load(key, def=null) { try { return JSON.parse(localStorage.getItem(key)) ?? def; } catch(e){return def;} },
+            async remove(key) { try { localStorage.removeItem(key);}catch(e){} }
+        };
+        </script>
 </head>
 <body class="theme-neon">
     <!-- Loading Screen -->
     <div id="loading-screen" class="loading-screen">
+        <script>
+        window.AppStorage = window.AppStorage || {
+            async save(key, value) {
+                try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+            },
+            async load(key, def=null) {
+                try { 
+                    const v = localStorage.getItem(key);
+                    return v ? JSON.parse(v) : def;
+                } catch(e) { return def; }
+            },
+            async remove(key) {
+                try { localStorage.removeItem(key); } catch(e) {}
+            }
+        };
+        </script>
         <div class="loading-content">
             <div class="loading-spinner"></div>
             <h3>AI Event Architect</h3>
@@ -567,6 +590,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <!-- Custom JS Modules -->
+    <script type="module" src="../js/appStorage.js"></script>
     <script type="module" src="js/utils.js"></script>
     <script type="module" src="js/planner.js"></script>
     <script type="module" src="js/ui.js"></script>

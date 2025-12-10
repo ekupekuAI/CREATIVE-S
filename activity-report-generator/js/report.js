@@ -5,6 +5,19 @@
    ===================================================== */
 
 // ---------- STATE ----------
+function createDefaultPageState() {
+  return {
+    width: null,
+    height: null,
+    bg: null,
+    gradient: null,
+    border: null
+  };
+}
+
+let state = {
+  page: createDefaultPageState()
+};
 const R = {
   templates: [],
   selectedTemplate: null,
@@ -60,6 +73,13 @@ function init() {
   wireLogoUpload();
   wireTemplateUpload();
   console.log('Init complete - Activity Report Generator ready!');
+}
+
+function ensurePageState() {
+  if (!state.page) {
+    state.page = createDefaultPageState();
+  }
+  return state.page;
 }
 
 // ---------- NAVIGATION ----------
@@ -150,7 +170,8 @@ async function loadTemplateHTML(id) {
     }
 
     // Load from file
-    const res = await fetch(`templates/${id}.html`);
+    const res = await fetch(`/activity-report-generator/templates/${id}.html`);
+    if (!res.ok) { throw new Error(`Template ${id} not found`); }
     const html = await res.text();
     el.reportCanvas.innerHTML = html;
     R.reportHTML = html;
@@ -395,6 +416,7 @@ function restoreFromStorage() {
     if (data.template) R.selectedTemplate = data.template;
     if (data.settings) R.settings = data.settings;
     if (data.state) Object.assign(state, data.state);  // Restore full state
+    ensurePageState();
     applyTextSettings();
     updatePreview();  // Re-render to apply state
   } catch (e) {
@@ -604,11 +626,12 @@ async function analyzeRawTextAI() {
     if (R.selectedTemplate) {
       const tpl = R.templates.find(t => t.id === R.selectedTemplate);
       if (tpl) {
-        state.page.width = tpl.canvas?.width || state.page.width;
-        state.page.height = tpl.canvas?.height || state.page.height;
-        state.page.bg = tpl.canvas?.bg || state.page.bg;
-        state.page.gradient = tpl.canvas?.gradient || state.page.gradient;
-        state.page.border = tpl.border?.style || state.page.border;
+        const pageState = ensurePageState();
+        pageState.width = tpl.canvas?.width || pageState.width;
+        pageState.height = tpl.canvas?.height || pageState.height;
+        pageState.bg = tpl.canvas?.bg || pageState.bg;
+        pageState.gradient = tpl.canvas?.gradient || pageState.gradient;
+        pageState.border = tpl.border?.style || pageState.border;
       }
     }
     saveToStorage();

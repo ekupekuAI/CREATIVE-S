@@ -18,12 +18,12 @@ window.todoFocusMode = (function(){
   function stop(){ if(timer) clearInterval(timer); timer=null; }
   function tick(){ remaining=Math.max(0,remaining-1); updateTimerText(); if(remaining===0){ stop(); recordSession(mode); } }
 
-  function recordSession(m){
+  async function recordSession(m){
     const data = JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
     const day = new Date().toISOString().slice(0,10);
     data[day] = data[day]||{ work:0, break:0, sessions:0 };
     if(m==='work'){ data[day].work += 1; data[day].sessions += 1; } else { data[day].break += 1; }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    await window.AppStorage.save(STORAGE_KEY, data);
     // gentle alert
     const el = document.getElementById('focusAlert'); if(el){ el.innerHTML = `<div class='alert alert-success'>${m==='work'?'Work':'Break'} session completed.</div>`; setTimeout(()=> el.innerHTML='', 3000); }
   }

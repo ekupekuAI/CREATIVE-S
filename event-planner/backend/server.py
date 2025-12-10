@@ -14,6 +14,8 @@ from datetime import datetime
 import uuid
 import tempfile
 from shutil import move
+import time
+import random
 try:
     # Load .env if present
     from dotenv import load_dotenv
@@ -29,9 +31,37 @@ if OPENAI_KEY:
     try:
         from openai import OpenAI
         openai_client = OpenAI(api_key=OPENAI_KEY)
-        print("OpenAI client initialized successfully")
+        print("OpenAI client initialized (key suffix ...{}).".format(OPENAI_KEY[-6:]))
     except Exception as _e:
         print('OpenAI library not available or failed to initialize:', _e)
+
+# Retry wrapper for OpenAI chat completions (handles 429 and transient errors)
+def _chat_completion_retry_ep(model, messages, max_tokens=None, temperature=0.2, retries=3):
+    if not openai_client:
+        return None
+    delay = 1.0
+    last_exc = None
+    for _ in range(retries):
+        try:
+            return openai_client.chat.completions.create(
+                model=model,
+                messages=messages,
+                temperature=temperature,
+                max_tokens=max_tokens
+            )
+        except Exception as e:
+            s = str(e).lower()
+            if ('rate limit' in s) or ('429' in s) or ('temporarily unavailable' in s) or ('timeout' in s) or ('overloaded' in s):
+                last_exc = e
+                time.sleep(delay + random.random() * 0.5)
+                delay = min(delay * 2, 8.0)
+                continue
+            raise
+    if last_exc:
+        # give up; caller will handle None
+        print('OpenAI retries exhausted:', last_exc)
+        return None
+    return None
 
 app = FastAPI(title="AI Event Architect API", version="1.0.0")
 
@@ -89,6 +119,37 @@ class EventBasics(BaseModel):
     venue: Optional[str] = None
     location: Optional[str] = None
     theme: Optional[str] = None
+
+
+class PlanRequest(BaseModel):
+    text: Optional[str] = None
+    name: Optional[str] = None
+    type: Optional[str] = None
+    date: Optional[str] = None
+    attendees: Optional[int] = None
+    duration: Optional[str] = None
+    description: Optional[str] = None
+    budget: Optional[str] = None
+    venue: Optional[str] = None
+    location: Optional[str] = None
+    theme: Optional[str] = None
+
+    def to_event_basics(self) -> EventBasics:
+        data = self.dict()
+        idea_text = (data.pop('text') or '').strip() if 'text' in data else ''
+
+        # Retain any description already provided, otherwise fall back to idea text
+        description = data.get('description') or idea_text or None
+        if description is not None:
+            data['description'] = description
+
+        # Guarantee required fields with sensible fallbacks
+        name = (data.get('name') or '').strip() or 'Untitled Event'
+        event_type = (data.get('type') or '').strip() or 'General Event'
+        data['name'] = name
+        data['type'] = event_type
+
+        return EventBasics(**data)
 
 class BudgetRequest(BaseModel):
     basics: EventBasics
@@ -159,12 +220,14 @@ def try_openai_json(messages, model=OPENAI_MODEL, max_tokens=2000):
     if not openai_client:
         return None
     try:
-        response = openai_client.chat.completions.create(
+        response = _chat_completion_retry_ep(
             model=model,
             messages=messages,
             temperature=0.2,
             max_tokens=max_tokens
         )
+        if response is None:
+            return None
         content = response.choices[0].message.content
         content_clean = _clean_assistant_json(content)
         return json.loads(content_clean)
@@ -783,9 +846,10 @@ async def root():
     return {"message": "AI Event Architect API", "version": "1.0.0"}
 
 @event_planner_api.post("/ai/plan", response_model=AIResponse)
-async def generate_plan(basics: EventBasics):
+async def generate_plan(payload: PlanRequest):
     """Generate comprehensive event plan"""
     try:
+        basics = payload.to_event_basics()
         print(f"[AI Plan] Received basics: {basics.dict()}")
 
         # Extract information from description if provided

@@ -228,8 +228,10 @@ export class AIAssistant {
                 conversation: this.conversation
             });
 
-            if (response.status === 'success') {
-                this.applyAIResults(response.data);
+            // Accept both 'ok' and 'success' to be compatible with backend
+            if (response && (response.status === 'success' || response.status === 'ok')) {
+                const data = response.data || {};
+                this.applyAIResults(data);
                 this.addMessage('ai', '✅ Your event plan has been generated! Check out the different sections to see your budget, schedule, tasks, and vendor recommendations.');
             } else {
                 throw new Error(response.error || 'Failed to generate plan');
@@ -259,10 +261,12 @@ export class AIAssistant {
         // Apply budget
         if (data.budget && Array.isArray(data.budget)) {
             data.budget.forEach(item => {
+                // Normalize various shapes from backend (estimate vs amount)
+                const amount = (typeof item.amount === 'number') ? item.amount : (typeof item.estimate === 'number' ? item.estimate : 0);
                 planner.addBudgetItem({
                     category: item.category,
-                    amount: item.amount,
-                    description: item.description || ''
+                    amount,
+                    description: item.description || item.notes || ''
                 });
             });
         }
@@ -270,10 +274,13 @@ export class AIAssistant {
         // Apply schedule
         if (data.schedule && Array.isArray(data.schedule)) {
             data.schedule.forEach(item => {
+                // Normalize snake_case keys if present
+                const startTime = item.startTime || item.start_time || '';
+                const endTime = item.endTime || item.end_time || '';
                 planner.addScheduleItem({
                     title: item.title,
-                    startTime: item.startTime,
-                    endTime: item.endTime,
+                    startTime,
+                    endTime,
                     description: item.description || ''
                 });
             });

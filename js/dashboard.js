@@ -8,43 +8,43 @@ class CreativeStudioDashboard {
         this.tools = {
             'mindmap': {
                 name: 'MindMap AI',
-                url: 'mindmap-ai/frontend/index.html',
+                url: '/mindmap-ai/frontend/',
                 icon: 'fas fa-brain',
                 description: 'Create intelligent mind maps with AI assistance'
             },
             'event-planner': {
                 name: 'Event Planner',
-                url: 'event-planner/index.html',
+                url: '/event-planner/',
                 icon: 'fas fa-calendar-alt',
                 description: 'Plan and manage events with AI-powered scheduling'
             },
             'certificate': {
                 name: 'Certificate Generator',
-                url: 'certificate-generator/certificate.html',
+                url: '/certificate%20generator/certificate.html',
                 icon: 'fas fa-certificate',
                 description: 'Generate professional certificates and awards'
             },
             'activity-report': {
                 name: 'Activity Report',
-                url: 'activity-report-generator/index.html',
+                url: '/activity-report-generator/',
                 icon: 'fas fa-chart-line',
                 description: 'Create comprehensive activity reports and analytics'
             },
             'ai-study': {
                 name: 'MoodSense+',
-                url: 'mood-sense/index.html',
+                url: '/mood-sense/',
                 icon: 'fas fa-heart',
                 description: 'AI-powered mood tracking and wellness insights'
             },
             'magazine': {
                 name: 'Magazine Maker',
-                url: 'magazine/Mag.html',
+                url: '/magazine/Mag.html',
                 icon: 'fas fa-book-open',
                 description: 'Design stunning magazines with AI-powered content'
             },
             'todo': {
                 name: 'Task Manager',
-                url: 'todo.html',
+                url: '/todo.html',
                 icon: 'fas fa-tasks',
                 description: 'Organize and track your tasks efficiently'
             }
@@ -63,8 +63,9 @@ class CreativeStudioDashboard {
     }
 
     enforceSession() {
-        const hasSession = !!localStorage.getItem('cs.session');
-        if (!hasSession) {
+        const hasLocal = !!localStorage.getItem('cs.session');
+        const hasCookie = document.cookie.split('; ').some(c => c.startsWith('session=') && c.split('=')[1] === 'true');
+        if (!(hasLocal || hasCookie)) {
             window.location.href = '/auth/login.html';
         }
     }
@@ -115,7 +116,7 @@ class CreativeStudioDashboard {
         });
     }
 
-    toggleSidebar() {
+    async toggleSidebar() {
         const sidebar = document.querySelector('.sidebar');
         this.sidebarCollapsed = !this.sidebarCollapsed;
 
@@ -126,7 +127,7 @@ class CreativeStudioDashboard {
         }
 
         // Store preference
-        localStorage.setItem('sidebarCollapsed', this.sidebarCollapsed);
+        await window.AppStorage.save('dashboard/sidebarCollapsed', this.sidebarCollapsed);
     }
 
     loadTool(toolId, updateHistory = true) {
@@ -227,7 +228,7 @@ class CreativeStudioDashboard {
 
     async checkBackendStatus() {
         const backends = [
-            { name: 'Main Server', url: 'http://localhost:8000/health', id: 'main' }
+            { name: 'Main Server', url: '/health', id: 'main' }
         ];
 
         for (const backend of backends) {
@@ -259,7 +260,7 @@ class CreativeStudioDashboard {
         this.backendStatus[backendId] = isOnline;
     }
 
-    handleInitialLoad() {
+    async handleInitialLoad() {
         // Check for URL hash
         const hash = window.location.hash.substring(1);
         if (hash && this.tools[hash]) {
@@ -269,15 +270,22 @@ class CreativeStudioDashboard {
         }
 
         // Restore sidebar state
-        const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-        if (sidebarCollapsed) {
+        try {
+            const saved = await window.AppStorage.load('dashboard/sidebarCollapsed');
+            const sidebarCollapsed = (saved === true) || (saved === 'true');
+            if (sidebarCollapsed) {
+                this.sidebarCollapsed = true;
+                document.querySelector('.sidebar').classList.add('collapsed');
+            }
+        } catch {
+            const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
             this.sidebarCollapsed = true;
             document.querySelector('.sidebar').classList.add('collapsed');
         }
     }
 
-    handleLogout() {
-        localStorage.removeItem('cs.session');
+    async handleLogout() {
+        await window.AppStorage.remove('auth/session');
         document.cookie = 'session=false; path=/; max-age=0';
         window.location.href = '/auth/login.html';
     }

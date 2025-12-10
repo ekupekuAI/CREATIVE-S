@@ -7,33 +7,18 @@ function buildPrompt(data) {
     `Format your output in JSON with keys: summary_thick, summary_thin, main_body, pull_quote, caption1, caption2.\n`;
 }
 
-async function callOpenAI(prompt, apiKey) {
-  const url = 'https://api.openai.com/v1/chat/completions';
-  const body = {
-    model: 'gpt-4o-mini',
-    messages: [{ role: 'user', content: prompt }],
-    temperature: 0.7,
-    max_tokens: 800,
-  };
-
-  const res = await fetch(url, {
+async function callAIBackend(prompt) {
+  // Route requests through backend (Gemini/OpenAI decided server-side)
+  const res = await fetch('/api/magazine/generate', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-    body: JSON.stringify(body)
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userPrompt: prompt })
   });
   if (!res.ok) {
     const text = await res.text();
-    throw new Error('OpenAI error: ' + res.status + ' — ' + text);
+    throw new Error('AI generate failed: ' + res.status + ' — ' + text);
   }
-  const j = await res.json();
-  const content = j.choices?.[0]?.message?.content || '';
-  try {
-    return JSON.parse(content);
-  } catch (e) {
-    const match = content.match(/\{[\s\S]*\}/m);
-    if (match) return JSON.parse(match[0]);
-    return { summary_thick: '', summary_thin: '', main_body: content, pull_quote: '', caption1: '', caption2: '' };
-  }
+  return res.json();
 }
 
 function placeholderGeneration(data) {
@@ -300,12 +285,16 @@ function wireSaveDraft(preview) {
   const saveDraft = document.getElementById('saveLocalBtn');
   const restoreDraft = document.getElementById('loadLocalBtn');
   const indicator = document.getElementById('saveIndicator');
-  if (saveDraft) saveDraft.addEventListener('click', () => {
+  if (saveDraft) saveDraft.addEventListener('click', async () => {
     pushUndoState(preview);
-    try { localStorage.setItem('magazine_autosave', preview.innerHTML); indicator?.classList.add('pulse'); } catch(e) {}
+    try { await window.AppStorage.save('magazine/autosave', preview.innerHTML); indicator?.classList.add('pulse'); } catch(e) {}
   });
-  if (restoreDraft) restoreDraft.addEventListener('click', () => {
-    try { const raw = localStorage.getItem('magazine_autosave'); if (raw) preview.innerHTML = raw; } catch(e) {}
+  if (restoreDraft) restoreDraft.addEventListener('click', async () => {
+    try {
+      const raw = await window.AppStorage.load('magazine/autosave');
+      if (typeof raw === 'string') preview.innerHTML = raw;
+      else if (raw && raw.html) preview.innerHTML = raw.html;
+    } catch(e) {}
   });
 }
 
@@ -324,8 +313,18 @@ function bindStorageButtons() {
       }
     };
   };
-  const save = () => { try { localStorage.setItem(stateKey, JSON.stringify(exportDesignState())); } catch(e) {} };
-  const load = () => { try { const raw = localStorage.getItem(stateKey); if (!raw) return; const s = JSON.parse(raw); document.getElementById('magTitle').value = s.content.magTitle || ''; document.getElementById('magIssue').value = s.content.magIssue || ''; document.getElementById('articleType').value = s.content.articleType || ''; document.getElementById('rawData').value = s.content.rawData || ''; document.getElementById('magazinePreview').dataset.style = s.template || 'classic'; } catch(e) {} };
+  const save = async () => { try { await window.AppStorage.save('magazine/state_v2', exportDesignState()); } catch(e) {} };
+  const load = async () => {
+    try {
+      const s = await window.AppStorage.load('magazine/state_v2');
+      if (!s) return;
+      document.getElementById('magTitle').value = s.content?.magTitle || '';
+      document.getElementById('magIssue').value = s.content?.magIssue || '';
+      document.getElementById('articleType').value = s.content?.articleType || '';
+      document.getElementById('rawData').value = s.content?.rawData || '';
+      document.getElementById('magazinePreview').dataset.style = s.template || 'classic';
+    } catch(e) {}
+  };
   if (saveDesignBtn) saveDesignBtn.addEventListener('click', save);
   if (loadDesignBtn) loadDesignBtn.addEventListener('click', load);
 }
@@ -348,12 +347,9 @@ function bindGenerate(preview) {
 
     try {
       let result;
-      if (apiKey) {
-        const prompt = buildPrompt(formData);
-        result = await callOpenAI(prompt, apiKey);
-      } else {
-        result = await tryBackendGenerate(formData);
-      }
+      const prompt = buildPrompt(formData);
+      // Always use backend (prevents exposing keys and uses Gemini when configured)
+      result = await callAIBackend(prompt);
 
       if (outputEl) outputEl.innerHTML = `<pre style="white-space:pre-wrap">${JSON.stringify(result, null, 2)}</pre>`;
       applyResultToUI(result, formData);
